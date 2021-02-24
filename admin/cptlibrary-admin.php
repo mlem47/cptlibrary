@@ -78,8 +78,9 @@ class Plugin_Name_Admin {
 	}
 
 	public function cpt_admin_menu(){
-		add_menu_page( 'Admin','Einstellungen', 'manage_options', 'cpt_einstellungen', array($this, 'myplugin_admin_page'),'dashicons-book' );
-		add_submenu_page( 'cpt_einstellungen', 'Buchimport', 'Import', 'manage_options', 'edit.php?post_type=cpt_books' );
+		add_menu_page( 'Admin','Ausleihe', 'manage_options', 'cpt_admin', array($this, 'myplugin_admin_page'),'dashicons-book' );
+		add_submenu_page( 'cpt_admin', 'Buchimport', 'Import', 'manage_options', 'edit.php?post_type=cpt_books' );
+		add_submenu_page( 'cpt_admin', 'Auftrag', 'Import', 'manage_options', 'edit.php?post_type=cpt_auftrag' );
 		}
 
 
@@ -174,6 +175,70 @@ public function cpt_books(){
    // Registering your Custom Post Type
    register_post_type( 'cpt_books', $args );
    }
+
+
+
+
+   //register Auftrags CPT
+
+   //this function creates our bookpimport post type cpt_books //mlem
+public function cpt_auftrag(){
+	/*
+	* Creating a function to create our CPT
+		*/
+		$labels = array(
+			'name'                => _x( 'Auftrag', 'Post Type General Name'),
+			'singular_name'       => _x( 'Auftrag', 'Post Type Singular Name'),
+			'menu_name'           => __( 'Auftragsannahme'),
+			'parent_item_colon'   => __( 'Parent Video'),
+			'all_items'           => __( 'Alle Auftraege'),
+			'view_item'           => __( 'Alle Auftraege'),
+			'add_new_item'        => __( 'Neuer Auftrag'),
+			'add_new'             => __( 'Neu Hinzufügen'),
+			'edit_item'           => __( 'Edit'),
+			'update_item'         => __( 'Update'),
+			'search_items'        => __( 'Suche'),
+			'not_found'           => __( 'Not Found'),
+			'not_found_in_trash'  => __( 'Not found in Trash'),
+		);
+ 
+	// Set other options for Custom Post Type
+	//https://developer.wordpress.org/reference/functions/register_post_type/
+		
+	$args = array(
+		'label'               => __( 'cpt_auftrag'),
+		'description'         => __( 'Buchimporte'),
+		'labels'              => $labels,
+		// Features this CPT supports in Post Editor
+		'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields', ),
+		// You can associate this CPT with a taxonomy or custom taxonomy. 
+		'taxonomies'          => array( 'genre' ),
+		/* A hierarchical CPT is like Pages and can have
+		* Parent and child items. A non-hierarchical CPT
+		* is like Posts.
+		*/ 
+		'hierarchical'        => false,
+		'public'              => true,
+		'description' 		  => '',
+		'supports' 			  => array('title', 'editor', 'thumbnail', 'trackbacks'),
+		'taxonomies' 		  => array('category'),
+		'show_ui'             => true,
+		'show_in_menu'        => 'edit.php?post_type=cpt_auftrag',
+		'show_in_nav_menus'   => true,
+		'show_in_admin_bar'   => true,
+		'menu_position'       => 5,
+		'menu_icon' 		  => 'dashicons-book',
+		'can_export'          => false,
+		'has_archive'         => true,
+		'exclude_from_search' => false,
+		'publicly_queryable'  => true,
+		'capability_type'     => 'post',
+		'show_in_rest' => true,
+	);
+	
+	// Registering your Custom Post Type
+	register_post_type( 'cpt_auftrag', $args );
+	}
 	
 
 }
