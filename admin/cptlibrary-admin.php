@@ -85,7 +85,7 @@ class Plugin_Name_Admin {
 
 	public function myplugin_admin_page(){
 		//return page 
-			require_once 'partials/plugin-name-admin-display.php';
+			require_once 'partials/cptlibrary-admin-display.php';
 		}
 
 		
