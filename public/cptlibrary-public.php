@@ -100,4 +100,40 @@ class Plugin_Name_Public {
 
 	}
 
+
+		//shortcode zur katalog teaser ansicht mit figcaption im grid
+
+		function cpt_short1( $atts ) {
+			$print = '';
+			$items = get_posts( array(
+				'post_type'      => 'cpt_books',
+				'post_status'    => 'publish',
+				'order' 	 => 'ASC',
+				'posts_per_page' => -1
+				) );
+			if ( $items) {
+				$print .='<div class="gridcontainer">';
+				   foreach ( $items as $item ) {
+					$item_name =  $item->post_title;
+					$print .='<figure><a href="'.get_permalink($item->ID).'">';
+					$print .= '<img class="katalog-teaser"'.get_the_post_thumbnail($item->ID,'thumbnail');
+					$print .= '<figcaption class="teaser-caption-text">'.$item_name.'</figcaption></figure>';
+				}
+				$print .= '</div>';
+			}
+			return $print;
+			}
+	
+	
+		//hook into single_template to load our custom_post_type template
+	
+		
+		function load_cpt_books( $template ) {
+	
+			if ( 'cpt_books' === get_post_type() )
+			return dirname( __FILE__ ) . '/templates/single-cbt-books.php';
+	
+			return $template;
+		}
+
 }

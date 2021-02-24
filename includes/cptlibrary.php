@@ -160,6 +160,9 @@ class Plugin_Name {
 		$this->loader->add_action('admin_menu', $plugin_admin, 'cpt_admin_menu');
 		//register cpt for import Books
 		$this->loader->add_action('init', $plugin_admin, 'cpt_books');
+		$this->loader->add_action('init', $plugin_admin, 'cpt_auftrag');
+		$this->loader->add_action('init', $plugin_admin, 'cpt_einrichtung');
+
 
 	}
 
@@ -176,6 +179,12 @@ class Plugin_Name {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		
+
+		//register shortcodes
+		$this->loader->add_shortcode('cpt_short1', $plugin_public, 'cpt_short1');
+		//add single-post template for cpt
+		$this->loader->add_filter('single_template', $plugin_public, 'load_cpt_books');
 
 	}
 
