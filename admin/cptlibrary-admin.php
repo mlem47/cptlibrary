@@ -78,7 +78,7 @@ class Plugin_Name_Admin {
 	}
 
 	public function cpt_admin_menu(){
-		add_menu_page( 'Admin','Ausleihe', 'manage_options', 'cpt_admin', array($this, 'myplugin_admin_page'),'dashicons-book' );
+		add_menu_page( 'Admin','Ausleihe', 'manage_options', 'cpt_admin', array($this, 'myplugin_admin_page'),'dashicons-cpt_books' );
 		add_submenu_page( 'cpt_admin', 'Buchimport', 'Buecher', 'manage_options', 'edit.php?post_type=cpt_books' );
 		add_submenu_page( 'cpt_admin', 'Auftrag', 'Auftrag', 'manage_options', 'edit.php?post_type=cpt_auftrag' );
 		add_submenu_page( 'cpt_admin', 'Einrichtung', 'Einrichtungen', 'manage_options', 'edit.php?post_type=cpt_einrichtung' );
@@ -118,7 +118,7 @@ class Plugin_Name_Admin {
   
 
 
-//this function creates our bookpimport post type cpt_books //mlem
+//this function creates our cpt_bookspimport post type cpt_books //mlem
 public function cpt_books(){
    /*
    * Creating a function to create our CPT
@@ -146,10 +146,11 @@ public function cpt_books(){
 	   'label'               => __( 'cpt_books'),
 	   'description'         => __( 'Buchimporte'),
 	   'labels'              => $labels,
+	   'rewrite' 			 => array( 'slug' => 'cpt_books'),
 	   // Features this CPT supports in Post Editor
-	   'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields', ),
+	   'supports'            => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'revisions', 'custom-fields',),
 	   // You can associate this CPT with a taxonomy or custom taxonomy. 
-	   'taxonomies'          => array( 'genre' ),
+	   'taxonomies'          => array( 'ISBN' , 'Kennziffer', 'ISBN'),
 	   /* A hierarchical CPT is like Pages and can have
 	   * Parent and child items. A non-hierarchical CPT
 	   * is like Posts.
@@ -157,33 +158,127 @@ public function cpt_books(){
 	   'hierarchical'        => false,
 	   'public'              => true,
 	   'description' 		  => '',
-	   'supports' 			  => array('title', 'editor', 'thumbnail', 'trackbacks'),
-	   'taxonomies' 		  => array('category'),
 	   'show_ui'             => true,
 	   'show_in_menu'        => 'edit.php?post_type=cpt_books',
 	   'show_in_nav_menus'   => true,
 	   'show_in_admin_bar'   => true,
 	   'menu_position'       => 5,
-	   'menu_icon' 		  => 'dashicons-book',
+	   'menu_icon' 		 	 => 'dashicons-book',
 	   'can_export'          => false,
 	   'has_archive'         => true,
 	   'exclude_from_search' => false,
 	   'publicly_queryable'  => true,
 	   'capability_type'     => 'post',
-	   'show_in_rest' => true,
+	   'show_in_rest' 		=> true,
    );
    
-   // Registering your Custom Post Type
-   register_post_type( 'cpt_books', $args );
-   }
+	// Registering your Custom Post Type
+	register_post_type( 'cpt_books', $args );
+	
+	
+	}
 
+	//register taxonomies for cpt_bookss, Magazines
 
+	public function cptlib_tax_books() {
+		// Add new taxonomy, make it hierarchical (like categories)
+		$labels = array(
+			'name'              => _x( 'ISBN', 'taxonomy general name'),
+			'singular_name'     => _x( 'ISBN', 'taxonomy singular name'),
+			'search_items'      => __( 'Search ISBN'),
+			'all_items'         => __( 'All ISBN'),
+			'parent_item'       => __( 'Parent ISBN'),
+			'parent_item_colon' => __( 'Parent ISBN:'),
+			'edit_item'         => __( 'Edit ISBN'),
+			'update_item'       => __( 'Update ISBN'),
+			'add_new_item'      => __( 'Add New ISBN'),
+			'new_item_name'     => __( 'New ISBN Name'),
+			'menu_name'         => __( 'ISBN'),
+		);
+	 
+		$args = array(
+			'hierarchical'      => true,
+			'labels'            => $labels,
+			'show_ui'           => true,
+			'show_admin_column' => true,
+			'query_var'         => true,
+			'rewrite'           => array( 'slug' => 'ISBN' ),
+		);
+	 
+		register_taxonomy( 'ISBN', array( 'cpt_books' ), $args );
+	 
+		unset( $args );
+		unset( $labels );
+	 
+		// Add new taxonomy, NOT hierarchical (like tags)
+		$labels = array(
+			'name'                       => _x( 'Autor', 'taxonomy general name'),
+			'singular_name'              => _x( 'Autor', 'taxonomy singular name'),
+			'search_items'               => __( 'Search Autor'),
+			'popular_items'              => __( 'Popular Autor'),
+			'all_items'                  => __( 'All Autor'),
+			'parent_item'                => null,
+			'parent_item_colon'          => null,
+			'edit_item'                  => __( 'Edit Autor'),
+			'update_item'                => __( 'Update Autor'),
+			'add_new_item'               => __( 'Add New Autor'),
+			'new_item_name'              => __( 'New Autor Name'),
+			'separate_items_with_commas' => __( 'Separate Autor with commas'),
+			'add_or_remove_items'        => __( 'Add or remove Autor'),
+			'choose_from_most_used'      => __( 'Choose from the most used Autor'),
+			'not_found'                  => __( 'No Autor found.'),
+			'menu_name'                  => __( 'Autor'),
+		);
+	 
+		$args = array(
+			'hierarchical'          => false,
+			'labels'                => $labels,
+			'show_ui'               => true,
+			'show_admin_column'     => true,
+			'update_count_callback' => '_update_post_term_count',
+			'query_var'             => true,
+			'rewrite'               => array( 'slug' => 'Autor' ),
+		);
+	 
+		register_taxonomy( 'Autor', 'cpt_books', $args );
 
+		// Add new taxonomy, NOT hierarchical (like tags)
+		$labels = array(
+			'name'                       => _x( 'Kennziffer', 'taxonomy general name'),
+			'singular_name'              => _x( 'Kennziffer', 'taxonomy singular name'),
+			'search_items'               => __( 'Search Kennziffer'),
+			'popular_items'              => __( 'Popular Kennziffer'),
+			'all_items'                  => __( 'All Kennziffer'),
+			'parent_item'                => null,
+			'parent_item_colon'          => null,
+			'edit_item'                  => __( 'Edit Kennziffer'),
+			'update_item'                => __( 'Update Kennziffer'),
+			'add_new_item'               => __( 'Add New Kennziffer'),
+			'new_item_name'              => __( 'New Kennziffer Name'),
+			'separate_items_with_commas' => __( 'Separate Kennziffer with commas'),
+			'add_or_remove_items'        => __( 'Add or remove Kennziffer'),
+			'choose_from_most_used'      => __( 'Choose from the most used Kennziffer'),
+			'not_found'                  => __( 'No Kennziffer found.'),
+			'menu_name'                  => __( 'Kennziffer'),
+		);
+	 
+		$args = array(
+			'hierarchical'          => false,
+			'labels'                => $labels,
+			'show_ui'               => true,
+			'show_admin_column'     => true,
+			'update_count_callback' => '_update_post_term_count',
+			'query_var'             => true,
+			'rewrite'               => array( 'slug' => 'Kennziffer' ),
+		);
+	 
+		register_taxonomy( 'Kennziffer', 'cpt_books', $args );
+	}
 
    //register Auftrags CPT
 
-   //this function creates our bookpimport post type cpt_books //mlem
-public function cpt_auftrag(){
+   //this function creates our cpt_bookspimport post type cpt_books //mlem
+	public function cpt_auftrag(){
 	/*
 	* Creating a function to create our CPT
 		*/
@@ -211,9 +306,9 @@ public function cpt_auftrag(){
 		'description'         => __( 'Buchimporte'),
 		'labels'              => $labels,
 		// Features this CPT supports in Post Editor
-		'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields', ),
+		'supports'            => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'revisions', 'custom-fields', ),
 		// You can associate this CPT with a taxonomy or custom taxonomy. 
-		'taxonomies'          => array( 'genre' ),
+		'taxonomies'          => array( 'ISBN' ),
 		/* A hierarchical CPT is like Pages and can have
 		* Parent and child items. A non-hierarchical CPT
 		* is like Posts.
@@ -221,7 +316,6 @@ public function cpt_auftrag(){
 		'hierarchical'        => false,
 		'public'              => true,
 		'description' 		  => '',
-		'supports' 			  => array('title', 'editor', 'thumbnail', 'trackbacks'),
 		'taxonomies' 		  => array('category'),
 		'show_ui'             => true,
 		'show_in_menu'        => 'edit.php?post_type=cpt_auftrag',
@@ -244,8 +338,8 @@ public function cpt_auftrag(){
 
    //register Einrichtung CPT 
 
-   //this function creates our bookpimport post type cpt_books //mlem
-public function cpt_einrichtung(){
+   //this function creates our cpt_bookspimport post type cpt_books //mlem
+	public function cpt_einrichtung(){
 	/*
 	* Creating a function to create our CPT
 		*/
@@ -273,17 +367,14 @@ public function cpt_einrichtung(){
 		'description'         => __( 'Buchimporte'),
 		'labels'              => $labels,
 		// Features this CPT supports in Post Editor
-		'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields', ),
+		'supports'            => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'revisions', 'custom-fields'),
 		// You can associate this CPT with a taxonomy or custom taxonomy. 
-		'taxonomies'          => array( 'genre' ),
 		/* A hierarchical CPT is like Pages and can have
 		* Parent and child items. A non-hierarchical CPT
 		* is like Posts.
 		*/ 
 		'hierarchical'        => false,
 		'public'              => true,
-		'description' 		  => '',
-		'supports' 			  => array('title', 'editor', 'thumbnail', 'trackbacks'),
 		'taxonomies' 		  => array('category'),
 		'show_ui'             => true,
 		'show_in_menu'        => 'edit.php?post_type=cpt_einrichtung',
@@ -296,12 +387,109 @@ public function cpt_einrichtung(){
 		'exclude_from_search' => false,
 		'publicly_queryable'  => true,
 		'capability_type'     => 'post',
-		'show_in_rest' => true,
+		'show_in_rest'	 	  => true,
 	);
 	
 	// Registering your Custom Post Type
 	register_post_type( 'cpt_einrichtung', $args );
 	}
-	
+
+	 //register taxonomies for cpt_einrichtung, Magazines
+ 
+	 public function cptlib_tax_einrichtung() {
+		 // Add new taxonomy, make it hierarchical (like categories)
+		 $labels = array(
+			 'name'              => _x( 'ISBN', 'taxonomy general name'),
+			 'singular_name'     => _x( 'ISBN', 'taxonomy singular name'),
+			 'search_items'      => __( 'Search ISBN'),
+			 'all_items'         => __( 'All ISBN'),
+			 'parent_item'       => __( 'Parent ISBN'),
+			 'parent_item_colon' => __( 'Parent ISBN:'),
+			 'edit_item'         => __( 'Edit ISBN'),
+			 'update_item'       => __( 'Update ISBN'),
+			 'add_new_item'      => __( 'Add New ISBN'),
+			 'new_item_name'     => __( 'New ISBN Name'),
+			 'menu_name'         => __( 'ISBN'),
+		 );
+	  
+		 $args = array(
+			 'hierarchical'      => true,
+			 'labels'            => $labels,
+			 'show_ui'           => true,
+			 'show_admin_column' => true,
+			 'query_var'         => true,
+			 'rewrite'           => array( 'slug' => 'ISBN' ),
+		 );
+	  
+		 register_taxonomy( 'ISBN', array( 'cpt_books' ), $args );
+	  
+		 unset( $args );
+		 unset( $labels );
+	  
+		 // Add new taxonomy, NOT hierarchical (like tags)
+		 $labels = array(
+			 'name'                       => _x( 'Autor', 'taxonomy general name'),
+			 'singular_name'              => _x( 'Autor', 'taxonomy singular name'),
+			 'search_items'               => __( 'Search Autor'),
+			 'popular_items'              => __( 'Popular Autor'),
+			 'all_items'                  => __( 'All Autor'),
+			 'parent_item'                => null,
+			 'parent_item_colon'          => null,
+			 'edit_item'                  => __( 'Edit Autor'),
+			 'update_item'                => __( 'Update Autor'),
+			 'add_new_item'               => __( 'Add New Autor'),
+			 'new_item_name'              => __( 'New Autor Name'),
+			 'separate_items_with_commas' => __( 'Separate Autor with commas'),
+			 'add_or_remove_items'        => __( 'Add or remove Autor'),
+			 'choose_from_most_used'      => __( 'Choose from the most used Autor'),
+			 'not_found'                  => __( 'No Autor found.'),
+			 'menu_name'                  => __( 'Autor'),
+		 );
+	  
+		 $args = array(
+			 'hierarchical'          => false,
+			 'labels'                => $labels,
+			 'show_ui'               => true,
+			 'show_admin_column'     => true,
+			 'update_count_callback' => '_update_post_term_count',
+			 'query_var'             => true,
+			 'rewrite'               => array( 'slug' => 'Autor' ),
+		 );
+	  
+		 register_taxonomy( 'Autor', 'cpt_einrichtung', $args );
+ 
+		 // Add new taxonomy, NOT hierarchical (like tags)
+		 $labels = array(
+			 'name'                       => _x( 'Kennziffer', 'taxonomy general name'),
+			 'singular_name'              => _x( 'Kennziffer', 'taxonomy singular name'),
+			 'search_items'               => __( 'Search Kennziffer'),
+			 'popular_items'              => __( 'Popular Kennziffer'),
+			 'all_items'                  => __( 'All Kennziffer'),
+			 'parent_item'                => null,
+			 'parent_item_colon'          => null,
+			 'edit_item'                  => __( 'Edit Kennziffer'),
+			 'update_item'                => __( 'Update Kennziffer'),
+			 'add_new_item'               => __( 'Add New Kennziffer'),
+			 'new_item_name'              => __( 'New Kennziffer Name'),
+			 'separate_items_with_commas' => __( 'Separate Kennziffer with commas'),
+			 'add_or_remove_items'        => __( 'Add or remove Kennziffer'),
+			 'choose_from_most_used'      => __( 'Choose from the most used Kennziffer'),
+			 'not_found'                  => __( 'No Kennziffer found.'),
+			 'menu_name'                  => __( 'Kennziffer'),
+		 );
+	  
+		 $args = array(
+			 'hierarchical'          => false,
+			 'labels'                => $labels,
+			 'show_ui'               => true,
+			 'show_admin_column'     => true,
+			 'update_count_callback' => '_update_post_term_count',
+			 'query_var'             => true,
+			 'rewrite'               => array( 'slug' => 'Kennziffer' ),
+		 );
+	  
+		 register_taxonomy( 'Kennziffer', 'cpt_einrichtung', $args );
+	 }
+
 
 }
