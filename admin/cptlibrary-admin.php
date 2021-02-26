@@ -181,67 +181,7 @@ public function cpt_books(){
 	//register taxonomies for cpt_bookss, Magazines
 
 	public function cptlib_tax_books() {
-		// Add new taxonomy, make it hierarchical (like categories)
-		$labels = array(
-			'name'              => _x( 'ISBN', 'taxonomy general name'),
-			'singular_name'     => _x( 'ISBN', 'taxonomy singular name'),
-			'search_items'      => __( 'Search ISBN'),
-			'all_items'         => __( 'All ISBN'),
-			'parent_item'       => __( 'Parent ISBN'),
-			'parent_item_colon' => __( 'Parent ISBN:'),
-			'edit_item'         => __( 'Edit ISBN'),
-			'update_item'       => __( 'Update ISBN'),
-			'add_new_item'      => __( 'Add New ISBN'),
-			'new_item_name'     => __( 'New ISBN Name'),
-			'menu_name'         => __( 'ISBN'),
-		);
-	 
-		$args = array(
-			'hierarchical'      => true,
-			'labels'            => $labels,
-			'show_ui'           => true,
-			'show_admin_column' => true,
-			'query_var'         => true,
-			'rewrite'           => array( 'slug' => 'ISBN' ),
-		);
-	 
-		register_taxonomy( 'ISBN', array( 'cpt_books' ), $args );
-	 
-		unset( $args );
-		unset( $labels );
-	 
-		// Add new taxonomy, NOT hierarchical (like tags)
-		$labels = array(
-			'name'                       => _x( 'Autor', 'taxonomy general name'),
-			'singular_name'              => _x( 'Autor', 'taxonomy singular name'),
-			'search_items'               => __( 'Search Autor'),
-			'popular_items'              => __( 'Popular Autor'),
-			'all_items'                  => __( 'All Autor'),
-			'parent_item'                => null,
-			'parent_item_colon'          => null,
-			'edit_item'                  => __( 'Edit Autor'),
-			'update_item'                => __( 'Update Autor'),
-			'add_new_item'               => __( 'Add New Autor'),
-			'new_item_name'              => __( 'New Autor Name'),
-			'separate_items_with_commas' => __( 'Separate Autor with commas'),
-			'add_or_remove_items'        => __( 'Add or remove Autor'),
-			'choose_from_most_used'      => __( 'Choose from the most used Autor'),
-			'not_found'                  => __( 'No Autor found.'),
-			'menu_name'                  => __( 'Autor'),
-		);
-	 
-		$args = array(
-			'hierarchical'          => false,
-			'labels'                => $labels,
-			'show_ui'               => true,
-			'show_admin_column'     => true,
-			'update_count_callback' => '_update_post_term_count',
-			'query_var'             => true,
-			'rewrite'               => array( 'slug' => 'Autor' ),
-		);
-	 
-		register_taxonomy( 'Autor', 'cpt_books', $args );
-
+		
 		// Add new taxonomy, NOT hierarchical (like tags)
 		$labels = array(
 			'name'                       => _x( 'Kennziffer', 'taxonomy general name'),
@@ -273,6 +213,62 @@ public function cpt_books(){
 		);
 	 
 		register_taxonomy( 'Kennziffer', 'cpt_books', $args );
+		
+	 
+		unset( $args );
+		unset( $labels );
+	 
+		// Add new taxonomy, NOT hierarchical (like tags)
+		$labels = array(
+			'name'              => _x( 'Autor', 'taxonomy general name'),
+			'singular_name'     => _x( 'Autor', 'taxonomy singular name'),
+			'search_items'      => __( 'Search Autor'),
+			'all_items'         => __( 'All Autor'),
+			'parent_item'       => __( 'Parent Autor'),
+			'parent_item_colon' => __( 'Parent Autor:'),
+			'edit_item'         => __( 'Edit Autor'),
+			'update_item'       => __( 'Update Autor'),
+			'add_new_item'      => __( 'Add New Autor'),
+			'new_item_name'     => __( 'New Autor Name'),
+			'menu_name'         => __( 'Autor'),
+		);
+	 
+		$args = array(
+			'hierarchical'      => true,
+			'labels'            => $labels,
+			'show_ui'           => true,
+			'show_admin_column' => true,
+			'query_var'         => true,
+			'rewrite'           => array( 'slug' => 'Autor' ),
+		);
+	 
+		register_taxonomy( 'Autor', 'cpt_books', $args );
+
+		// Add new taxonomy, make it hierarchical (like categories)
+		$labels = array(
+			'name'              => _x( 'ISBN', 'taxonomy general name'),
+			'singular_name'     => _x( 'ISBN', 'taxonomy singular name'),
+			'search_items'      => __( 'Search ISBN'),
+			'all_items'         => __( 'All ISBN'),
+			'parent_item'       => __( 'Parent ISBN'),
+			'parent_item_colon' => __( 'Parent ISBN:'),
+			'edit_item'         => __( 'Edit ISBN'),
+			'update_item'       => __( 'Update ISBN'),
+			'add_new_item'      => __( 'Add New ISBN'),
+			'new_item_name'     => __( 'New ISBN Name'),
+			'menu_name'         => __( 'ISBN'),
+		);
+	 
+		$args = array(
+			'hierarchical'      => true,
+			'labels'            => $labels,
+			'show_ui'           => true,
+			'show_admin_column' => true,
+			'query_var'         => true,
+			'rewrite'           => array( 'slug' => 'ISBN' ),
+		);
+	 
+		register_taxonomy( 'ISBN', array( 'cpt_books' ), $args );
 	}
 
    //register Auftrags CPT
@@ -316,7 +312,7 @@ public function cpt_books(){
 		'hierarchical'        => false,
 		'public'              => true,
 		'description' 		  => '',
-		'taxonomies' 		  => array('category'),
+		'taxonomies' 		  => array(),
 		'show_ui'             => true,
 		'show_in_menu'        => 'edit.php?post_type=cpt_auftrag',
 		'show_in_nav_menus'   => true,
@@ -375,7 +371,7 @@ public function cpt_books(){
 		*/ 
 		'hierarchical'        => false,
 		'public'              => true,
-		'taxonomies' 		  => array('category'),
+		'taxonomies' 		  => array(),
 		'show_ui'             => true,
 		'show_in_menu'        => 'edit.php?post_type=cpt_einrichtung',
 		'show_in_nav_menus'   => true,
@@ -399,17 +395,17 @@ public function cpt_books(){
 	 public function cptlib_tax_einrichtung() {
 		 // Add new taxonomy, make it hierarchical (like categories)
 		 $labels = array(
-			 'name'              => _x( 'ISBN', 'taxonomy general name'),
-			 'singular_name'     => _x( 'ISBN', 'taxonomy singular name'),
-			 'search_items'      => __( 'Search ISBN'),
-			 'all_items'         => __( 'All ISBN'),
-			 'parent_item'       => __( 'Parent ISBN'),
-			 'parent_item_colon' => __( 'Parent ISBN:'),
-			 'edit_item'         => __( 'Edit ISBN'),
-			 'update_item'       => __( 'Update ISBN'),
-			 'add_new_item'      => __( 'Add New ISBN'),
-			 'new_item_name'     => __( 'New ISBN Name'),
-			 'menu_name'         => __( 'ISBN'),
+			 'name'              => _x( 'Adresse', 'taxonomy general name'),
+			 'singular_name'     => _x( 'Adresse', 'taxonomy singular name'),
+			 'search_items'      => __( 'Search Adresse'),
+			 'all_items'         => __( 'All Adresse'),
+			 'parent_item'       => __( 'Parent Adresse'),
+			 'parent_item_colon' => __( 'Parent Adresse:'),
+			 'edit_item'         => __( 'Edit Adresse'),
+			 'update_item'       => __( 'Update Adresse'),
+			 'add_new_item'      => __( 'Add New Adresse'),
+			 'new_item_name'     => __( 'New Adresse Name'),
+			 'menu_name'         => __( 'Adresse'),
 		 );
 	  
 		 $args = array(
@@ -418,77 +414,69 @@ public function cpt_books(){
 			 'show_ui'           => true,
 			 'show_admin_column' => true,
 			 'query_var'         => true,
-			 'rewrite'           => array( 'slug' => 'ISBN' ),
+			 'rewrite'           => array( 'slug' => 'Adresse' ),
 		 );
 	  
-		 register_taxonomy( 'ISBN', array( 'cpt_books' ), $args );
+		 register_taxonomy( 'Adresse', array( 'cpt_einrichtung' ), $args );
 	  
 		 unset( $args );
 		 unset( $labels );
-	  
-		 // Add new taxonomy, NOT hierarchical (like tags)
+
+		 // Add new taxonomy, make it hierarchical (like categories)
 		 $labels = array(
-			 'name'                       => _x( 'Autor', 'taxonomy general name'),
-			 'singular_name'              => _x( 'Autor', 'taxonomy singular name'),
-			 'search_items'               => __( 'Search Autor'),
-			 'popular_items'              => __( 'Popular Autor'),
-			 'all_items'                  => __( 'All Autor'),
-			 'parent_item'                => null,
-			 'parent_item_colon'          => null,
-			 'edit_item'                  => __( 'Edit Autor'),
-			 'update_item'                => __( 'Update Autor'),
-			 'add_new_item'               => __( 'Add New Autor'),
-			 'new_item_name'              => __( 'New Autor Name'),
-			 'separate_items_with_commas' => __( 'Separate Autor with commas'),
-			 'add_or_remove_items'        => __( 'Add or remove Autor'),
-			 'choose_from_most_used'      => __( 'Choose from the most used Autor'),
-			 'not_found'                  => __( 'No Autor found.'),
-			 'menu_name'                  => __( 'Autor'),
+			 'name'              => _x( 'PLZ', 'taxonomy general name'),
+			 'singular_name'     => _x( 'PLZ', 'taxonomy singular name'),
+			 'search_items'      => __( 'Search PLZ'),
+			 'all_items'         => __( 'All PLZ'),
+			 'parent_item'       => __( 'Parent PLZ'),
+			 'parent_item_colon' => __( 'Parent PLZ:'),
+			 'edit_item'         => __( 'Edit PLZ'),
+			 'update_item'       => __( 'Update PLZ'),
+			 'add_new_item'      => __( 'Add New PLZ'),
+			 'new_item_name'     => __( 'New PLZ Name'),
+			 'menu_name'         => __( 'PLZ'),
 		 );
 	  
 		 $args = array(
-			 'hierarchical'          => false,
-			 'labels'                => $labels,
-			 'show_ui'               => true,
-			 'show_admin_column'     => true,
-			 'update_count_callback' => '_update_post_term_count',
-			 'query_var'             => true,
-			 'rewrite'               => array( 'slug' => 'Autor' ),
+			 'hierarchical'      => true,
+			 'labels'            => $labels,
+			 'show_ui'           => true,
+			 'show_admin_column' => true,
+			 'query_var'         => true,
+			 'rewrite'           => array( 'slug' => 'PLZ' ),
 		 );
 	  
-		 register_taxonomy( 'Autor', 'cpt_einrichtung', $args );
- 
-		 // Add new taxonomy, NOT hierarchical (like tags)
+		 register_taxonomy( 'PLZ', array( 'cpt_einrichtung' ), $args );
+	  
+		 unset( $args );
+		 unset( $labels );
+
+		 // Add new taxonomy, make it hierarchical (like categories)
 		 $labels = array(
-			 'name'                       => _x( 'Kennziffer', 'taxonomy general name'),
-			 'singular_name'              => _x( 'Kennziffer', 'taxonomy singular name'),
-			 'search_items'               => __( 'Search Kennziffer'),
-			 'popular_items'              => __( 'Popular Kennziffer'),
-			 'all_items'                  => __( 'All Kennziffer'),
-			 'parent_item'                => null,
-			 'parent_item_colon'          => null,
-			 'edit_item'                  => __( 'Edit Kennziffer'),
-			 'update_item'                => __( 'Update Kennziffer'),
-			 'add_new_item'               => __( 'Add New Kennziffer'),
-			 'new_item_name'              => __( 'New Kennziffer Name'),
-			 'separate_items_with_commas' => __( 'Separate Kennziffer with commas'),
-			 'add_or_remove_items'        => __( 'Add or remove Kennziffer'),
-			 'choose_from_most_used'      => __( 'Choose from the most used Kennziffer'),
-			 'not_found'                  => __( 'No Kennziffer found.'),
-			 'menu_name'                  => __( 'Kennziffer'),
+			 'name'              => _x( 'GL', 'taxonomy general name'),
+			 'singular_name'     => _x( 'GL', 'taxonomy singular name'),
+			 'search_items'      => __( 'Search GL'),
+			 'all_items'         => __( 'All GL'),
+			 'parent_item'       => __( 'Parent GL'),
+			 'parent_item_colon' => __( 'Parent GL:'),
+			 'edit_item'         => __( 'Edit GL'),
+			 'update_item'       => __( 'Update GL'),
+			 'add_new_item'      => __( 'Add New GL'),
+			 'new_item_name'     => __( 'New GL Name'),
+			 'menu_name'         => __( 'GL'),
 		 );
 	  
 		 $args = array(
-			 'hierarchical'          => false,
-			 'labels'                => $labels,
-			 'show_ui'               => true,
-			 'show_admin_column'     => true,
-			 'update_count_callback' => '_update_post_term_count',
-			 'query_var'             => true,
-			 'rewrite'               => array( 'slug' => 'Kennziffer' ),
+			 'hierarchical'      => true,
+			 'labels'            => $labels,
+			 'show_ui'           => true,
+			 'show_admin_column' => true,
+			 'query_var'         => true,
+			 'rewrite'           => array( 'slug' => 'GL' ),
 		 );
 	  
-		 register_taxonomy( 'Kennziffer', 'cpt_einrichtung', $args );
+		 register_taxonomy( 'GL', array( 'cpt_einrichtung' ), $args );
+	  
 	 }
 
 
