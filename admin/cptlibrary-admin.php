@@ -73,7 +73,7 @@ class Plugin_Name_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/plugin-name-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/cptlibrary-admin.css', array(), $this->version, 'all' );
 
 	}
 
@@ -110,7 +110,7 @@ class Plugin_Name_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/plugin-name-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/cptlibrary-admin.js', array( 'jquery' ), $this->version, false );
 
 	}
 
@@ -181,7 +181,7 @@ public function cpt_books(){
 	//register taxonomies for cpt_bookss, Magazines
 
 	public function cptlib_tax_books() {
-		
+
 		// Add new taxonomy, NOT hierarchical (like tags)
 		$labels = array(
 			'name'                       => _x( 'Kennziffer', 'taxonomy general name'),

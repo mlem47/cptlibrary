@@ -186,8 +186,8 @@ class Plugin_Name {
 		
 		//register shortcodes
 		$this->loader->add_shortcode('cpt_short1', $plugin_public, 'cpt_short1');
-		//add single-post template for cpt
-		$this->loader->add_filter('single_template', $plugin_public, 'load_cpt_books');
+		//add single-post template for cpt_books
+		$this->loader->add_filter('single_template', $plugin_public, 'load_cpt_books', 50, 1);
 
 	}
 

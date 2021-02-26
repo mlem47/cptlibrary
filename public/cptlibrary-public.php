@@ -73,7 +73,7 @@ class Plugin_Name_Public {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/plugin-name-public.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/cptlibrary-public.css', array(), $this->version, 'all' );
 
 	}
 
@@ -96,7 +96,7 @@ class Plugin_Name_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/plugin-name-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/cptlibrary-public.js', array( 'jquery' ), $this->version, false );
 
 	}
 
@@ -127,13 +127,12 @@ class Plugin_Name_Public {
 	
 		//hook into single_template to load our custom_post_type template
 	
-		
 		function load_cpt_books( $template ) {
 	
 			if ( 'cpt_books' === get_post_type() )
-			return dirname( __FILE__ ) . '/templates/single-cbt-books.php';
+			return dirname( __FILE__ ) . '/templates/single-cpt_books.php';
 	
 			return $template;
 		}
-
+		
 }

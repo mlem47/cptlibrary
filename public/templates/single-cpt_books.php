@@ -79,6 +79,25 @@
 						</div>
 						</form>
 						
+				
+						<div class="dropdown">
+							<select class="form-control form-control-sm">
+								<?php
+								global $wpdb;
+								$root = realpath($_SERVER["DOCUMENT_ROOT"]);
+								require "$root/wp-blog-header.php";
+							
+								$table_name = $wpdb->prefix . 'Einrichtungen';
+							
+								$Einrichtungen = $wpdb->get_results("SELECT * FROM $table_name;");
+							
+								foreach ($Einrichtungen as $item) {
+								$array = json_decode(json_encode($item), true);
+								echo "<option>" . $array['EinrichtungsName'] . "</option>";
+								}
+								?>
+							</select>
+						</div>
 						<hr>
 						<button type="submit" class="btn btn-primary">Ausleihen</button>
 
