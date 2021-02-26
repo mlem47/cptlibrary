@@ -184,9 +184,10 @@ class Plugin_Name {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		
 		
-		//register shortcodes
+		//register shortcodes //mlem
 		$this->loader->add_shortcode('cpt_short1', $plugin_public, 'cpt_short1');
-		//add single-post template for cpt_books
+
+		//add single-post template for cpt_books //mlem
 		$this->loader->add_filter('single_template', $plugin_public, 'load_cpt_books', 50, 1);
 
 	}
