@@ -13,7 +13,7 @@
 						<a class="text-dark" href="<?php the_permalink() ?>"><?php the_title() ?></a>
 						</h2>
 				</div>
-			<img src="<?php the_post_thumbnail()?>" alt="Girl in a jacket" width="500" height="600">
+			<?php the_post_thumbnail("medium")?>
 			
 			</div>
 			</div><!-- column -->
@@ -26,56 +26,54 @@
 			</div>
 			</div><!-- column -->			
 		</div>
+		
 
-		<form>
-		<div class="form-row">
-			<div class="form-group col-md-6">
-			<label for="inputEmail4">Email</label>
-			<input type="email" class="form-control" id="inputEmail4" placeholder="Email">
-			</div>
-			<div class="form-group col-md-6">
-			<label for="inputPassword4">Password</label>
-			<input type="password" class="form-control" id="inputPassword4" placeholder="Password">
-			</div>
-		</div>
-		<div class="form-group">
-			<label for="inputAddress">Address</label>
-			<input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-		</div>
-		<div class="form-group">
-			<label for="inputAddress2">Address 2</label>
-			<input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-		</div>
-		<div class="form-row">
-			<div class="form-group col-md-6">
-			<label for="inputCity">City</label>
-			<input type="text" class="form-control" id="inputCity">
-			</div>
-			<div class="form-group col-md-4">
-			<label for="inputState">State</label>
-			<select id="inputState" class="form-control">
-				<option selected>Choose...</option>
-				<option>...</option>
-			</select>
-			</div>
-			<div class="form-group col-md-2">
-			<label for="inputZip">Zip</label>
-			<input type="text" class="form-control" id="inputZip">
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="form-check">
-			<input class="form-check-input" type="checkbox" id="gridCheck">
-			<label class="form-check-label" for="gridCheck">
-				Check me out
-			</label>
-			</div>
-		</div>
-		<button type="submit" class="btn btn-primary">Sign in</button>
-		</form>
 
 
 	<?php endwhile; endif; ?>
+
+
+	<?php
+		/* Template Name: Song Entry Form */
+		get_header();
+
+		if($_POST['post_submit'] == 'Submit') {
+			$args = array(
+				'post_title' => $_POST['post_title'],
+				'post_id' => $_POST['post_desc'],
+				'post_type' => 'cpt_auftrag', //muss hier der urpsrungspost oder der post in den geschrieben wird stehen?
+				'post_status' => 'publish',
+				'comment_status' => 'closed',
+				'ping_status' => 'closed'
+			);
+
+			$pid = wp_insert_post($args);
+			add_post_meta($pid, "_song_artist", $_POST['post_artist']);
+		}
+
+		?>
+
+		<form id="post_entry" name="post_entry" method="post" action="<?php echo get_page_link('354') ?>">
+			<p>
+				<label>Title</label><br />
+				<input type="text" id="post_title" name="post_title" />
+			</p>
+			<p>
+				<label>Description</label><br />
+				<input type="text" id="post_desc" name="post_desc" />
+			</p>
+			<p>
+				<label>Artist</label><br />
+				<input type="text" id="post_artist" name="post_artist" />
+				<input type="hidden" name="post_type" id="post_type" value="fav_songs" />
+				<input type="hidden" id="post_action" name="post_action" value="post" />
+			</p>
+			<p>
+				<input type="submit" name="post_submit" value="Submit" />
+			</p>
+			<?php wp_nonce_field( 'new_song_nonce' ); ?>
+		</form>
+
 	
 
    

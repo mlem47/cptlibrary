@@ -167,6 +167,8 @@ class Plugin_Name {
 		//taxonomies for cpt's
 		$this->loader->add_action('init', $plugin_admin, 'cptlib_tax_books');
 		$this->loader->add_action('init', $plugin_admin, 'cptlib_tax_einrichtung');
+		//meta-boxes for cpt's
+		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_metabox_knnz');
 	}
 
 	/**

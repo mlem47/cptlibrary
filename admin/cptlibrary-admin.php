@@ -160,7 +160,7 @@ public function cpt_books(){
 	   */ 
 	   'hierarchical'        => false,
 	   'public'              => true,
-	   'description' 		  => '',
+	   'description' 		 => '',
 	   'show_ui'             => true,
 	   'show_in_menu'        => 'edit.php?post_type=cpt_books',
 	   'show_in_nav_menus'   => true,
@@ -172,7 +172,7 @@ public function cpt_books(){
 	   'exclude_from_search' => false,
 	   'publicly_queryable'  => true,
 	   'capability_type'     => 'post',
-	   'show_in_rest' 		=> true,
+	   'show_in_rest' 		 => true,
    );
    
 	// Registering your Custom Post Type
@@ -180,6 +180,21 @@ public function cpt_books(){
 	
 	
 	}
+	
+	//Adding metaboxes for Kennziffer
+
+	function cpt_metabox_knnz () {
+		add_meta_box( 	'metabox_knnz',
+						'Kennziffer',
+						'cpt_metabox_knnz_callback',
+						'cpt_books'
+					 );	
+	}
+
+	function cpt_metabox_knnz_callback(){
+		echo "Test Metabox";
+	}
+	
 
 	//register taxonomies for cpt_bookss, Magazines
 
