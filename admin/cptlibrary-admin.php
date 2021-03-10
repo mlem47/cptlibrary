@@ -183,18 +183,24 @@ public function cpt_books(){
 	
 	//Adding metaboxes for Kennziffer
 
-	function cpt_metabox_knnz () {
-		add_meta_box( 	'metabox_knnz',
+	public function cptlib_meta_knnz () {
+		add_meta_box( 	
+						'knnz_callback',
 						'Kennziffer',
-						'cpt_metabox_knnz_callback',
-						'cpt_books'
+						array($this, 'cptlib_knnz_callback'),
+						'cpt_books',
 					 );	
 	}
 
-	function cpt_metabox_knnz_callback(){
-		echo "Test Metabox";
-	}
-	
+		function cptlib_knnz_callback(){
+
+		// Nonce field to validate form request came from current site
+		wp_nonce_field( basename( __FILE__ ), 'knnz_fields' );
+
+		echo 'test';
+
+		}
+
 
 	//register taxonomies for cpt_bookss, Magazines
 
