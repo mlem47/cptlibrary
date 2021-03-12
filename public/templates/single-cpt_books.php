@@ -32,47 +32,77 @@
 
 	<?php endwhile; endif; ?>
 
-
 	<?php
-		/* Template Name: Song Entry Form */
-		get_header();
+		
+				$print = '';
+				$items = get_posts( array(
+					'post_type'      => 'cpt_einrichtung',
+					'post_status'    => 'publish',
+					'order' 	 => 'ASC',
+					'posts_per_page' => -1
+					) );
+				if ( $items) {
+						$print .='<div class="gridcontainer">';
+						   foreach ( $items as $item ) {
+							$item_name =  $item->post_title;
+							$print .='<figure><a href="'.get_permalink($item->ID).'">';
+							$print .= '<img class="katalog-teaser"'.get_the_post_thumbnail($item->ID,'thumbnail');
+							echo '.= '<figcaption class="teaser-caption-text">'.$item_name.'</figcaption></figure>';'
+						}
+						$print .= '</div>';
+				}
+				return $print;
+				
 
-		if($_POST['post_submit'] == 'Submit') {
-			$args = array(
-				'post_title' => $_POST['post_title'],
-				'post_id' => $_POST['post_desc'],
-				'post_type' => 'cpt_auftrag', //muss hier der urpsrungspost oder der post in den geschrieben wird stehen?
-				'post_status' => 'publish',
-				'comment_status' => 'closed',
-				'ping_status' => 'closed'
-			);
+	?>
 
-			$pid = wp_insert_post($args);
-			add_post_meta($pid, "_song_artist", $_POST['post_artist']);
-		}
 
-		?>
 
-		<form id="post_entry" name="post_entry" method="post" action="<?php echo get_page_link('354') ?>">
-			<p>
-				<label>Title</label><br />
-				<input type="text" id="post_title" name="post_title" />
-			</p>
-			<p>
-				<label>Description</label><br />
-				<input type="text" id="post_desc" name="post_desc" />
-			</p>
-			<p>
-				<label>Artist</label><br />
-				<input type="text" id="post_artist" name="post_artist" />
-				<input type="hidden" name="post_type" id="post_type" value="fav_songs" />
-				<input type="hidden" id="post_action" name="post_action" value="post" />
-			</p>
-			<p>
-				<input type="submit" name="post_submit" value="Submit" />
-			</p>
-			<?php wp_nonce_field( 'new_song_nonce' ); ?>
+
+		<form method=”post”>
+		<p><label for=”cpt_auftrag_title”><?php the_title()?></label>
+
+		<input type=”text” name=”cpt_auftrag_title” id=”cpt_auftrag_title” value="<?php the_title()?>" /></p>
+
+		<p> <label for=”cpt_auftrag_ID”><?php the_ID(  )?></label>
+
+		<input type="hidden" name=”cpt_auftrag_ID” id=”cpt_auftrag_ID”></input> </p>
+
+		<button type=”submit”><?php _e('Submit') ?></button>
+
+
+		<input type=”hidden” name=”post_type” id=”post_type” value=”cpt_auftrag” />
+
+
+		<?php wp_nonce_field( 'cpt_nonce_action', 'cpt_nonce_field' ); ?>
+
+
 		</form>
+
+		<?php
+
+			if (isset( $_POST['cpt_nonce_field'] )
+
+			&& wp_verify_nonce( $_POST['cpt_nonce_field'], 'cpt_nonce_action' ) ) {
+
+			// create post object with the form values
+
+			$my_cptpost_args = array(
+
+			'post_title'    => $_POST['cpt_auftrag_title'],
+
+			'post_content'  => $_POST['cpt_auftrag_ID'],
+
+			'post_status'   => 'pending',
+
+			'post_type' => $_POST['cpt_auftrag']
+
+			);
+			// insert the post into the database
+
+			$cpt_id = wp_insert_post( $my_cptpost_args, $wp_error);
+
+}		?>
 
 	
 

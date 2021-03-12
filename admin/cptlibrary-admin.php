@@ -184,16 +184,41 @@ public function cpt_books(){
 	//Adding metaboxes for Kennziffer
 
 	function cpt_metabox_knnz () {
-		add_meta_box( 	'metabox_knnz',
-						'Kennziffer',
-						'cpt_metabox_knnz_callback',
-						'cpt_books'
-					 );	
+		add_meta_box( 
+				'metabox_knnz',
+				'Kennziffer',
+				array($this,'knnz_callback'),
+				'cpt_books'
+		 );	
 	}
 
-	function cpt_metabox_knnz_callback(){
+	function knnz_callback(){
 		echo "Test Metabox";
 	}
+	
+	//Adding metaboxes for Kennziffer
+
+	function cpt_datepicker_meta_auftrag() {
+
+		add_meta_box(
+			'zeitraum-date',
+			'Zeitraum angeben',
+			array($this,'cpt_datepicker_callback'),
+			'cpt_auftrag'
+		);
+	}
+	function cpt_datepicker_callback(){
+		// Set HTML here which you want to see under this meta box.
+		// Refer https://stackoverflow.com/questions/17651766/jquery-date-picker-multi-select-and-unselect
+		// for multiselect datebox.
+
+	echo '<input type="date" id="datePick" name=save-dates/>';
+	}
+
+
+	
+	
+
 	
 
 	//register taxonomies for cpt_bookss, Magazines
