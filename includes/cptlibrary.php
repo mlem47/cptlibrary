@@ -168,7 +168,8 @@ class Plugin_Name {
 		$this->loader->add_action('init', $plugin_admin, 'cptlib_tax_books');
 		$this->loader->add_action('init', $plugin_admin, 'cptlib_tax_einrichtung');
 		//meta-boxes for cpt's
-		$this->loader->add_action('add_meta_boxes_cpt_books', $plugin_admin, 'cptlib_meta_knnz');
+		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_metabox_knnz');
+		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_datepicker_meta_auftrag');
 	}
 
 	/**
