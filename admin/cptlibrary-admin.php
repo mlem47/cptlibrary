@@ -197,9 +197,30 @@ public function cpt_books(){
 		// Nonce field to validate form request came from current site
 		wp_nonce_field( basename( __FILE__ ), 'knnz_fields' );
 
-		echo 'test';
+		// Echo out the field
+		echo '<label for="_cpt_kennz_nr">Kennziffer</label>';
+		echo '<input id="kennz_nr_id" type="text" name="_cpt_kennz_nr"  class="widefat" />';
+		echo '<br/><br/>';
 
 		}
+
+	
+
+			 /**
+				* Meta key actual database insertion
+				*/
+			 function cptlib_knnz_save($post_id){
+	 
+					 //Prepare and sanitize the data before saving it
+					 $cpt_kennz_nr =  array(
+															 sanitize_text_field( $_POST['_cpt_kennz_nr']),
+													 );
+	 
+					 update_post_meta($post_id, '_cpt_kennz_nr_', $cpt_kennz_nr);
+	 
+	 
+			 }
+	 
 
 
 	//register taxonomies for cpt_bookss, Magazines

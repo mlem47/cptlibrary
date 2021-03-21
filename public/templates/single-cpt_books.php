@@ -47,7 +47,7 @@
 							$item_name =  $item->post_title;
 							$print .='<figure><a href="'.get_permalink($item->ID).'">';
 							$print .= '<img class="katalog-teaser"'.get_the_post_thumbnail($item->ID,'thumbnail');
-							echo '.= '<figcaption class="teaser-caption-text">'.$item_name.'</figcaption></figure>';'
+							$print .= '<figcaption class="teaser-caption-text">'.$item_name.'</figcaption></figure>';
 						}
 						$print .= '</div>';
 				}
