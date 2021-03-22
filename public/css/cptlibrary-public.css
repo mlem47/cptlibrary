@@ -4,6 +4,11 @@
  */
 
 
+ .container-singlecptbooks{
+    display: flex;
+    justify-content: center;
+ }
+
  .gridcontainer {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1 fr));
@@ -25,4 +30,5 @@
     color: darkslateblue;
     font-weight: 700;
     padding-top: 20px;
+    
  }

@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
- 
+ <div class="container-singlecptbooks">
        
 	<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
@@ -31,10 +31,19 @@
 
 
 	<?php endwhile; endif; ?>
+	<div class="row">
+		<div class="col">
+			<form>
+			<div class="form-group">
+				<label for="exampleFormControlInput1">Email address</label>
+				<input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+			</div>
+			<div class="form-group">
+				<label for="einrichtungSelect">Einrichtung</label>
+				<select class="form-control" id="einrichtungSelect">
+				<option selected="selected">Einrichtung auswählen</option>
 
-	<?php
-		
-				$print = '';
+				<?php 
 				$items = get_posts( array(
 					'post_type'      => 'cpt_einrichtung',
 					'post_status'    => 'publish',
@@ -42,69 +51,20 @@
 					'posts_per_page' => -1
 					) );
 				if ( $items) {
-						$print .='<div class="gridcontainer">';
 						   foreach ( $items as $item ) {
 							$item_name =  $item->post_title;
-							$print .='<figure><a href="'.get_permalink($item->ID).'">';
-							$print .= '<img class="katalog-teaser"'.get_the_post_thumbnail($item->ID,'thumbnail');
-							$print .= '<figcaption class="teaser-caption-text">'.$item_name.'</figcaption></figure>';
+							echo '<option >'.$item_name.'</option>';
 						}
-						$print .= '</div>';
 				}
-				return $print;
-				
 
-	?>
+				?>
+				</select>
+			</div>
+			</form>
+		</div> <!-- col end -->
+	</div> <!-- row2 end -->
 
-
-
-
-		<form method=”post”>
-		<p><label for=”cpt_auftrag_title”><?php the_title()?></label>
-
-		<input type=”text” name=”cpt_auftrag_title” id=”cpt_auftrag_title” value="<?php the_title()?>" /></p>
-
-		<p> <label for=”cpt_auftrag_ID”><?php the_ID(  )?></label>
-
-		<input type="hidden" name=”cpt_auftrag_ID” id=”cpt_auftrag_ID”></input> </p>
-
-		<button type=”submit”><?php _e('Submit') ?></button>
-
-
-		<input type=”hidden” name=”post_type” id=”post_type” value=”cpt_auftrag” />
-
-
-		<?php wp_nonce_field( 'cpt_nonce_action', 'cpt_nonce_field' ); ?>
-
-
-		</form>
-
-		<?php
-
-			if (isset( $_POST['cpt_nonce_field'] )
-
-			&& wp_verify_nonce( $_POST['cpt_nonce_field'], 'cpt_nonce_action' ) ) {
-
-			// create post object with the form values
-
-			$my_cptpost_args = array(
-
-			'post_title'    => $_POST['cpt_auftrag_title'],
-
-			'post_content'  => $_POST['cpt_auftrag_ID'],
-
-			'post_status'   => 'pending',
-
-			'post_type' => $_POST['cpt_auftrag']
-
-			);
-			// insert the post into the database
-
-			$cpt_id = wp_insert_post( $my_cptpost_args, $wp_error);
-
-}		?>
-
-	
-
+  
+</div> <!-- end of container-singlecptvooks -_>
    
 <?php get_footer(); ?>

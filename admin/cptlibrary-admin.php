@@ -153,7 +153,7 @@ public function cpt_books(){
 	   // Features this CPT supports in Post Editor
 	   'supports'            => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'revisions', 'custom-fields',),
 	   // You can associate this CPT with a taxonomy or custom taxonomy. 
-	   'taxonomies'          => array( 'ISBN' , 'Kennziffer', 'ISBN'),
+	   'taxonomies'          => array( 'ISBN' , 'Kennziffer', 'ISBN', 'category'),
 	   /* A hierarchical CPT is like Pages and can have
 	   * Parent and child items. A non-hierarchical CPT
 	   * is like Posts.
@@ -181,69 +181,69 @@ public function cpt_books(){
 	
 	}
 	
-	//Adding metaboxes for Kennziffer
+// 	//Adding metaboxes for Kennziffer
 
-	public function cptlib_meta_knnz () {
-		$screen = "post"; // to display it in page type, change "post" to "page"
-		add_meta_box( 	
-						'knnz_callback',
-						'Kennziffer',
-						array($this, 'cptlib_knnz_callback'),
-						'cpt_books',
-					 );	
+// 	public function cptlib_meta_knnz () {
+// 		$screen = "post"; // to display it in page type, change "post" to "page"
+// 		add_meta_box( 	
+// 						'knnz_callback',
+// 						'Kennziffer',
+// 						array($this, 'cptlib_knnz_callback'),
+// 						'cpt_books',
+// 					 );	
 					 
-	}
+// 	}
 
-		function cptlib_knnz_callback(){
+// 		function cptlib_knnz_callback(){
 
-			global $post;
+// 			global $post;
 
-		// Nonce field to validate form request came from current site
-		wp_nonce_field( basename( __FILE__ ), 'knnz_fields' );
+// 		// Nonce field to validate form request came from current site
+// 		wp_nonce_field( basename( __FILE__ ), 'knnz_fields' );
 
 		
 
-		// Echo out the field
-		echo '<label for="cpt_kennz">Kennziffer</label>';
-		echo '<input id="kennz" type="text" name="cpt_kennz"  class="widefat" />';
-		echo '<br/><br/>';
+// 		// Echo out the field
+// 		echo '<label for="cpt_kennz">Kennziffer</label>';
+// 		echo '<input id="kennz" type="text" name="cpt_kennz"  class="widefat" />';
+// 		echo '<br/><br/>';
 
-		}
+// 		}
 
 	
 
-			 /**
-				* Meta key actual database insertion
-				*/
-			 function cptlib_knnz_save($post_id){
+// 			 /**
+// 				* Meta key actual database insertion
+// 				*/
+// 			 function cptlib_knnz_save($post_id){
 
-				 /**
-         * Check if nonce is not set
-         */
-//        if (!isset($_POST['events_datefromto_nonce']))
-//            return $post_id;
-//
-//        $nonce = $_POST['events_datefromto_nonce'];
-//        /**
-//         * Verify that the request came from our screen with the proper authorization
-//         */
-//        if(!wp_verify_nonce($nonce,'events_date_fromto'))
-//            return $post_id;
-//
-//        //Check the user's permission
-//
-//        if(!current_user_can('edit_post',$post_id) )
-//            return $post_id;
+// 				 /**
+//          * Check if nonce is not set
+//          */
+// //        if (!isset($_POST['events_datefromto_nonce']))
+// //            return $post_id;
+// //
+// //        $nonce = $_POST['events_datefromto_nonce'];
+// //        /**
+// //         * Verify that the request came from our screen with the proper authorization
+// //         */
+// //        if(!wp_verify_nonce($nonce,'events_date_fromto'))
+// //            return $post_id;
+// //
+// //        //Check the user's permission
+// //
+// //        if(!current_user_can('edit_post',$post_id) )
+// //            return $post_id;
 	 
-					 //Prepare and sanitize the data before saving it
-					 $cpt_kennz_nr =  array(
-															 sanitize_text_field( $_POST['cpt_kennz']),
-													 );
+// 					 //Prepare and sanitize the data before saving it
+// 					 $cpt_kennz_nr =  array(
+// 															 sanitize_text_field( $_POST['cpt_kennz']),
+// 													 );
 	 
-					 update_post_meta($post_id, 'cpt_kennz', $cpt_kennz_nr);
+// 					 update_post_meta($post_id, 'cpt_kennz', $cpt_kennz_nr);
 	 
 	 
-			 }
+// 			 }
 	 
 
 
@@ -251,7 +251,7 @@ public function cpt_books(){
 
 	public function cptlib_tax_books() {
 
-		// Add new taxonomy, NOT hierarchical (like tags)
+		// Add new taxonomy, 
 		$labels = array(
 			'name'                       => _x( 'Kennziffer', 'taxonomy general name'),
 			'singular_name'              => _x( 'Kennziffer', 'taxonomy singular name'),
@@ -279,8 +279,13 @@ public function cpt_books(){
 			'update_count_callback' => '_update_post_term_count',
 			'query_var'             => true,
 			'rewrite'               => array( 'slug' => 'Kennziffer' ),
+			'numberposts' 			=> -1,
+			'orderby'				=> 'menu_order',
+			'order' 				=> 'ASC',
+			'post_type'				=> 'videos',
+		
 			
-		);
+		);	
 		
 	 
 		register_taxonomy( 'Kennziffer', 'cpt_books', $args );
@@ -401,6 +406,8 @@ public function cpt_books(){
 	// Registering your Custom Post Type
 	register_post_type( 'cpt_auftrag', $args );
 	}
+
+	// Metabox for booking date  - Insert von Zeitraeumen für den Verleihvorgangn
 
 	function cpt_booking_date_metaboxes(){
 	
