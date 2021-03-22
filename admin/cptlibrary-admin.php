@@ -184,22 +184,28 @@ public function cpt_books(){
 	//Adding metaboxes for Kennziffer
 
 	public function cptlib_meta_knnz () {
+		$screen = "post"; // to display it in page type, change "post" to "page"
 		add_meta_box( 	
 						'knnz_callback',
 						'Kennziffer',
 						array($this, 'cptlib_knnz_callback'),
 						'cpt_books',
 					 );	
+					 
 	}
 
 		function cptlib_knnz_callback(){
 
+			global $post;
+
 		// Nonce field to validate form request came from current site
 		wp_nonce_field( basename( __FILE__ ), 'knnz_fields' );
 
+		
+
 		// Echo out the field
-		echo '<label for="_cpt_kennz_nr">Kennziffer</label>';
-		echo '<input id="kennz_nr_id" type="text" name="_cpt_kennz_nr"  class="widefat" />';
+		echo '<label for="cpt_kennz">Kennziffer</label>';
+		echo '<input id="kennz" type="text" name="cpt_kennz"  class="widefat" />';
 		echo '<br/><br/>';
 
 		}
@@ -210,13 +216,31 @@ public function cpt_books(){
 				* Meta key actual database insertion
 				*/
 			 function cptlib_knnz_save($post_id){
+
+				 /**
+         * Check if nonce is not set
+         */
+//        if (!isset($_POST['events_datefromto_nonce']))
+//            return $post_id;
+//
+//        $nonce = $_POST['events_datefromto_nonce'];
+//        /**
+//         * Verify that the request came from our screen with the proper authorization
+//         */
+//        if(!wp_verify_nonce($nonce,'events_date_fromto'))
+//            return $post_id;
+//
+//        //Check the user's permission
+//
+//        if(!current_user_can('edit_post',$post_id) )
+//            return $post_id;
 	 
 					 //Prepare and sanitize the data before saving it
 					 $cpt_kennz_nr =  array(
-															 sanitize_text_field( $_POST['_cpt_kennz_nr']),
+															 sanitize_text_field( $_POST['cpt_kennz']),
 													 );
 	 
-					 update_post_meta($post_id, '_cpt_kennz_nr_', $cpt_kennz_nr);
+					 update_post_meta($post_id, 'cpt_kennz', $cpt_kennz_nr);
 	 
 	 
 			 }
@@ -377,6 +401,72 @@ public function cpt_books(){
 	// Registering your Custom Post Type
 	register_post_type( 'cpt_auftrag', $args );
 	}
+
+	function cpt_booking_date_metaboxes(){
+	
+	
+				 /**
+					* Render and Add form meta box
+					*/
+				 add_meta_box('cpt_booking_date', 'Events Date', array($this, 'cpt_booking_date'), 'cpt_auftrag', 'side', 'high');
+ 
+				 /**
+					* Save Date from and to as meta key
+					*/
+				 add_action('save_post',array($this, 'booking_date_save'),1,2);
+		 }
+ 
+		 /**
+			* Render Form for Events date
+			*/
+		 function cpt_booking_date() {
+ 
+				 global $post;
+ 
+				 // Add an nonce field so we can check for it later.
+				 wp_nonce_field( 'events_date_fromto', 'events_datefromto_nonce' );
+ 
+				 // Echo out the field
+				 echo '<label for="_cpt_booking_datefrom">Date From</label>';
+				 echo '<input id="cpt-booking-datefrom" type="text" name="_cpt_booking_datefrom"  class="widefat" />';
+				 echo '<br/><br/>';
+				 echo '<label for="_cpt_booking_date_to">Date To</label>';
+				 echo '<input id="cpt-booking-dateto" type="text" name="_cpt_booking_date_to" class="widefat" />';
+ 
+		 }
+ 
+		 /**
+			* Meta key actual database insertion
+			*/
+		 function cpt_booking_date_save($post_id){
+ 
+				 /**
+					* Check if nonce is not set
+					*/
+ //        if (!isset($_POST['events_datefromto_nonce']))
+ //            return $post_id;
+ //
+ //        $nonce = $_POST['events_datefromto_nonce'];
+ //        /**
+ //         * Verify that the request came from our screen with the proper authorization
+ //         */
+ //        if(!wp_verify_nonce($nonce,'events_date_fromto'))
+ //            return $post_id;
+ //
+ //        //Check the user's permission
+ //
+ //        if(!current_user_can('edit_post',$post_id) )
+ //            return $post_id;
+ 
+				 //Prepare and sanitize the data before saving it
+				 $booking_date =  array(
+														 sanitize_text_field( $_POST['_cpt_booking_datefrom']),
+														 sanitize_text_field($_POST['_cpt_booking_date_to'])
+												 );
+ 
+				 update_post_meta($post_id, '_cpt_booking_date', $booking_date);
+		 }
+ 
 	
 
    //register Einrichtung CPT 

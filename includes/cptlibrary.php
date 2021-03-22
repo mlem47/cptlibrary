@@ -170,6 +170,10 @@ class Plugin_Name {
 		//meta-boxes for cpt's
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cptlib_meta_knnz');
 		$this->loader->add_action('save_post', $plugin_admin, 'cptlib_knnz_save');
+
+		//cpt_meta date for auftrag<
+		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_booking_date_metaboxes');
+		$this->loader->add_action('save_post', $plugin_admin, 'cpt_booking_date_save');
 		// $this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_datepicker_meta_auftrag');
 
 	}
