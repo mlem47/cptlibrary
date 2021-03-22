@@ -282,7 +282,6 @@ public function cpt_books(){
 			'numberposts' 			=> -1,
 			'orderby'				=> 'menu_order',
 			'order' 				=> 'ASC',
-			'post_type'				=> 'videos',
 		
 			
 		);	
@@ -405,7 +404,82 @@ public function cpt_books(){
 	
 	// Registering your Custom Post Type
 	register_post_type( 'cpt_auftrag', $args );
+	
+
+	unset( $args );
+	unset( $labels );
+
+	// Add new taxonomy, EMAIL for cpt_auftrag
+	$labels = array(
+		'name'              => _x( 'Email', 'taxonomy general name'),
+		'singular_name'     => _x( 'Email', 'taxonomy singular name'),
+		'search_items'      => __( 'Search Email'),
+		'all_items'         => __( 'All Email'),
+		'parent_item'       => __( 'Parent Email'),
+		'parent_item_colon' => __( 'Parent Email:'),
+		'edit_item'         => __( 'Edit Email'),
+		'update_item'       => __( 'Update Email'),
+		'add_new_item'      => __( 'Add New Email'),
+		'new_item_name'     => __( 'New Email Name'),
+		'menu_name'         => __( 'Email'),
+	);
+ 
+	$args = array(
+		'hierarchical'      => true,
+		'labels'            => $labels,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'Autor' ),
+	);
+
+	register_taxonomy( 'Email', 'cpt_auftrag', $args );
+	
+	
+	unset( $args );
+	unset( $labels );
+
+	// Add new taxonomy, make it hierarchical (like categories)
+	// Add new taxonomy, 
+	$labels = array(
+		'name'                       => _x( 'Kennziffer', 'taxonomy general name'),
+		'singular_name'              => _x( 'Kennziffer', 'taxonomy singular name'),
+		'search_items'               => __( 'Search Kennziffer'),
+		'popular_items'              => __( 'Popular Kennziffer'),
+		'all_items'                  => __( 'All Kennziffer'),
+		'parent_item'                => null,
+		'parent_item_colon'          => null,
+		'edit_item'                  => __( 'Edit Kennziffer'),
+		'update_item'                => __( 'Update Kennziffer'),
+		'add_new_item'               => __( 'Add New Kennziffer'),
+		'new_item_name'              => __( 'New Kennziffer Name'),
+		'separate_items_with_commas' => __( 'Separate Kennziffer with commas'),
+		'add_or_remove_items'        => __( 'Add or remove Kennziffer'),
+		'choose_from_most_used'      => __( 'Choose from the most used Kennziffer'),
+		'not_found'                  => __( 'No Kennziffer found.'),
+		'menu_name'                  => __( 'Kennziffer'),
+	);
+ 
+	$args = array(
+		'hierarchical'          => false,
+		'labels'                => $labels,
+		'show_ui'               => true,
+		'show_admin_column'     => true,
+		'update_count_callback' => '_update_post_term_count',
+		'query_var'             => true,
+		'rewrite'               => array( 'slug' => 'Kennziffer' ),
+		'numberposts' 			=> -1,
+		'orderby'				=> 'menu_order',
+		'order' 				=> 'ASC',
+	
+		
+	);	
+	
+ 
+	register_taxonomy( 'Kennziffer', 'cpt_auftrag', $args );
+
 	}
+		
 
 	// Metabox for booking date  - Insert von Zeitraeumen für den Verleihvorgangn
 
@@ -624,3 +698,5 @@ public function cpt_books(){
 	 }
 
 }
+
+
