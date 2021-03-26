@@ -1,28 +1,68 @@
 <?php get_header();?>
 
 
+
+<div class="container-singlecptbooks">
+       
+       <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+   
+   
+           <div class="row mb-2">
+               <div class="col">
+                   <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                         <div class="card-body d-flex flex-column align-items-start">
+                            <h2 class="mb-0">
+                            <a class="text-dark" href="<?php the_permalink() ?>"><?php the_title() ?></a>
+                            </h2>
+                        </div>
+                    </div>            
+               </div>
+               <?php the_post_thumbnail("medium")?>
+               
+               <div class="col">
+                   <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                        <div class="card-body d-flex flex-column align-items-start">
+                            <strong class="d-inline-block mb-2 text-primary">Beschreibung</strong>
+                            <p class="card-text mb-auto"><?php the_content() ?></p>
+                        </div>
+                   </div>
+               </div>
+            </div><!-- column -->		
+</div> <!-- container -->
+           
+   
+   
+   
+<?php endwhile; endif; ?>
+
+
 <form id="post_entry" name="post_entry" method="post" action="">
     <p>
         <label>Auftragstitel</label><br />
         <input type="text" id="post_title" name="post_title" value="<?php the_title() ?>"/>
 	</p>
+
+    <p>
+        <label>E-Mail</label><br />
+        <input type="email" id="post_title" name="post_email" />
+	</p>
 	
     <p>
-        <label>Name & E-Mail</label><br />
-		<input type="text" id="post_desc" name="post_desc" />
+        <label>Weitere Informationen</label><br />
+		<input type="textarea" id="post_desc" name="post_desc" />
 	</p>
 	
     <p>
 	<div class="form-group">
-					<label for="post_einrichtungSelect">Einrichtung</label>
-					<select class="form-control" id="einrichtungSelect" name="post_einrichtungSelect">
+					<label for="einrichtungSelect">Einrichtung</label>
+					<select class="form-control" id="einrichtungSelect" name="einrichtungSelect">
 					<option selected="selected">Einrichtung auswählen</option>
 
 					<?php 
 					$items = get_posts( array(
 						'post_type'      => 'cpt_einrichtung',
 						'post_status'    => 'publish',
-						'order' 	 => 'ASC',
+						'order' 	 	 => 'ASC',
 						'posts_per_page' => -1
 						) );
 					if ( $items) {
@@ -35,10 +75,6 @@
 					?>
 					</select>
 		</div>
-        <label>Einrichtung</label><br />
-        <input type="text" id="post_artist" name="post_artist" />
-        <input type="hidden" name="post_type" id="post_type" value="cpt_auftrag" />
-        <input type="hidden" id="post_action" name="post_action" value="post" />
     </p>
     <p>
         <input type="submit" name="post_submit" value="Submit" />
@@ -47,175 +83,58 @@
 </form>
 
 <?php 
-if($_POST['post_submit'] == 'Submit') {
-    $new_auftrag = array(
-        'post_title' => $_POST['post_title'],
-		'post_content' => $_POST['post_desc'],
-		'tax_input' => $taxonomy,
-        'post_type' => 'cpt_auftrag',
-        'post_status' => 'publish',
-        'comment_status' => 'closed',
-        'ping_status' => 'closed'
-	);
-	
-	$taxonomy = array(
-		'color' => array(
-			'green',
-			'red'
-		),
-	);
 
-//// INSERT TERM ////https://tecserve.eu/wordpress/tax_input-in-wp_insert_post-richtig-verwenden/ /////
 
-	$department = 'Food';
-	$section = 'Produce';
-	// Check if department exists
-	$department_term = term_exists( $department, 'category', 0 );
-	// Create if not
-	if ( !$department_term ) {
-		$department_term = wp_insert_term( $department, 'category', array( 'parent' => 0) );
+
+
+	if($_POST['post_submit'] == 'Submit') {
+		$taxonomy = '';
+		$Email = '';
+		$Einrichtung = '';
+
+		$new_auftrag = array(
+			'post_title' 		=> $_POST['post_title'],
+			'post_content' 		=> $_POST['post_desc'],
+			'tax_input' 		=> $custom_tax,
+			'post_type' 		=> 'cpt_auftrag',
+			'post_status' 		=> 'publish',
+			'comment_status' 	=> 'closed',
+			'ping_status' 		=> 'closed',
+		);
+		
+		// $taxonomy = array(
+
+		// 	'Email' 			=> $_POST['Email'],
+		// 	'einrichtung' 		=> $_POST['Einrichtung'],
+				
+		// );
+
+		///////////
+
+	$Email = $_POST['Email'];
+	$Einrichtung = $_POST['Einrichtung'];
+
+
+	// Create Email if it doesn't exist
+	if ( !$email_term ) {
+		$email_term = wp_insert_term( $Email, 'tax_einrichtung', array( 'parent' => 0 ) );
 	}
-	// Check if section exists as child of department
-	$section_term = term_exists( $section, 'category', $department_term['term_taxonomy_id'] );
-	// Create if not
-	if ( !$section_term ) {
-		$section_term = wp_insert_term( $section, 'category', array( 'parent' => $department_term['term_taxonomy_id'] ) );
+
+
+	// Create Einrichtung if it doesn't exist
+	if ( !$einrichtung_term ) {
+		$einrichtung_term = wp_insert_term( $Einrichtung, 'tax_einrichtung', array( 'parent' => $email_term['term_taxonomy_id'] ) );
 	}
-	$taxonomy = array(
-		'category' => array(
-			$section_term['term_taxonomy_id'],
-			$department_term['term_taxonomy_id']
+
+	$custom_tax = array(
+		'tax_einrichtung' => array(
+			$email_term['term_taxonomy_id'],
+			$einrichtung_term['term_taxonomy_id']
 		)
 	);
-	$post = array(
-		'post_title' => 'Hallo neuer Beitrag!',
-		'post_content' => 'Hier steht ganz viel Inhalt',
-		'tax_input' => $taxonomy
-	);
-	$post_id = wp_insert_post( $post );
-
-    $post_id = wp_insert_post($new_auftrag);
-    add_post_meta($post_id, "_song_artist", $_POST['post_artist']);
-}
-?>
+	};	
 
 
+	?>
 
-
-
-
- <div class="container-singlecptbooks">
-       
-	<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-
-
-		<div class="row mb-2">
-			<div class="col">
-				<div class="card flex-md-row mb-4 box-shadow h-md-250">
-						<div class="card-body d-flex flex-column align-items-start">
-						<h2 class="mb-0">
-						<a class="text-dark" href="<?php the_permalink() ?>"><?php the_title() ?></a>
-						</h2>
-				</div>
-			<?php the_post_thumbnail("medium")?>
-			
-			</div>
-			</div><!-- column -->
-			<div class="col">
-				<div class="card flex-md-row mb-4 box-shadow h-md-250">
-					<div class="card-body d-flex flex-column align-items-start">
-					<strong class="d-inline-block mb-2 text-primary">Beschreibung</strong>
-					<p class="card-text mb-auto"><?php the_content() ?></p>
-				</div>
-			</div>
-			</div><!-- column -->			
-		</div>
-		
-
-
-
-	<?php endwhile; endif; ?>
-
-
-
-
-
-	<div class="row">
-		<div class="col">
-			<form>
-				<div class="form-group">
-					<label for="exampleFormControlInput1">Email address</label>
-					<input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-				</div>
-				<div class="form-group">
-					<label for="buchid">Buch</label>
-					<input type="text" class="form-control" id="buchid" placeholder="<?php the_title() ?>">
-				</div>
-				
-				<div class="form-group">
-					<label for="einrichtungSelect">Einrichtung</label>
-					<select class="form-control" id="einrichtungSelect">
-					<option selected="selected">Einrichtung auswählen</option>
-
-					<?php 
-					$items = get_posts( array(
-						'post_type'      => 'cpt_einrichtung',
-						'post_status'    => 'publish',
-						'order' 	 => 'ASC',
-						'posts_per_page' => -1
-						) );
-					if ( $items) {
-							foreach ( $items as $item ) {
-								$item_name =  $item->post_title;
-								echo '<option >'.$item_name.'</option>';
-							}
-					}
-
-					?>
-					</select>
-				</div>
-				
-				<div class="form-group">
-					<script>
-						jQuery(document).ready(function($) {
-							$("#startdatepicker").datepicker();
-							
-						});
-					</script>
-					<p>Anfangsdatum:<div id="startdatepicker"></div></p> 
-				</div>
-			</form>
-
-			<?php
-			// Create post object
-			
-			$new_auftrag = array(
-			'post_title'    => wp_strip_all_tags( $_POST['$title'] ),
-			'post_status'   => 'publish',
-			'post_date'		=> '',
-			'post_author'   => 1,
-			'post_type'		=> 'cpt_auftrag',
-			'tax_input' 	=> 'Kennziffer'
-			);
-			
-			// Insert the post into the database
-			$post_id = wp_insert_post( $new_auftrag );
-
-			if($post_id){
-				echo "Post successfully published!";
-			} else {
-				echo "Something went wrong, try again.";
-			}
-
-			?>
-
-
-		</div> <!-- col end -->
-	</div> <!-- row2 end -->
-
-	
-
-  
-</div> <!-- end of container-singlecptvooks -_>
-   
 <?php get_footer(); ?>
