@@ -2,3 +2,33 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+
+
+ .container-singlecptbooks{
+    display: flex;
+    justify-content: center;
+ }
+
+ .gridcontainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1 fr));
+    grid-gap: 5em 2em;
+    padding: 25px; 
+    box-shadow: 10px 10px 10px     5px rgba(152, 179, 189, 0.598);
+    border-radius: 20px;
+    border: 1px rgba(152, 179, 189, 0.598);
+ }
+ 
+ .katalog-teaser{
+    border-radius: 15%;
+    border: 1px rgba(152, 179, 189, 0.598);
+    box-shadow: 10px 10px 10px 5px rgba(152, 179, 189, 0.598);
+ }
+ 
+ .teaser-caption-text{
+    position: relative;
+    color: darkslateblue;
+    font-weight: 700;
+    padding-top: 20px;
+    
+ }

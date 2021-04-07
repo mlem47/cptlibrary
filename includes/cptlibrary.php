@@ -160,9 +160,24 @@ class Plugin_Name {
 		$this->loader->add_action('admin_menu', $plugin_admin, 'cpt_admin_menu');
 		//register cpt for import Books
 		$this->loader->add_action('init', $plugin_admin, 'cpt_books');
+		//register cpt zur Auftragsübersicht
 		$this->loader->add_action('init', $plugin_admin, 'cpt_auftrag');
+		//register cpt zur Einrichtungsverwaltung
 		$this->loader->add_action('init', $plugin_admin, 'cpt_einrichtung');
 
+		//create custom columns for cpt's
+		$this->loader->add_filter('manage_cpt_auftrag_posts_columns', $plugin_admin, 'cpt_set_auftrag_columns');
+
+		// first number position of execution, second number transmit of cases
+		$this->loader->add_action('manage_cpt_auftrag_posts_custom_column', $plugin_admin, 'cpt_custom_auftrag_columns', 10, 3  );
+		
+		//meta-boxes for cpt's
+		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_email');
+		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_einrichtung');
+
+		//meta-box save
+		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_email_data');
+		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_einrichtung_data');
 
 	}
 
@@ -180,11 +195,12 @@ class Plugin_Name {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		
-
-		//register shortcodes
+		
+		//register shortcodes //mlem
 		$this->loader->add_shortcode('cpt_short1', $plugin_public, 'cpt_short1');
-		//add single-post template for cpt
-		$this->loader->add_filter('single_template', $plugin_public, 'load_cpt_books');
+
+		//add single-post template for cpt_books //mlem
+		$this->loader->add_filter('single_template', $plugin_public, 'load_cpt_books', 50, 1);
 
 	}
 

@@ -73,12 +73,13 @@ class Plugin_Name_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/plugin-name-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/cptlibrary-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( 'jquery-ui-css', plugin_dir_url( __FILE__ ) . 'css/jquery-ui.min.css', array(), $this->version, 'all' );
 
 	}
 
 	public function cpt_admin_menu(){
-		add_menu_page( 'Admin','Ausleihe', 'manage_options', 'cpt_admin', array($this, 'myplugin_admin_page'),'dashicons-book' );
+		add_menu_page( 'Admin','Ausleihe', 'manage_options', 'cpt_admin', array($this, 'myplugin_admin_page'),'dashicons-cpt_books' );
 		add_submenu_page( 'cpt_admin', 'Buchimport', 'Buecher', 'manage_options', 'edit.php?post_type=cpt_books' );
 		add_submenu_page( 'cpt_admin', 'Auftrag', 'Auftrag', 'manage_options', 'edit.php?post_type=cpt_auftrag' );
 		add_submenu_page( 'cpt_admin', 'Einrichtung', 'Einrichtungen', 'manage_options', 'edit.php?post_type=cpt_einrichtung' );
@@ -110,7 +111,9 @@ class Plugin_Name_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/plugin-name-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/cptlibrary-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( 'jquery-ui-js', plugin_dir_url( __FILE__ ) . 'js/jquery-ui.min.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( 'jquery-js', plugin_dir_url( __FILE__ ) . 'js/jquery.js', array( 'jquery' ), $this->version, false );
 
 	}
 
@@ -118,7 +121,7 @@ class Plugin_Name_Admin {
   
 
 
-//this function creates our bookpimport post type cpt_books //mlem
+//this function creates our cpt_bookspimport post type cpt_books //mlem
 public function cpt_books(){
    /*
    * Creating a function to create our CPT
@@ -146,44 +149,43 @@ public function cpt_books(){
 	   'label'               => __( 'cpt_books'),
 	   'description'         => __( 'Buchimporte'),
 	   'labels'              => $labels,
+	   'rewrite' 			 => array( 'slug' => 'cpt_books'),
 	   // Features this CPT supports in Post Editor
-	   'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields', ),
+	   'supports'            => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'revisions', 'custom-fields',),
 	   // You can associate this CPT with a taxonomy or custom taxonomy. 
-	   'taxonomies'          => array( 'genre' ),
+	   'taxonomies'          => array( 'ISBN' , 'Kennziffer', 'ISBN', 'category'),
 	   /* A hierarchical CPT is like Pages and can have
 	   * Parent and child items. A non-hierarchical CPT
 	   * is like Posts.
 	   */ 
 	   'hierarchical'        => false,
 	   'public'              => true,
-	   'description' 		  => '',
-	   'supports' 			  => array('title', 'editor', 'thumbnail', 'trackbacks'),
-	   'taxonomies' 		  => array('category'),
+	   'description' 		 => '',
 	   'show_ui'             => true,
 	   'show_in_menu'        => 'edit.php?post_type=cpt_books',
 	   'show_in_nav_menus'   => true,
 	   'show_in_admin_bar'   => true,
 	   'menu_position'       => 5,
-	   'menu_icon' 		  => 'dashicons-book',
+	   'menu_icon' 		 	 => 'dashicons-book',
 	   'can_export'          => false,
 	   'has_archive'         => true,
 	   'exclude_from_search' => false,
 	   'publicly_queryable'  => true,
 	   'capability_type'     => 'post',
-	   'show_in_rest' => true,
+	   'show_in_rest' 		 => true,
    );
    
-   // Registering your Custom Post Type
-   register_post_type( 'cpt_books', $args );
-   }
-
-
+	// Registering your Custom Post Type
+	register_post_type( 'cpt_books', $args );
+	
+	
+}
 
 
    //register Auftrags CPT
 
-   //this function creates our bookpimport post type cpt_books //mlem
-public function cpt_auftrag(){
+   //this function creates our cpt_bookspimport post type cpt_books //mlem
+	public function cpt_auftrag(){
 	/*
 	* Creating a function to create our CPT
 		*/
@@ -211,9 +213,9 @@ public function cpt_auftrag(){
 		'description'         => __( 'Buchimporte'),
 		'labels'              => $labels,
 		// Features this CPT supports in Post Editor
-		'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields', ),
+		'supports'            => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'revisions', 'custom-fields', ),
 		// You can associate this CPT with a taxonomy or custom taxonomy. 
-		'taxonomies'          => array( 'genre' ),
+		'taxonomies'          => array( 'ISBN' ),
 		/* A hierarchical CPT is like Pages and can have
 		* Parent and child items. A non-hierarchical CPT
 		* is like Posts.
@@ -221,8 +223,7 @@ public function cpt_auftrag(){
 		'hierarchical'        => false,
 		'public'              => true,
 		'description' 		  => '',
-		'supports' 			  => array('title', 'editor', 'thumbnail', 'trackbacks'),
-		'taxonomies' 		  => array('category'),
+		'taxonomies' 		  => array(),
 		'show_ui'             => true,
 		'show_in_menu'        => 'edit.php?post_type=cpt_auftrag',
 		'show_in_nav_menus'   => true,
@@ -239,13 +240,13 @@ public function cpt_auftrag(){
 	
 	// Registering your Custom Post Type
 	register_post_type( 'cpt_auftrag', $args );
+	
 	}
 	
-
    //register Einrichtung CPT 
 
-   //this function creates our bookpimport post type cpt_books //mlem
-public function cpt_einrichtung(){
+   //this function creates our cpt_bookspimport post type cpt_books //mlem
+	public function cpt_einrichtung(){
 	/*
 	* Creating a function to create our CPT
 		*/
@@ -273,18 +274,15 @@ public function cpt_einrichtung(){
 		'description'         => __( 'Buchimporte'),
 		'labels'              => $labels,
 		// Features this CPT supports in Post Editor
-		'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields', ),
+		'supports'            => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'revisions', 'custom-fields'),
 		// You can associate this CPT with a taxonomy or custom taxonomy. 
-		'taxonomies'          => array( 'genre' ),
 		/* A hierarchical CPT is like Pages and can have
 		* Parent and child items. A non-hierarchical CPT
 		* is like Posts.
 		*/ 
 		'hierarchical'        => false,
 		'public'              => true,
-		'description' 		  => '',
-		'supports' 			  => array('title', 'editor', 'thumbnail', 'trackbacks'),
-		'taxonomies' 		  => array('category'),
+		'taxonomies' 		  => array(),
 		'show_ui'             => true,
 		'show_in_menu'        => 'edit.php?post_type=cpt_einrichtung',
 		'show_in_nav_menus'   => true,
@@ -296,12 +294,153 @@ public function cpt_einrichtung(){
 		'exclude_from_search' => false,
 		'publicly_queryable'  => true,
 		'capability_type'     => 'post',
-		'show_in_rest' => true,
+		'show_in_rest'	 	  => true,
 	);
 	
 	// Registering your Custom Post Type
 	register_post_type( 'cpt_einrichtung', $args );
 	}
+
+
+
+
 	
 
+	//set COLUMNS for cpt_auftrag
+
+	function cpt_set_auftrag_columns($columns){
+		$newColumns = array();
+		$newColumns['title'] = 'Full Name';
+		$newColumns['message'] = 'Nachricht';
+		$newColumns['email'] = 'E-Mail';
+		$newColumns['einrichtung'] = 'Einrichtung';
+		$newColumns['date'] = 'Datum';
+		return $newColumns;
+
+	}
+
+	function cpt_custom_auftrag_columns($column, $post_id){
+		
+		switch ($column){
+
+			case 'message' : 
+				echo get_the_excerpt();
+			break;
+			
+			case 'email' ;
+				 $email = get_post_meta( $post_id,'_cpt_auftrag_emaildata_key', true);
+				 echo $email;
+			break;
+
+			case 'einrichtung' ;
+				$einrichtung = get_post_meta($post_id,'_cpt_auftrag_einrichtungdata_key', true);
+				echo $einrichtung;
+			break;
+		}
+	}
+
+	//META BOXES for cpt's
+	//META BOX cpt_auftrag - Abspeichern von Email-Adressen während der Auftragserstellung
+
+	
+	function cpt_auftrag_email(){
+		add_meta_box( 'auftrag_email', 'User E-Mail', array($this, 'auftrag_email_callback'), 'cpt_auftrag', 'side');
+	}
+
+	function auftrag_email_callback($post){
+		wp_nonce_field( 'cpt_save_auftrag_email_data', 'cpt_auftrag_emaildata_meta_box_nonce');
+	
+		$value = get_post_meta($post->ID, '_cpt_auftrag_emaildata_key', true);	
+
+		echo '<label for="cpt_auftrag_emaildata_field"> User E-Mail Address: </label>';
+		echo '<input type="email" id="cpt_auftrag_emaildata_field" name="cpt_auftrag_emaildata_field" value="' . esc_attr($value) . '" size= "25" />';
+	}
+
+	function cpt_save_auftrag_email_data ($post_id){
+
+		if( ! isset($_POST['cpt_auftrag_emaildata_meta_box_nonce'])){
+			
+			return;
+		
+			}
+
+			if( ! wp_verify_nonce($_POST['cpt_auftrag_emaildata_meta_box_nonce'], 'cpt_save_auftrag_email_data')){
+				
+				return;
+			}
+			
+			if( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+				return;
+			}
+
+			if(! current_user_can ('edit_post', $post_id)){
+				
+				return;
+			}
+
+			if(! isset( $_POST['cpt_auftrag_emaildata_field'])){
+				
+				return;
+			}
+			
+			$my_data = sanitize_text_field( $_POST['cpt_auftrag_emaildata_field'] );
+
+			update_post_meta( $post_id, '_cpt_auftrag_emaildata_key', $my_data );
+
+	}
+
+
+	//META BOX cpt_auftrag - Abspeichern von Email-Adressen während der Auftragserstellung
+
+	function cpt_auftrag_einrichtung(){
+		add_meta_box( 'auftrag_einrichtung', 'Einrichtung', array($this, 'auftrag_einrichtung_callback'), 'cpt_auftrag', 'side');
+	}
+
+	function auftrag_einrichtung_callback($post){
+		wp_nonce_field( 'cpt_save_auftrag_einrichtung_data', 'cpt_auftrag_einrichtungdata_meta_box_nonce');
+	
+		$value = get_post_meta($post->ID, '_cpt_auftrag_einrichtungdata_key', true);	
+
+		echo '<label for="cpt_auftrag_einrichtungdata_field"> Einrichtung: </label>';
+		echo '<input type="text" id="cpt_auftrag_einrichtungdata_field" name="cpt_auftrag_einrichtungdata_field" value="' . esc_attr($value) . '" size= "25" />';
+	}
+
+	function cpt_save_auftrag_einrichtung_data ($post_id){
+
+		if( ! isset($_POST['cpt_auftrag_einrichtungdata_meta_box_nonce'])){
+			
+			return;
+		
+			}
+
+			if( ! wp_verify_nonce($_POST['cpt_auftrag_einrichtungdata_meta_box_nonce'], 'cpt_save_auftrag_einrichtung_data')){
+				
+				return;
+			}
+			
+			if( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+				return;
+			}
+
+			if(! current_user_can ('edit_post', $post_id)){
+				
+				return;
+			}
+
+			if(! isset( $_POST['cpt_auftrag_einrichtungdata_field'])){
+				
+				return;
+			}
+			
+			$my_data = sanitize_text_field( $_POST['cpt_auftrag_einrichtungdata_field'] );
+
+			update_post_meta( $post_id, '_cpt_auftrag_einrichtungdata_key', $my_data );
+
+	}
+
+
 }
+
+		 
+
+
