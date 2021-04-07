@@ -164,17 +164,20 @@ class Plugin_Name {
 		$this->loader->add_action('init', $plugin_admin, 'cpt_auftrag');
 		//register cpt zur Einrichtungsverwaltung
 		$this->loader->add_action('init', $plugin_admin, 'cpt_einrichtung');
-		//taxonomies for cpt's
-		$this->loader->add_action('init', $plugin_admin, 'cptlib_tax_books');
-		$this->loader->add_action('init', $plugin_admin, 'cptlib_tax_einrichtung');
-		//meta-boxes for cpt's
-		// $this->loader->add_action('add_meta_boxes', $plugin_admin, 'cptlib_meta_knnz');
-		// $this->loader->add_action('save_post', $plugin_admin, 'cptlib_knnz_save');
 
-		// //cpt_meta date for auftrag<
-		// $this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_booking_date_metaboxes');
-		// $this->loader->add_action('save_post', $plugin_admin, 'cpt_booking_date_save');
-		// $this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_datepicker_meta_auftrag');
+		//create custom columns for cpt's
+		$this->loader->add_filter('manage_cpt_auftrag_posts_columns', $plugin_admin, 'cpt_set_auftrag_columns');
+
+		// first number position of execution, second number transmit of cases
+		$this->loader->add_action('manage_cpt_auftrag_posts_custom_column', $plugin_admin, 'cpt_custom_auftrag_columns', 10, 3  );
+		
+		//meta-boxes for cpt's
+		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_email');
+		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_einrichtung');
+
+		//meta-box save
+		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_email_data');
+		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_einrichtung_data');
 
 	}
 

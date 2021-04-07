@@ -179,172 +179,8 @@ public function cpt_books(){
 	register_post_type( 'cpt_books', $args );
 	
 	
-	}
-	
-// 	//Adding metaboxes for Kennziffer
+}
 
-// 	public function cptlib_meta_knnz () {
-// 		$screen = "post"; // to display it in page type, change "post" to "page"
-// 		add_meta_box( 	
-// 						'knnz_callback',
-// 						'Kennziffer',
-// 						array($this, 'cptlib_knnz_callback'),
-// 						'cpt_books',
-// 					 );	
-					 
-// 	}
-
-// 		function cptlib_knnz_callback(){
-
-// 			global $post;
-
-// 		// Nonce field to validate form request came from current site
-// 		wp_nonce_field( basename( __FILE__ ), 'knnz_fields' );
-
-		
-
-// 		// Echo out the field
-// 		echo '<label for="cpt_kennz">Kennziffer</label>';
-// 		echo '<input id="kennz" type="text" name="cpt_kennz"  class="widefat" />';
-// 		echo '<br/><br/>';
-
-// 		}
-
-	
-
-// 			 /**
-// 				* Meta key actual database insertion
-// 				*/
-// 			 function cptlib_knnz_save($post_id){
-
-// 				 /**
-//          * Check if nonce is not set
-//          */
-// //        if (!isset($_POST['events_datefromto_nonce']))
-// //            return $post_id;
-// //
-// //        $nonce = $_POST['events_datefromto_nonce'];
-// //        /**
-// //         * Verify that the request came from our screen with the proper authorization
-// //         */
-// //        if(!wp_verify_nonce($nonce,'events_date_fromto'))
-// //            return $post_id;
-// //
-// //        //Check the user's permission
-// //
-// //        if(!current_user_can('edit_post',$post_id) )
-// //            return $post_id;
-	 
-// 					 //Prepare and sanitize the data before saving it
-// 					 $cpt_kennz_nr =  array(
-// 															 sanitize_text_field( $_POST['cpt_kennz']),
-// 													 );
-	 
-// 					 update_post_meta($post_id, 'cpt_kennz', $cpt_kennz_nr);
-	 
-	 
-// 			 }
-	 
-
-
-	//register taxonomies for cpt_bookss, Magazines
-
-	public function cptlib_tax_books() {
-
-		// Add new taxonomy, 
-		$labels = array(
-			'name'                       => _x( 'Kennziffer', 'taxonomy general name'),
-			'singular_name'              => _x( 'Kennziffer', 'taxonomy singular name'),
-			'search_items'               => __( 'Search Kennziffer'),
-			'popular_items'              => __( 'Popular Kennziffer'),
-			'all_items'                  => __( 'All Kennziffer'),
-			'parent_item'                => null,
-			'parent_item_colon'          => null,
-			'edit_item'                  => __( 'Edit Kennziffer'),
-			'update_item'                => __( 'Update Kennziffer'),
-			'add_new_item'               => __( 'Add New Kennziffer'),
-			'new_item_name'              => __( 'New Kennziffer Name'),
-			'separate_items_with_commas' => __( 'Separate Kennziffer with commas'),
-			'add_or_remove_items'        => __( 'Add or remove Kennziffer'),
-			'choose_from_most_used'      => __( 'Choose from the most used Kennziffer'),
-			'not_found'                  => __( 'No Kennziffer found.'),
-			'menu_name'                  => __( 'Kennziffer'),
-		);
-	 
-		$args = array(
-			'hierarchical'          => false,
-			'labels'                => $labels,
-			'show_ui'               => true,
-			'show_admin_column'     => true,
-			'update_count_callback' => '_update_post_term_count',
-			'query_var'             => true,
-			'rewrite'               => array( 'slug' => 'Kennziffer' ),
-			'numberposts' 			=> -1,
-			'orderby'				=> 'menu_order',
-			'order' 				=> 'ASC',
-		
-			
-		);	
-		
-	 
-		register_taxonomy( 'Kennziffer', 'cpt_books', $args );
-		
-	 
-		unset( $args );
-		unset( $labels );
-	 
-		// Add new taxonomy, NOT hierarchical (like tags)
-		$labels = array(
-			'name'              => _x( 'Autor', 'taxonomy general name'),
-			'singular_name'     => _x( 'Autor', 'taxonomy singular name'),
-			'search_items'      => __( 'Search Autor'),
-			'all_items'         => __( 'All Autor'),
-			'parent_item'       => __( 'Parent Autor'),
-			'parent_item_colon' => __( 'Parent Autor:'),
-			'edit_item'         => __( 'Edit Autor'),
-			'update_item'       => __( 'Update Autor'),
-			'add_new_item'      => __( 'Add New Autor'),
-			'new_item_name'     => __( 'New Autor Name'),
-			'menu_name'         => __( 'Autor'),
-		);
-	 
-		$args = array(
-			'hierarchical'      => true,
-			'labels'            => $labels,
-			'show_ui'           => true,
-			'show_admin_column' => true,
-			'query_var'         => true,
-			'rewrite'           => array( 'slug' => 'Autor' ),
-		);
-	 
-		register_taxonomy( 'Autor', 'cpt_books', $args );
-
-		// Add new taxonomy, make it hierarchical (like categories)
-		$labels = array(
-			'name'              => _x( 'ISBN', 'taxonomy general name'),
-			'singular_name'     => _x( 'ISBN', 'taxonomy singular name'),
-			'search_items'      => __( 'Search ISBN'),
-			'all_items'         => __( 'All ISBN'),
-			'parent_item'       => __( 'Parent ISBN'),
-			'parent_item_colon' => __( 'Parent ISBN:'),
-			'edit_item'         => __( 'Edit ISBN'),
-			'update_item'       => __( 'Update ISBN'),
-			'add_new_item'      => __( 'Add New ISBN'),
-			'new_item_name'     => __( 'New ISBN Name'),
-			'menu_name'         => __( 'ISBN'),
-		);
-	 
-		$args = array(
-			'hierarchical'      => true,
-			'labels'            => $labels,
-			'show_ui'           => true,
-			'show_admin_column' => true,
-			'query_var'         => true,
-			'rewrite'           => array( 'slug' => 'ISBN' ),
-		);
-	 
-		register_taxonomy( 'ISBN', array( 'cpt_books' ), $args );
-	}
 
    //register Auftrags CPT
 
@@ -405,246 +241,8 @@ public function cpt_books(){
 	// Registering your Custom Post Type
 	register_post_type( 'cpt_auftrag', $args );
 	
-
-	// Metabox for booking date  - Insert von Zeitraeumen für den Verleihvorgangn
-
-	function cpt_booking_date_metaboxes(){
-	
-	
-				 /**
-					* Render and Add form meta box
-					*/
-				 add_meta_box('cpt_booking_date', 'Events Date', array($this, 'cpt_booking_date'), 'cpt_auftrag', 'side', 'high');
- 
-				 /**
-					* Save Date from and to as meta key
-					*/
-				 add_action('save_post',array($this, 'booking_date_save'),1,2);
-		 }
- 
-		 /**
-			* Render Form for Events date
-			*/
-		 function cpt_booking_date() {
- 
-				 global $post;
- 
-				 // Add an nonce field so we can check for it later.
-				 wp_nonce_field( 'events_date_fromto', 'events_datefromto_nonce' );
- 
-				 // Echo out the field
-				 echo '<label for="_cpt_booking_datefrom">Date From</label>';
-				 echo '<input id="cpt-booking-datefrom" type="text" name="_cpt_booking_datefrom"  class="widefat" />';
-				 echo '<br/><br/>';
-				 echo '<label for="_cpt_booking_date_to">Date To</label>';
-				 echo '<input id="cpt-booking-dateto" type="text" name="_cpt_booking_date_to" class="widefat" />';
- 
-		 }
- 
-		 /**
-			* Meta key actual database insertion
-			*/
-		 function cpt_booking_date_save($post_id){
- 
-				 /**
-					* Check if nonce is not set
-					*/
- //        if (!isset($_POST['events_datefromto_nonce']))
- //            return $post_id;
- //
- //        $nonce = $_POST['events_datefromto_nonce'];
- //        /**
- //         * Verify that the request came from our screen with the proper authorization
- //         */
- //        if(!wp_verify_nonce($nonce,'events_date_fromto'))
- //            return $post_id;
- //
- //        //Check the user's permission
- //
- //        if(!current_user_can('edit_post',$post_id) )
- //            return $post_id;
- 
-				 //Prepare and sanitize the data before saving it
-				 $booking_date =  array(
-														 sanitize_text_field( $_POST['_cpt_booking_datefrom']),
-														 sanitize_text_field($_POST['_cpt_booking_date_to'])
-												 );
- 
-				 update_post_meta($post_id, '_cpt_booking_date', $booking_date);
-		 }
-
-	unset( $args );
-	unset( $labels );
-
-	// Add new taxonomy, EMAIL for cpt_auftrag
-	$labels = array(
-		'name'              => _x( 'Email', 'taxonomy general name'),
-		'singular_name'     => _x( 'Email', 'taxonomy singular name'),
-		'search_items'      => __( 'Search Email'),
-		'all_items'         => __( 'All Email'),
-		'parent_item'       => __( 'Parent Email'),
-		'parent_item_colon' => __( 'Parent Email:'),
-		'edit_item'         => __( 'Edit Email'),
-		'update_item'       => __( 'Update Email'),
-		'add_new_item'      => __( 'Add New Email'),
-		'new_item_name'     => __( 'New Email Name'),
-		'menu_name'         => __( 'Email'),
-	);
- 
-	$args = array(
-		'hierarchical'      => false,
-		'labels'            => $labels,
-		'show_ui'           => true,
-		'show_admin_column' => true,
-		'query_var'         => true,
-	);
-
-	register_taxonomy( 'Email', 'cpt_auftrag', $args );
-	
-	
-	unset( $args );
-	unset( $labels );
-
-	// Add new taxonomy, EMAIL for cpt_auftrag
-	$labels = array(
-		'name'              => _x( 'Einrichtung', 'taxonomy general name'),
-		'singular_name'     => _x( 'Einrichtung', 'taxonomy singular name'),
-		'search_items'      => __( 'Search Einrichtung'),
-		'all_items'         => __( 'All Einrichtung'),
-		'parent_item'       => __( 'Parent Einrichtung'),
-		'parent_item_colon' => __( 'Parent Einrichtung:'),
-		'edit_item'         => __( 'Edit Einrichtung'),
-		'update_item'       => __( 'Update Einrichtung'),
-		'add_new_item'      => __( 'Add New Einrichtung'),
-		'new_item_name'     => __( 'New Email Einrichtung'),
-		'menu_name'         => __( 'Einrichtung'),
-	);
- 
-	$args = array(
-		'hierarchical'      => false,
-		'labels'            => $labels,
-		'show_ui'           => true,
-		'show_admin_column' => true,
-		'query_var'         => true,
-	);
-
-	register_taxonomy( 'einrichtung', 'cpt_auftrag', $args );
-	
-	
-	unset( $args );
-	unset( $labels );
-
-	// Add new taxonomy, make it hierarchical (like categories)
-	// Add new taxonomy, 
-	$labels = array(
-		'name'                       => _x( 'Kennziffer', 'taxonomy general name'),
-		'singular_name'              => _x( 'Kennziffer', 'taxonomy singular name'),
-		'search_items'               => __( 'Search Kennziffer'),
-		'popular_items'              => __( 'Popular Kennziffer'),
-		'all_items'                  => __( 'All Kennziffer'),
-		'parent_item'                => null,
-		'parent_item_colon'          => null,
-		'edit_item'                  => __( 'Edit Kennziffer'),
-		'update_item'                => __( 'Update Kennziffer'),
-		'add_new_item'               => __( 'Add New Kennziffer'),
-		'new_item_name'              => __( 'New Kennziffer Name'),
-		'separate_items_with_commas' => __( 'Separate Kennziffer with commas'),
-		'add_or_remove_items'        => __( 'Add or remove Kennziffer'),
-		'choose_from_most_used'      => __( 'Choose from the most used Kennziffer'),
-		'not_found'                  => __( 'No Kennziffer found.'),
-		'menu_name'                  => __( 'Kennziffer'),
-	);
- 
-	$args = array(
-		'hierarchical'          => false,
-		'labels'                => $labels,
-		'show_ui'               => true,
-		'show_admin_column'     => true,
-		'update_count_callback' => '_update_post_term_count',
-		'query_var'             => true,
-		'rewrite'               => array( 'slug' => 'Kennziffer' ),
-		'numberposts' 			=> -1,
-		'orderby'				=> 'menu_order',
-		'order' 				=> 'ASC',
-	
-		
-	);	
-	
- 
-	register_taxonomy( 'Kennziffer', 'cpt_auftrag', $args );
-
 	}
-		
-
-	// Metabox for booking date  - Insert von Zeitraeumen für den Verleihvorgangn
-
-	function cpt_booking_date_metaboxes(){
 	
-	
-				 /**
-					* Render and Add form meta box
-					*/
-				 add_meta_box('cpt_booking_date', 'Events Date', array($this, 'cpt_booking_date'), 'cpt_auftrag', 'side', 'high');
- 
-				 /**
-					* Save Date from and to as meta key
-					*/
-				 add_action('save_post',array($this, 'booking_date_save'),1,2);
-		 }
- 
-		 /**
-			* Render Form for Events date
-			*/
-		 function cpt_booking_date() {
- 
-				 global $post;
- 
-				 // Add an nonce field so we can check for it later.
-				 wp_nonce_field( 'events_date_fromto', 'events_datefromto_nonce' );
- 
-				 // Echo out the field
-				 echo '<label for="_cpt_booking_datefrom">Date From</label>';
-				 echo '<input id="cpt-booking-datefrom" type="text" name="_cpt_booking_datefrom"  class="widefat" />';
-				 echo '<br/><br/>';
-				 echo '<label for="_cpt_booking_date_to">Date To</label>';
-				 echo '<input id="cpt-booking-dateto" type="text" name="_cpt_booking_date_to" class="widefat" />';
- 
-		 }
- 
-		 /**
-			* Meta key actual database insertion
-			*/
-		 function cpt_booking_date_save($post_id){
- 
-				 /**
-					* Check if nonce is not set
-					*/
- //        if (!isset($_POST['events_datefromto_nonce']))
- //            return $post_id;
- //
- //        $nonce = $_POST['events_datefromto_nonce'];
- //        /**
- //         * Verify that the request came from our screen with the proper authorization
- //         */
- //        if(!wp_verify_nonce($nonce,'events_date_fromto'))
- //            return $post_id;
- //
- //        //Check the user's permission
- //
- //        if(!current_user_can('edit_post',$post_id) )
- //            return $post_id;
- 
-				 //Prepare and sanitize the data before saving it
-				 $booking_date =  array(
-														 sanitize_text_field( $_POST['_cpt_booking_datefrom']),
-														 sanitize_text_field($_POST['_cpt_booking_date_to'])
-												 );
- 
-				 update_post_meta($post_id, '_cpt_booking_date', $booking_date);
-		 }
- 
-	
-
    //register Einrichtung CPT 
 
    //this function creates our cpt_bookspimport post type cpt_books //mlem
@@ -703,95 +301,146 @@ public function cpt_books(){
 	register_post_type( 'cpt_einrichtung', $args );
 	}
 
-	 //register taxonomies for cpt_einrichtung, Magazines
- 
-	 public function cptlib_tax_einrichtung() {
-		 // Add new taxonomy, make it hierarchical (like categories)
-		 $labels = array(
-			 'name'              => _x( 'Adresse', 'taxonomy general name'),
-			 'singular_name'     => _x( 'Adresse', 'taxonomy singular name'),
-			 'search_items'      => __( 'Search Adresse'),
-			 'all_items'         => __( 'All Adresse'),
-			 'parent_item'       => __( 'Parent Adresse'),
-			 'parent_item_colon' => __( 'Parent Adresse:'),
-			 'edit_item'         => __( 'Edit Adresse'),
-			 'update_item'       => __( 'Update Adresse'),
-			 'add_new_item'      => __( 'Add New Adresse'),
-			 'new_item_name'     => __( 'New Adresse Name'),
-			 'menu_name'         => __( 'Adresse'),
-		 );
-	  
-		 $args = array(
-			 'hierarchical'      => true,
-			 'labels'            => $labels,
-			 'show_ui'           => true,
-			 'show_admin_column' => true,
-			 'query_var'         => true,
-			 'rewrite'           => array( 'slug' => 'Adresse' ),
-		 );
-	  
-		 register_taxonomy( 'Adresse', array( 'cpt_einrichtung' ), $args );
-	  
-		 unset( $args );
-		 unset( $labels );
 
-		 // Add new taxonomy, make it hierarchical (like categories)
-		 $labels = array(
-			 'name'              => _x( 'PLZ', 'taxonomy general name'),
-			 'singular_name'     => _x( 'PLZ', 'taxonomy singular name'),
-			 'search_items'      => __( 'Search PLZ'),
-			 'all_items'         => __( 'All PLZ'),
-			 'parent_item'       => __( 'Parent PLZ'),
-			 'parent_item_colon' => __( 'Parent PLZ:'),
-			 'edit_item'         => __( 'Edit PLZ'),
-			 'update_item'       => __( 'Update PLZ'),
-			 'add_new_item'      => __( 'Add New PLZ'),
-			 'new_item_name'     => __( 'New PLZ Name'),
-			 'menu_name'         => __( 'PLZ'),
-		 );
-	  
-		 $args = array(
-			 'hierarchical'      => true,
-			 'labels'            => $labels,
-			 'show_ui'           => true,
-			 'show_admin_column' => true,
-			 'query_var'         => true,
-			 'rewrite'           => array( 'slug' => 'PLZ' ),
-		 );
-	  
-		 register_taxonomy( 'PLZ', array( 'cpt_einrichtung' ), $args );
-	  
-		 unset( $args );
-		 unset( $labels );
 
-		 // Add new taxonomy, make it hierarchical (like categories)
-		 $labels = array(
-			 'name'              => _x( 'GL', 'taxonomy general name'),
-			 'singular_name'     => _x( 'GL', 'taxonomy singular name'),
-			 'search_items'      => __( 'Search GL'),
-			 'all_items'         => __( 'All GL'),
-			 'parent_item'       => __( 'Parent GL'),
-			 'parent_item_colon' => __( 'Parent GL:'),
-			 'edit_item'         => __( 'Edit GL'),
-			 'update_item'       => __( 'Update GL'),
-			 'add_new_item'      => __( 'Add New GL'),
-			 'new_item_name'     => __( 'New GL Name'),
-			 'menu_name'         => __( 'GL'),
-		 );
-	  
-		 $args = array(
-			 'hierarchical'      => true,
-			 'labels'            => $labels,
-			 'show_ui'           => true,
-			 'show_admin_column' => true,
-			 'query_var'         => true,
-			 'rewrite'           => array( 'slug' => 'GL' ),
-		 );
-	  
-		 register_taxonomy( 'GL', array( 'cpt_einrichtung' ), $args );
-	  
-	 }
+
+	
+
+	//set COLUMNS for cpt_auftrag
+
+	function cpt_set_auftrag_columns($columns){
+		$newColumns = array();
+		$newColumns['title'] = 'Full Name';
+		$newColumns['message'] = 'Nachricht';
+		$newColumns['email'] = 'E-Mail';
+		$newColumns['einrichtung'] = 'Einrichtung';
+		$newColumns['date'] = 'Datum';
+		return $newColumns;
+
+	}
+
+	function cpt_custom_auftrag_columns($column, $post_id){
+		
+		switch ($column){
+
+			case 'message' : 
+				echo get_the_excerpt();
+			break;
+			
+			case 'email' ;
+				 $email = get_post_meta( $post_id,'_cpt_auftrag_emaildata_key', true);
+				 echo $email;
+			break;
+
+			case 'einrichtung' ;
+				$einrichtung = get_post_meta($post_id,'_cpt_auftrag_einrichtungdata_key', true);
+				echo $einrichtung;
+			break;
+		}
+	}
+
+	//META BOXES for cpt's
+	//META BOX cpt_auftrag - Abspeichern von Email-Adressen während der Auftragserstellung
+
+	
+	function cpt_auftrag_email(){
+		add_meta_box( 'auftrag_email', 'User E-Mail', array($this, 'auftrag_email_callback'), 'cpt_auftrag', 'side');
+	}
+
+	function auftrag_email_callback($post){
+		wp_nonce_field( 'cpt_save_auftrag_email_data', 'cpt_auftrag_emaildata_meta_box_nonce');
+	
+		$value = get_post_meta($post->ID, '_cpt_auftrag_emaildata_key', true);	
+
+		echo '<label for="cpt_auftrag_emaildata_field"> User E-Mail Address: </label>';
+		echo '<input type="email" id="cpt_auftrag_emaildata_field" name="cpt_auftrag_emaildata_field" value="' . esc_attr($value) . '" size= "25" />';
+	}
+
+	function cpt_save_auftrag_email_data ($post_id){
+
+		if( ! isset($_POST['cpt_auftrag_emaildata_meta_box_nonce'])){
+			
+			return;
+		
+			}
+
+			if( ! wp_verify_nonce($_POST['cpt_auftrag_emaildata_meta_box_nonce'], 'cpt_save_auftrag_email_data')){
+				
+				return;
+			}
+			
+			if( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+				return;
+			}
+
+			if(! current_user_can ('edit_post', $post_id)){
+				
+				return;
+			}
+
+			if(! isset( $_POST['cpt_auftrag_emaildata_field'])){
+				
+				return;
+			}
+			
+			$my_data = sanitize_text_field( $_POST['cpt_auftrag_emaildata_field'] );
+
+			update_post_meta( $post_id, '_cpt_auftrag_emaildata_key', $my_data );
+
+	}
+
+
+	//META BOX cpt_auftrag - Abspeichern von Email-Adressen während der Auftragserstellung
+
+	function cpt_auftrag_einrichtung(){
+		add_meta_box( 'auftrag_einrichtung', 'Einrichtung', array($this, 'auftrag_einrichtung_callback'), 'cpt_auftrag', 'side');
+	}
+
+	function auftrag_einrichtung_callback($post){
+		wp_nonce_field( 'cpt_save_auftrag_einrichtung_data', 'cpt_auftrag_einrichtungdata_meta_box_nonce');
+	
+		$value = get_post_meta($post->ID, '_cpt_auftrag_einrichtungdata_key', true);	
+
+		echo '<label for="cpt_auftrag_einrichtungdata_field"> Einrichtung: </label>';
+		echo '<input type="text" id="cpt_auftrag_einrichtungdata_field" name="cpt_auftrag_einrichtungdata_field" value="' . esc_attr($value) . '" size= "25" />';
+	}
+
+	function cpt_save_auftrag_einrichtung_data ($post_id){
+
+		if( ! isset($_POST['cpt_auftrag_einrichtungdata_meta_box_nonce'])){
+			
+			return;
+		
+			}
+
+			if( ! wp_verify_nonce($_POST['cpt_auftrag_einrichtungdata_meta_box_nonce'], 'cpt_save_auftrag_einrichtung_data')){
+				
+				return;
+			}
+			
+			if( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+				return;
+			}
+
+			if(! current_user_can ('edit_post', $post_id)){
+				
+				return;
+			}
+
+			if(! isset( $_POST['cpt_auftrag_einrichtungdata_field'])){
+				
+				return;
+			}
+			
+			$my_data = sanitize_text_field( $_POST['cpt_auftrag_einrichtungdata_field'] );
+
+			update_post_meta( $post_id, '_cpt_auftrag_einrichtungdata_key', $my_data );
+
+	}
+
 
 }
+
+		 
 
 
