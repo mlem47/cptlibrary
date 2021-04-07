@@ -112,74 +112,73 @@ class Plugin_Name_Admin {
 		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/cptlibrary-admin.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( 'jquery-ui-js', plugin_dir_url( __FILE__ ) . 'js/jquery-ui.min.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( 'jquery-js', plugin_dir_url( __FILE__ ) . 'js/jquery.js', array( 'jquery' ), $this->version, false );
-
+		wp_enqueue_script( 'jquery-ui-js', plugin_dir_url( __FILE__ ) . 'js/jquery-ui.min.js', array( 'jquery' ), $this->version, false );
 	}
 
 
   
 
 
-//this function creates our cpt_bookspimport post type cpt_books //mlem
-public function cpt_books(){
-   /*
-   * Creating a function to create our CPT
-	   */
-	   $labels = array(
-		   'name'                => _x( 'Buecher', 'Post Type General Name'),
-		   'singular_name'       => _x( 'Buch', 'Post Type Singular Name'),
-		   'menu_name'           => __( 'Buchimport'),
-		   'parent_item_colon'   => __( 'Parent Video'),
-		   'all_items'           => __( 'Alle Bücher'),
-		   'view_item'           => __( 'Alle Bücher'),
-		   'add_new_item'        => __( 'Neuer Artikel'),
-		   'add_new'             => __( 'Neu Hinzufügen'),
-		   'edit_item'           => __( 'Edit'),
-		   'update_item'         => __( 'Update'),
-		   'search_items'        => __( 'Suche'),
-		   'not_found'           => __( 'Not Found'),
-		   'not_found_in_trash'  => __( 'Not found in Trash'),
-	   );
+	//this function creates our cpt_bookspimport post type cpt_books //mlem
+	public function cpt_books(){
+	/*
+	* Creating a function to create our CPT
+		*/
+		$labels = array(
+			'name'                => _x( 'Buecher', 'Post Type General Name'),
+			'singular_name'       => _x( 'Buch', 'Post Type Singular Name'),
+			'menu_name'           => __( 'Buchimport'),
+			'parent_item_colon'   => __( 'Parent Video'),
+			'all_items'           => __( 'Alle Bücher'),
+			'view_item'           => __( 'Alle Bücher'),
+			'add_new_item'        => __( 'Neuer Artikel'),
+			'add_new'             => __( 'Neu Hinzufügen'),
+			'edit_item'           => __( 'Edit'),
+			'update_item'         => __( 'Update'),
+			'search_items'        => __( 'Suche'),
+			'not_found'           => __( 'Not Found'),
+			'not_found_in_trash'  => __( 'Not found in Trash'),
+		);
 
-   // Set other options for Custom Post Type
-   //https://developer.wordpress.org/reference/functions/register_post_type/
-	   
-   $args = array(
-	   'label'               => __( 'cpt_books'),
-	   'description'         => __( 'Buchimporte'),
-	   'labels'              => $labels,
-	   'rewrite' 			 => array( 'slug' => 'cpt_books'),
-	   // Features this CPT supports in Post Editor
-	   'supports'            => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'revisions', 'custom-fields',),
-	   // You can associate this CPT with a taxonomy or custom taxonomy. 
-	   'taxonomies'          => array( 'ISBN' , 'Kennziffer', 'ISBN', 'category'),
-	   /* A hierarchical CPT is like Pages and can have
-	   * Parent and child items. A non-hierarchical CPT
-	   * is like Posts.
-	   */ 
-	   'hierarchical'        => false,
-	   'public'              => true,
-	   'description' 		 => '',
-	   'show_ui'             => true,
-	   'show_in_menu'        => 'edit.php?post_type=cpt_books',
-	   'show_in_nav_menus'   => true,
-	   'show_in_admin_bar'   => true,
-	   'menu_position'       => 5,
-	   'menu_icon' 		 	 => 'dashicons-book',
-	   'can_export'          => false,
-	   'has_archive'         => true,
-	   'exclude_from_search' => false,
-	   'publicly_queryable'  => true,
-	   'capability_type'     => 'post',
-	   'show_in_rest' 		 => true,
-   );
-   
-	// Registering your Custom Post Type
-	register_post_type( 'cpt_books', $args );
+	// Set other options for Custom Post Type
+	//https://developer.wordpress.org/reference/functions/register_post_type/
+		
+	$args = array(
+		'label'               => __( 'cpt_books'),
+		'description'         => __( 'Buchimporte'),
+		'labels'              => $labels,
+		'rewrite' 			 => array( 'slug' => 'cpt_books'),
+		// Features this CPT supports in Post Editor
+		'supports'            => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'revisions', 'custom-fields',),
+		// You can associate this CPT with a taxonomy or custom taxonomy. 
+		'taxonomies'          => array( 'ISBN' , 'Kennziffer', 'ISBN', 'category'),
+		/* A hierarchical CPT is like Pages and can have
+		* Parent and child items. A non-hierarchical CPT
+		* is like Posts.
+		*/ 
+		'hierarchical'        => false,
+		'public'              => true,
+		'description' 		 => '',
+		'show_ui'             => true,
+		'show_in_menu'        => 'edit.php?post_type=cpt_books',
+		'show_in_nav_menus'   => true,
+		'show_in_admin_bar'   => true,
+		'menu_position'       => 5,
+		'menu_icon' 		 	 => 'dashicons-book',
+		'can_export'          => false,
+		'has_archive'         => true,
+		'exclude_from_search' => false,
+		'publicly_queryable'  => true,
+		'capability_type'     => 'post',
+		'show_in_rest' 		 => true,
+	);
 	
-	
-}
+		// Registering your Custom Post Type
+		register_post_type( 'cpt_books', $args );
+		
+		
+	}
 
 
    //register Auftrags CPT
@@ -310,11 +309,14 @@ public function cpt_books(){
 
 	function cpt_set_auftrag_columns($columns){
 		$newColumns = array();
-		$newColumns['title'] = 'Full Name';
-		$newColumns['message'] = 'Nachricht';
+		$newColumns['title'] = 'Buch';
+		$newColumns['fullname'] = 'Name';
 		$newColumns['email'] = 'E-Mail';
 		$newColumns['einrichtung'] = 'Einrichtung';
-		$newColumns['date'] = 'Datum';
+		$newColumns['message'] = 'Nachricht';
+		$newColumns['zeitraum'] = 'Zeitraum';
+		$newColumns['status'] = 'Ausgeliehen';
+		$newColumns['date'] = 'Aufgegeben';
 		return $newColumns;
 
 	}
@@ -323,8 +325,10 @@ public function cpt_books(){
 		
 		switch ($column){
 
-			case 'message' : 
-				echo get_the_excerpt();
+			
+			case 'fullname' ;
+				$fullname = get_post_meta($post_id,'_cpt_auftrag_fullnamedata_key', true);
+				echo $fullname;
 			break;
 			
 			case 'email' ;
@@ -336,10 +340,75 @@ public function cpt_books(){
 				$einrichtung = get_post_meta($post_id,'_cpt_auftrag_einrichtungdata_key', true);
 				echo $einrichtung;
 			break;
+
+			case 'zeitraum' ;
+				$zeitraum = get_post_meta($post_id,'_cpt_auftrag_zeitraumdata_key', true);
+				echo $zeitraum;
+			break;
+
+			case 'zeitraum' ;
+				$status = get_post_meta($post_id,'_cpt_auftrag_statusdata_key', true);
+				echo '<input type="checkbox" value=" ' .  $status . ' "/>';
+			break;
+
+			case 'message' : 
+				echo get_the_excerpt();
+			break;
+
 		}
 	}
 
 	//META BOXES for cpt's
+
+	// META BOX for cpt_auftrag  Nachname, Vorname
+
+	function cpt_auftrag_fullname(){
+		add_meta_box( 'auftrag_fullname', 'User Fullname', array($this, 'auftrag_fullname_callback'), 'cpt_auftrag', 'side');
+	}
+
+	function auftrag_fullname_callback($post){
+		wp_nonce_field( 'cpt_save_auftrag_fullname_data', 'cpt_auftrag_fullnamedata_meta_box_nonce');
+	
+		$value = get_post_meta($post->ID, '_cpt_auftrag_fullnamedata_key', true);	
+
+		echo '<label for="cpt_auftrag_fullnamedata_field"> User Fullname: </label>';
+		echo '<input type="text" id="cpt_auftrag_fullnamedata_field" name="cpt_auftrag_fullnamedata_field" value="' . esc_attr($value) . '" size= "25" />';
+	}
+
+	function cpt_save_auftrag_fullname_data ($post_id){
+
+		if( ! isset($_POST['cpt_auftrag_fullnamedata_meta_box_nonce'])){
+			
+			return;
+		
+			}
+
+			if( ! wp_verify_nonce($_POST['cpt_auftrag_fullnamedata_meta_box_nonce'], 'cpt_save_auftrag_fullname_data')){
+				
+				return;
+			}
+			
+			if( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+				return;
+			}
+
+			if(! current_user_can ('edit_post', $post_id)){
+				
+				return;
+			}
+
+			if(! isset( $_POST['cpt_auftrag_fullnamedata_field'])){
+				
+				return;
+			}
+			
+			$my_data = sanitize_text_field( $_POST['cpt_auftrag_fullnamedata_field'] );
+
+			update_post_meta( $post_id, '_cpt_auftrag_fullnamedata_key', $my_data );
+
+	}
+
+
 	//META BOX cpt_auftrag - Abspeichern von Email-Adressen während der Auftragserstellung
 
 	
@@ -388,7 +457,7 @@ public function cpt_books(){
 			update_post_meta( $post_id, '_cpt_auftrag_emaildata_key', $my_data );
 
 	}
-
+	
 
 	//META BOX cpt_auftrag - Abspeichern von Email-Adressen während der Auftragserstellung
 
@@ -435,6 +504,111 @@ public function cpt_books(){
 			$my_data = sanitize_text_field( $_POST['cpt_auftrag_einrichtungdata_field'] );
 
 			update_post_meta( $post_id, '_cpt_auftrag_einrichtungdata_key', $my_data );
+
+	}
+
+
+	//META BOX cpt_auftrag - Transmit Zeitraum
+
+
+	function cpt_auftrag_zeitraum(){
+		add_meta_box( 'auftrag_zeitraum', 'Zeitraum', array($this, 'auftrag_zeitraum_callback'), 'cpt_auftrag', 'side');
+	}
+
+	function auftrag_zeitraum_callback($post){
+		wp_nonce_field( 'cpt_save_auftrag_zeitraum_data', 'cpt_auftrag_zeitraumdata_meta_box_nonce');
+	
+		$value = get_post_meta($post->ID, '_cpt_auftrag_zeitraumdata_key', true);	
+
+		echo '<label for="cpt_auftrag_zeitraumdata_field"> Zeitraum: </label>';
+		echo	'<script>';
+		echo		'$( function() {';
+		echo			'$( "#cpt_auftrag_zeitraumdatepicker_field" ).datepicker();';
+		echo		'} );';
+		echo	'</script>';
+		echo '<input type="text" id="cpt_auftrag_zeitraumdatepicker_field" name="cpt_auftrag_zeitraumdatepicker_field" value="' . esc_attr($value) . '" size= "25" />';
+	}
+
+	function cpt_save_auftrag_zeitraum_data ($post_id){
+
+		if( ! isset($_POST['cpt_auftrag_zeitraumdata_meta_box_nonce'])){
+			
+			return;
+		
+			}
+
+			if( ! wp_verify_nonce($_POST['cpt_auftrag_zeitraumdata_meta_box_nonce'], 'cpt_save_auftrag_zeitraum_data')){
+				
+				return;
+			}
+			
+			if( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+				return;
+			}
+
+			if(! current_user_can ('edit_post', $post_id)){
+				
+				return;
+			}
+
+			if(! isset( $_POST['cpt_auftrag_zeitraumdatepicker_field'])){
+				
+				return;
+			}
+			
+			$my_data = sanitize_text_field( $_POST['cpt_auftrag_zeitraumdatepicker_field'] );
+
+			update_post_meta( $post_id, '_cpt_auftrag_zeitraumdata_key', $my_data );
+
+	}
+
+
+	//META BOX cpt_auftrag - Transmit Zeitraum
+
+
+	function cpt_auftrag_status(){
+		add_meta_box( 'auftrag_status', 'Status', array($this, 'auftrag_status_callback'), 'cpt_auftrag', 'side');
+	}
+
+	function auftrag_status_callback($post){
+		wp_nonce_field( 'cpt_save_auftrag_status_data', 'cpt_auftrag_statusdata_meta_box_nonce');
+	
+		$value = get_post_meta($post->ID, '_cpt_auftrag_statusdata_key', true);	
+
+		echo '<label for="cpt_auftrag_statusdata_field"> Ausgeliehen: </label>';
+		echo '<input type="checkbox" id="cpt_auftrag_status_field" name="cpt_auftrag_status_field" value="' . esc_attr($value) . '" size= "25" />';
+	}
+
+	function cpt_save_auftrag_status_data ($post_id){
+
+		if( ! isset($_POST['cpt_auftrag_status_meta_box_nonce'])){
+			
+			return;
+		
+			}
+
+			if( ! wp_verify_nonce($_POST['cpt_auftrag_status_meta_box_nonce'], 'cpt_save_auftrag_status_data')){
+				
+				return;
+			}
+			
+			if( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+				return;
+			}
+
+			if(! current_user_can ('edit_post', $post_id)){
+				
+				return;
+			}
+
+			if(! isset( $_POST['cpt_auftrag_status_field'])){
+				
+				return;
+			}
+			
+			$my_data = sanitize_text_field( $_POST['cpt_auftrag_status_field'] );
+
+			update_post_meta( $post_id, '_cpt_auftrag_statusdata_key', $my_data );
 
 	}
 

@@ -42,10 +42,20 @@
         <input type="text" id="post_title" name="post_title" value="<?php the_title() ?>"/>
 	</p>
 
+	<p>
+        <label>Vorname</label><br />
+        <input type="text" id="post_vorname" name="post_vorname" />
+	</p>
+	<p>
+        <label>Nachname</label><br />
+        <input type="text" id="post_nachname" name="post_nachname" />
+	</p>
+
     <p>
         <label>E-Mail</label><br />
         <input type="email" id="post_title" name="post_email" />
 	</p>
+   
 	
     <p>
         <label>Weitere Informationen</label><br />
@@ -93,8 +103,11 @@
 			'post_content' 		=> $_POST['post_desc'],
 			 // some simple key / value array
 			 'meta_input' => array(
+
+				'_cpt_auftrag_fullnamedata_key' => $_POST['post_vorname'] . ' ' . $_POST['post_nachname'],
 				'_cpt_auftrag_emaildata_key' => $_POST['post_email'],
 				'_cpt_auftrag_einrichtungdata_key' => $_POST['einrichtungSelect']
+				
 				),
 			'post_type' 		=> 'cpt_auftrag',
 			'post_status' 		=> 'publish',
