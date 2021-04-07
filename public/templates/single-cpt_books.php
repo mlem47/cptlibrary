@@ -79,7 +79,6 @@
     <p>
         <input type="submit" name="post_submit" value="Submit" />
     </p>
-    <?php wp_nonce_field( 'new_song_nonce' ); ?>
 </form>
 
 <?php 
@@ -88,50 +87,22 @@
 
 
 	if($_POST['post_submit'] == 'Submit') {
-		$taxonomy = '';
-		$Email = '';
-		$Einrichtung = '';
 
-		$new_auftrag = array(
+		$new_auftrag = wp_insert_post( array (
 			'post_title' 		=> $_POST['post_title'],
 			'post_content' 		=> $_POST['post_desc'],
-			'tax_input' 		=> $custom_tax,
+			 // some simple key / value array
+			 'meta_input' => array(
+				'_cpt_auftrag_emaildata_key' => $_POST['post_email'],
+				'_cpt_auftrag_einrichtungdata_key' => $_POST['einrichtungSelect']
+				),
 			'post_type' 		=> 'cpt_auftrag',
 			'post_status' 		=> 'publish',
 			'comment_status' 	=> 'closed',
 			'ping_status' 		=> 'closed',
-		);
+		));
+
 		
-		// $taxonomy = array(
-
-		// 	'Email' 			=> $_POST['Email'],
-		// 	'einrichtung' 		=> $_POST['Einrichtung'],
-				
-		// );
-
-		///////////
-
-	$Email = $_POST['Email'];
-	$Einrichtung = $_POST['Einrichtung'];
-
-
-	// Create Email if it doesn't exist
-	if ( !$email_term ) {
-		$email_term = wp_insert_term( $Email, 'tax_einrichtung', array( 'parent' => 0 ) );
-	}
-
-
-	// Create Einrichtung if it doesn't exist
-	if ( !$einrichtung_term ) {
-		$einrichtung_term = wp_insert_term( $Einrichtung, 'tax_einrichtung', array( 'parent' => $email_term['term_taxonomy_id'] ) );
-	}
-
-	$custom_tax = array(
-		'tax_einrichtung' => array(
-			$email_term['term_taxonomy_id'],
-			$einrichtung_term['term_taxonomy_id']
-		)
-	);
 	};	
 
 
