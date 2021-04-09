@@ -167,18 +167,28 @@ class Plugin_Name {
 
 		//create custom columns for cpt's
 		$this->loader->add_filter('manage_cpt_auftrag_posts_columns', $plugin_admin, 'cpt_set_auftrag_columns');
+		$this->loader->add_filter('manage_cpt_books_posts_columns', $plugin_admin, 'cpt_set_books_columns');
 
 		// first number position of execution, second number transmit of cases
-		$this->loader->add_action('manage_cpt_auftrag_posts_custom_column', $plugin_admin, 'cpt_custom_auftrag_columns', 10, 5  );
+		$this->loader->add_action('manage_cpt_auftrag_posts_custom_column', $plugin_admin, 'cpt_custom_auftrag_columns', 10, 6  );
+		$this->loader->add_action('manage_cpt_books_posts_custom_column', $plugin_admin, 'cpt_custom_books_columns', 10, 3  );
 		
-		//meta-boxes for cpt's
+		//meta-boxes for cpt_books
+		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_books_status');
+		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_books_kennziffer');
+
+		//meta-box save for cpt_books
+		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_books_status_data');
+		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_books_kennziffer_data');
+
+		//meta-boxes for cpt_auftrag
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_email');
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_einrichtung');
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_fullname');
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_zeitraum');
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_status');
 
-		//meta-box save
+		//meta-box save cpt_auftrag
 		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_email_data');
 		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_einrichtung_data');
 		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_fullname_data');

@@ -75,6 +75,7 @@ class Plugin_Name_Admin {
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/cptlibrary-admin.css', array(), $this->version, 'all' );
 		wp_enqueue_style( 'jquery-ui-css', plugin_dir_url( __FILE__ ) . 'css/jquery-ui.min.css', array(), $this->version, 'all' );
+		wp_enqueue_style( 'bootstrap-css', plugin_dir_url( __FILE__ ) . 'css/bootstrap.min.css', array(), $this->version, 'all' );
 
 	}
 
@@ -114,6 +115,7 @@ class Plugin_Name_Admin {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/cptlibrary-admin.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( 'jquery-js', plugin_dir_url( __FILE__ ) . 'js/jquery.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( 'jquery-ui-js', plugin_dir_url( __FILE__ ) . 'js/jquery-ui.min.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( 'bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap.min.js', array( 'jquery' ), $this->version, false );
 	}
 
 
@@ -150,13 +152,9 @@ class Plugin_Name_Admin {
 		'labels'              => $labels,
 		'rewrite' 			 => array( 'slug' => 'cpt_books'),
 		// Features this CPT supports in Post Editor
-		'supports'            => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'revisions', 'custom-fields',),
+		'supports'            => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'revisions', 'custom-fields', 'category'),
 		// You can associate this CPT with a taxonomy or custom taxonomy. 
 		'taxonomies'          => array( 'ISBN' , 'Kennziffer', 'ISBN', 'category'),
-		/* A hierarchical CPT is like Pages and can have
-		* Parent and child items. A non-hierarchical CPT
-		* is like Posts.
-		*/ 
 		'hierarchical'        => false,
 		'public'              => true,
 		'description' 		 => '',
@@ -295,9 +293,141 @@ class Plugin_Name_Admin {
 	}
 
 
+	//set COLUMNS for cpt_books
 
-
+	function cpt_set_books_columns($newColumns){
+		$newColumns = array();
+		$newColumns['cb'] = 'Select';
+		$newColumns['title'] = 'Buch';
+		$newColumns['buchautor'] = 'Autor';
+		$newColumns['kennziffer'] = 'Kennziffer';
+		$newColumns['categories'] = 'Kategorie';
+		$newColumns['status'] = 'Ausgeliehen';
+		$newColumns['date'] = 'Datum';		
+		return $newColumns;
 	
+	}
+
+
+	function cpt_custom_books_columns($column, $post_id){
+		
+		switch ($column){
+
+			case 'kennziffer' ;
+				$kennziffer = get_post_meta($post_id,'_cpt_books_kennzifferdata_key', true);
+				echo $kennziffer;
+			break;
+
+			case 'buchautor' ;
+				//$buchautor =;
+				//echo $buchautor;
+			break;
+
+			case 'status' ;
+				$status = get_post_meta($post_id,'_cpt_books_statusdata_key', true);
+				?>		<input type="checkbox" <?php checked(esc_attr($status), true, true); ?> >    	<?php
+			break;
+
+		}
+	}
+	
+
+	// META BOX for cpt_books Kennziffer
+
+	function cpt_books_kennziffer(){
+		add_meta_box( 'books_kennziffer', 'Kennziffer', array($this, 'books_kennziffer_callback'), 'cpt_books', 'side');
+	}
+
+	function books_kennziffer_callback($post){
+		wp_nonce_field( 'cpt_save_books_kennziffer_data', 'cpt_books_kennzifferdata_meta_box_nonce');
+	
+		$value = get_post_meta($post->ID, '_cpt_books_kennzifferdata_key', true);	
+
+		echo '<label for="cpt_books_kennzifferdata_field"> Kennziffer: </label>';
+		echo '<input type="text" id="cpt_books_kennzifferdata_field" name="cpt_books_kennzifferdata_field" value="' . esc_attr($value) . '" size= "25" />';
+	}
+
+	function cpt_save_books_kennziffer_data ($post_id){
+
+		if( ! isset($_POST['cpt_books_kennzifferdata_meta_box_nonce'])){
+			
+			return;
+		
+			}
+
+			if( ! wp_verify_nonce($_POST['cpt_books_kennzifferdata_meta_box_nonce'], 'cpt_save_books_kennziffer_data')){
+				
+				return;
+			}
+			
+			if( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+				return;
+			}
+
+			if(! current_user_can ('edit_post', $post_id)){
+				
+				return;
+			}
+
+			if(! isset( $_POST['cpt_books_kennzifferdata_field'])){
+				
+				return;
+			}
+			
+			$my_data = sanitize_text_field( $_POST['cpt_books_kennzifferdata_field'] );
+
+			update_post_meta( $post_id, '_cpt_books_kennzifferdata_key', $my_data );
+
+	}
+
+	//META BOX cpt_books - Transmit Status
+
+
+	function cpt_books_status(){
+		add_meta_box( 'books_status', 'Status', array($this, 'books_status_callback'), 'cpt_books', 'side');
+	}
+
+	function books_status_callback($post){
+		wp_nonce_field( 'cpt_save_books_status_data', 'cpt_books_statusdata_meta_box_nonce');
+	
+		$value = get_post_meta($post->ID, '_cpt_books_statusdata_key', true);	
+		?>
+		<label for="cpt_books_statusdata_field">Ausgeliehen</label>
+		<input type="checkbox" id="cpt_books_statusdata_field" name="cpt_books_statusdata_field" <?php if( $value == true ) { ?>checked="checked"<?php } ?> />
+		<?php
+	}
+
+	function cpt_save_books_status_data ($post_id){
+
+		if( ! isset($_POST['cpt_books_statusdata_meta_box_nonce'])){
+			return;
+			echo "POST ERROR";
+			}
+
+			if( ! wp_verify_nonce($_POST['cpt_books_statusdata_meta_box_nonce'], 'cpt_save_books_status_data')){
+				echo "POST1ERROR";
+				return;
+			}
+			
+			if( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+				echo "POST2 ERROR";
+				return;
+			}
+
+			if(! current_user_can ('edit_post', $post_id)){
+				echo "POST3 ERROR";
+				return;
+			}
+
+			$my_data = isset( $_POST['cpt_books_statusdata_field']);
+
+
+			update_post_meta( $post_id, '_cpt_books_statusdata_key', $my_data );
+
+	}
+
+
+
 
 	//set COLUMNS for cpt_auftrag
 

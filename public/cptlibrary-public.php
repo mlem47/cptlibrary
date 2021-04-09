@@ -75,6 +75,7 @@ class Plugin_Name_Public {
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/cptlibrary-public.css', array(), $this->version, 'all' );
 		wp_enqueue_style( 'jquery-ui-css', plugin_dir_url( __FILE__ ) . 'css/jquery-ui.min.css', array(), $this->version, 'all' );
+		wp_enqueue_style( 'bootstrap-css', plugin_dir_url( __FILE__ ) . 'css/bootstrap.min.css', array(), $this->version, 'all' );
 
 	}
 
@@ -100,6 +101,7 @@ class Plugin_Name_Public {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/cptlibrary-public.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( 'jquery-js', plugin_dir_url( __FILE__ ) . 'js/jquery.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( 'jquery-ui-js', plugin_dir_url( __FILE__ ) . 'js/jquery-ui.min.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( 'bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap.min.js', array( 'jquery' ), $this->version, false );
 
 	}
 
@@ -111,19 +113,43 @@ class Plugin_Name_Public {
 			$items = get_posts( array(
 				'post_type'      => 'cpt_books',
 				'post_status'    => 'publish',
+				'meta_key'   => '_cpt_books_statusdata_key',
+    			'meta_value' => false,
 				'order' 	 => 'ASC',
 				'posts_per_page' => -1
 				) );
+
+			$itemsbooked = get_posts( array(
+				'post_type'      => 'cpt_books',
+				'post_status'    => 'publish',
+				'meta_key'   => '_cpt_books_statusdata_key',
+    			'meta_value' => true,
+				'order' 	 => 'ASC',
+				'posts_per_page' => -1
+				) );
+
+			$print .='<div class="gridcontainer">';
+			
 			if ( $items) {
-				$print .='<div class="gridcontainer">';
 				   foreach ( $items as $item ) {
 					$item_name =  $item->post_title;
 					$print .='<figure><a href="'.get_permalink($item->ID).'">';
 					$print .= '<img class="katalog-teaser"'.get_the_post_thumbnail($item->ID,'thumbnail');
 					$print .= '<figcaption class="teaser-caption-text">'.$item_name.'</figcaption></figure>';
 				}
-				$print .= '</div>';
-			}
+			} 
+
+			if ( $itemsbooked) {
+				   foreach ( $itemsbooked as $item ) {
+					$item_name =  $item->post_title;
+					$print .='<figure><a href="'.get_permalink($item->ID).'">';
+					$print .= '<img class="katalog-teaser-booked"'.get_the_post_thumbnail($item->ID,'thumbnail');
+					$print .= '<figcaption class="teaser-caption-text">'.$item_name.'</figcaption></figure>';
+				}
+			} 
+			$print .= '</div>';
+
+
 			return $print;
 			}
 	

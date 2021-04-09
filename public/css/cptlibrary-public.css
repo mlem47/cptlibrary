@@ -4,9 +4,10 @@
  */
 
 
- .container-singlecptbooks{
-    display: flex;
+ .boxpadding{
     justify-content: center;
+    padding-top: 10em;
+    padding-bottom: 10em;
  }
 
  .gridcontainer {
@@ -18,11 +19,17 @@
     border-radius: 20px;
     border: 1px rgba(152, 179, 189, 0.598);
  }
- 
+
  .katalog-teaser{
     border-radius: 15%;
     border: 1px rgba(152, 179, 189, 0.598);
     box-shadow: 10px 10px 10px 5px rgba(152, 179, 189, 0.598);
+ }
+
+ .katalog-teaser-booked{
+    border-radius: 15%;
+    border: 1px red;
+    box-shadow: 10px 10px 10px 5px rgba(255, 0, 0, 0.598);
  }
  
  .teaser-caption-text{
