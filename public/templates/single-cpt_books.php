@@ -29,10 +29,6 @@
                </div>
             </div><!-- column -->		
    
-	<?php endwhile; endif; ?>
-
-
-		
 <?php endwhile; endif; ?>
 
 		<div class="col">
@@ -93,32 +89,6 @@
 						<input class="form-control" type="text" id="post_datepicker" name="post_datepicker" size= "25" />
 					</p>
 
-					<?
-						
-						if ( metadata_exists( 'post', $post_id, _cpt_books_statusdata_key ) ) {
-							$meta_value = get_post_meta( $post_id, '_cpt_books_statusdata_key', true );
-
-							if($meta_value == true){
-
-							
-
-							echo		'<p>';
-							echo		'<input class="form-control" type="submit" name="post_submit" value="Submit" disabled/>';
-							echo		'</p>';
-
-							
-
-							
-							} else {
-
-								echo		'<p>';
-								echo		'<input class="form-control" type="submit" name="post_submit" value="Submit"/>';
-								echo		'</p>';
-							}
-
-						}
-					
-					?>
 					<p>
 						<input class="form-control" type="submit" name="post_submit" value="Submit" />
 					</p>
@@ -140,8 +110,6 @@
 				'_cpt_auftrag_fullnamedata_key'		=> $_POST['post_vorname'] . ' ' . $_POST['post_nachname'],
 				'_cpt_auftrag_emaildata_key'		=> $_POST['post_email'],
 				'_cpt_auftrag_einrichtungdata_key' 	=> $_POST['einrichtungSelect'],
-				'_cpt_auftrag_zeitraumdata_key'		=> $_POST['post_datepicker'],
-				'_cpt_auftrag_statusdata_key'		=> true
 				'_cpt_auftrag_zeitraumdata_key'		=> $_POST['post_datepicker']
 				),
 			'post_type' 		=> 'cpt_auftrag',
