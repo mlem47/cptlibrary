@@ -293,6 +293,8 @@ class Plugin_Name_Admin {
 	}
 
 
+	
+
 	//set COLUMNS for cpt_books
 
 	function cpt_set_books_columns($newColumns){
@@ -731,6 +733,18 @@ class Plugin_Name_Admin {
 
 			update_post_meta( $post_id, '_cpt_auftrag_statusdata_key', $my_data );
 
+	}
+
+
+	//colorize admin panel
+	
+	function cpt_auftrag_classes($classes) {
+		global $post;
+			$customMetaVariable = get_post_meta( $post->ID, '_cpt_auftrag_statusdata_key', true );
+		if($customMetaVariable == '1'){
+			$classes[] = 'cssClassName';
+			return $classes;
+		}
 	}
 
 

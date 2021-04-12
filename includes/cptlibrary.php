@@ -165,6 +165,9 @@ class Plugin_Name {
 		//register cpt zur Einrichtungsverwaltung
 		$this->loader->add_action('init', $plugin_admin, 'cpt_einrichtung');
 
+		//colo bg for meta booked in cpt_auftrag
+		$this->loader->add_filter('post_class', $plugin_admin, 'cpt_auftrag_classes');
+
 		//create custom columns for cpt's
 		$this->loader->add_filter('manage_cpt_auftrag_posts_columns', $plugin_admin, 'cpt_set_auftrag_columns');
 		$this->loader->add_filter('manage_cpt_books_posts_columns', $plugin_admin, 'cpt_set_books_columns');

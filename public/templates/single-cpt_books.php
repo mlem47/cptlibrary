@@ -35,6 +35,7 @@
 		
 
 		<div class="col">
+
 			<form id="post_entry" name="post_entry" method="post" action="">
 				<div class ="form-group">
 					<p>
@@ -52,7 +53,7 @@
 
 					<p>
 						<label>E-Mail</label><br />
-						<input class="form-control" type="email" id="post_title" name="post_email" />
+						<input class="form-control" type="email" id="post_email" name="post_email" />
 					</p>
 				
 					
@@ -92,32 +93,11 @@
 						<input class="form-control" type="text" id="post_datepicker" name="post_datepicker" size= "25" />
 					</p>
 
-					<?
-						
-						if ( metadata_exists( 'post', $post_id, _cpt_books_statusdata_key ) ) {
-							$meta_value = get_post_meta( $post_id, '_cpt_books_statusdata_key', true );
-
-							if($meta_value == true){
-
-							
-
-							echo		'<p>';
-							echo		'<input class="form-control" type="submit" name="post_submit" value="Submit" disabled/>';
-							echo		'</p>';
-
-							
-
-							
-							} else {
-
-								echo		'<p>';
-								echo		'<input class="form-control" type="submit" name="post_submit" value="Submit"/>';
-								echo		'</p>';
-							}
-
-						}
+					<p>
+						<input class="form-control" id="submit_post" type="submit" name="post_submit" value="Submit"/>
+					</p>
 					
-					?>
+
 				</div>
 			</form>
 		</div> <!-- column end -->
@@ -125,38 +105,41 @@
 
 <?php 
 
-	if($_POST['post_submit'] == 'Submit') {
-
-		$new_auftrag = wp_insert_post( array (
-			'post_title' 		=> $_POST['post_title'],
-			'post_content' 		=> $_POST['post_desc'],
-			 // some simple key / value array
-			 'meta_input' => array(
-
-				'_cpt_auftrag_fullnamedata_key'		=> $_POST['post_vorname'] . ' ' . $_POST['post_nachname'],
-				'_cpt_auftrag_emaildata_key'		=> $_POST['post_email'],
-				'_cpt_auftrag_einrichtungdata_key' 	=> $_POST['einrichtungSelect'],
-				'_cpt_auftrag_zeitraumdata_key'		=> $_POST['post_datepicker'],
-				'_cpt_auftrag_statusdata_key'		=> true
-				),
-			'post_type' 		=> 'cpt_auftrag',
-			'post_status' 		=> 'publish',
-			'comment_status' 	=> 'closed',
-			'ping_status' 		=> 'closed'
-		));
 		
-		$id = get_the_ID($post);		
-		$update_books_status = update_post_meta( $id, '_cpt_books_statusdata_key', true );
 
+	//submit arguments into generating new cpt post cpt_auftrag
+	$id = get_the_ID($post);
+	$meta_value = get_post_meta($id,'_cpt_books_statusdata_key', true);
 		
-	};	
+		if ($_POST['post_submit'] == 'Submit' && $meta_value == (int)0) {
 
-	$submit_args = array(
-		'meta_key' => '_cpt_books_statusdata_key',
-		'meta_value' => true
-	);
-	 
-	$submit_query = new WP_Query( $submit_args );
+			$new_auftrag = wp_insert_post( array (
+				'post_title' 		=> $_POST['post_title'],
+				'post_content' 		=> $_POST['post_desc'],
+				 // some simple key / value array
+				 'meta_input' => array(
+	
+					'_cpt_auftrag_fullnamedata_key'		=> $_POST['post_vorname'] . ' ' . $_POST['post_nachname'],
+					'_cpt_auftrag_emaildata_key'		=> $_POST['post_email'],
+					'_cpt_auftrag_einrichtungdata_key' 	=> $_POST['einrichtungSelect'],
+					'_cpt_auftrag_zeitraumdata_key'		=> $_POST['post_datepicker'],
+					'_cpt_auftrag_statusdata_key'		=> true
+					),
+				'post_type' 		=> 'cpt_auftrag',
+				'post_status' 		=> 'publish',
+				'comment_status' 	=> 'closed',
+				'ping_status' 		=> 'closed'
+			));
+			
+			$id = get_the_ID($post);
+			$update_books_status = update_post_meta( $id, '_cpt_books_statusdata_key', true );
+
+		}
+
+		else {
+			return;
+
+		}
 
 	?>
 
