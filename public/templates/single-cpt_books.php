@@ -2,7 +2,7 @@
 
 
 
-<div class="container-singlecptbooks">
+<div class="container boxpadding">
        
        <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
    
@@ -28,110 +28,97 @@
                    </div>
                </div>
             </div><!-- column -->		
-</div> <!-- container -->
-           
-   
-   
    
 <?php endwhile; endif; ?>
 
+		<div class="col">
+			<form id="post_entry" name="post_entry" method="post" action="">
+				<div class ="form-group">
+					<p>
+						<input class="form-control" type="hidden" id="post_title" name="post_title" value="<?php the_title() ?>"/>
+					</p>
 
-<form id="post_entry" name="post_entry" method="post" action="">
-    <p>
-        <label>Auftragstitel</label><br />
-        <input type="text" id="post_title" name="post_title" value="<?php the_title() ?>"/>
-	</p>
+					<p>
+						<label>Vorname</label><br />
+						<input class="form-control" type="text" id="post_vorname" name="post_vorname" />
+					</p>
+					<p>
+						<label>Nachname</label><br />
+						<input class="form-control" type="text" id="post_nachname" name="post_nachname" />
+					</p>
 
-    <p>
-        <label>E-Mail</label><br />
-        <input type="email" id="post_title" name="post_email" />
-	</p>
-	
-    <p>
-        <label>Weitere Informationen</label><br />
-		<input type="textarea" id="post_desc" name="post_desc" />
-	</p>
-	
-    <p>
-	<div class="form-group">
-					<label for="einrichtungSelect">Einrichtung</label>
+					<p>
+						<label>E-Mail</label><br />
+						<input class="form-control" type="email" id="post_title" name="post_email" />
+					</p>
+				
+					
+					<p>
+						<label>Nachricht</label><br />
+						<input class="form-control" type="textarea" id="post_desc" name="post_desc" />
+					</p>
+					<p>
+					<label for="einrichtungSelect">Einrichtung</label><br>
 					<select class="form-control" id="einrichtungSelect" name="einrichtungSelect">
-					<option selected="selected">Einrichtung auswählen</option>
+						<option selected="selected"></option>
 
-					<?php 
-					$items = get_posts( array(
-						'post_type'      => 'cpt_einrichtung',
-						'post_status'    => 'publish',
-						'order' 	 	 => 'ASC',
-						'posts_per_page' => -1
-						) );
-					if ( $items) {
-							foreach ( $items as $item ) {
-								$item_name =  $item->post_title;
-								echo '<option >'.$item_name.'</option>';
-							}
-					}
+						<?php 
+						$items = get_posts( array(
+							'post_type'      => 'cpt_einrichtung',
+							'post_status'    => 'publish',
+							'order' 	 	 => 'ASC',
+							'posts_per_page' => -1
+							) );
+						if ( $items) {
+								foreach ( $items as $item ) {
+									$item_name =  $item->post_title;
+									echo '<option >'.$item_name.'</option>';
+								}
+						}
 
-					?>
+						?>
 					</select>
-		</div>
-    </p>
-    <p>
-        <input type="submit" name="post_submit" value="Submit" />
-    </p>
-    <?php wp_nonce_field( 'new_song_nonce' ); ?>
-</form>
+					</p>
+					<p>
+					<label for="post_datepicker"> Zeitraum: </label><br>
+							<script>
+								$( function() {
+									$( "#post_datepicker" ).datepicker();
+								} );
+							</script>
+						<input class="form-control" type="text" id="post_datepicker" name="post_datepicker" size= "25" />
+					</p>
+
+					<p>
+						<input class="form-control" type="submit" name="post_submit" value="Submit" />
+					</p>
+				</div>
+			</form>
+		</div> <!-- column end -->
+</div> <!-- container end -->
 
 <?php 
 
-
-
-
 	if($_POST['post_submit'] == 'Submit') {
-		$taxonomy = '';
-		$Email = '';
-		$Einrichtung = '';
 
-		$new_auftrag = array(
+		$new_auftrag = wp_insert_post( array (
 			'post_title' 		=> $_POST['post_title'],
 			'post_content' 		=> $_POST['post_desc'],
-			'tax_input' 		=> $custom_tax,
+			 // some simple key / value array
+			 'meta_input' => array(
+
+				'_cpt_auftrag_fullnamedata_key'		=> $_POST['post_vorname'] . ' ' . $_POST['post_nachname'],
+				'_cpt_auftrag_emaildata_key'		=> $_POST['post_email'],
+				'_cpt_auftrag_einrichtungdata_key' 	=> $_POST['einrichtungSelect'],
+				'_cpt_auftrag_zeitraumdata_key'		=> $_POST['post_datepicker']
+				),
 			'post_type' 		=> 'cpt_auftrag',
 			'post_status' 		=> 'publish',
 			'comment_status' 	=> 'closed',
 			'ping_status' 		=> 'closed',
-		);
+		));
+
 		
-		// $taxonomy = array(
-
-		// 	'Email' 			=> $_POST['Email'],
-		// 	'einrichtung' 		=> $_POST['Einrichtung'],
-				
-		// );
-
-		///////////
-
-	$Email = $_POST['Email'];
-	$Einrichtung = $_POST['Einrichtung'];
-
-
-	// Create Email if it doesn't exist
-	if ( !$email_term ) {
-		$email_term = wp_insert_term( $Email, 'tax_einrichtung', array( 'parent' => 0 ) );
-	}
-
-
-	// Create Einrichtung if it doesn't exist
-	if ( !$einrichtung_term ) {
-		$einrichtung_term = wp_insert_term( $Einrichtung, 'tax_einrichtung', array( 'parent' => $email_term['term_taxonomy_id'] ) );
-	}
-
-	$custom_tax = array(
-		'tax_einrichtung' => array(
-			$email_term['term_taxonomy_id'],
-			$einrichtung_term['term_taxonomy_id']
-		)
-	);
 	};	
 
 

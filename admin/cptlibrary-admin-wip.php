@@ -75,7 +75,6 @@ class Plugin_Name_Admin {
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/cptlibrary-admin.css', array(), $this->version, 'all' );
 		wp_enqueue_style( 'jquery-ui-css', plugin_dir_url( __FILE__ ) . 'css/jquery-ui.min.css', array(), $this->version, 'all' );
-		wp_enqueue_style( 'bootstrap-css', plugin_dir_url( __FILE__ ) . 'css/bootstrap.min.css', array(), $this->version, 'all' );
 
 	}
 
@@ -115,7 +114,6 @@ class Plugin_Name_Admin {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/cptlibrary-admin.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( 'jquery-js', plugin_dir_url( __FILE__ ) . 'js/jquery.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( 'jquery-ui-js', plugin_dir_url( __FILE__ ) . 'js/jquery-ui.min.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( 'bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap.min.js', array( 'jquery' ), $this->version, false );
 	}
 
 
@@ -297,6 +295,76 @@ class Plugin_Name_Admin {
 	}
 
 
+//set COLUMNS for cpt_auftrag
+
+	function cpt_set_books_columns($newColumns){
+		$newColumns = array();
+		$newColumns['cb'] = 'Select';
+		$newColumns['title'] = 'Buch';
+		$newColumns['status'] = 'Ausgeliehen';
+		return $newColumns;
+
+	}
+
+	function cpt_custom_books_columns($column, $post_id){
+		
+		switch ($column){
+
+			
+			case 'status' ;
+				$status = get_post_meta($post_id,'_cpt_auftrag_statusdata_key', true);
+				?>		<input type="checkbox" <?php checked(esc_attr($status), true, true); ?> >    	<?php
+			break;
+
+		}
+	}
+
+
+	//META BOX cpt_books - Transmit Status
+
+
+	function cpt_books_status(){
+		add_meta_box( 'books_status', 'Status', array($this, 'books_status_callback'), 'cpt_books', 'side');
+	}
+
+	function books_status_callback($post){
+		wp_nonce_field( 'cpt_save_books_status_data', 'cpt_books_statusdata_meta_box_nonce');
+	
+		$value = get_post_meta($post->ID, '_cpt_books_statusdata_key', true);	
+		?>
+		<label for="cpt_books_statusdata_field">Ausgeliehen</label>
+		<input type="checkbox" id="cpt_books_statusdata_field" name="cpt_books_statusdata_field" <?php if( $value == true ) { ?>checked="checked"<?php } ?> />
+		<?php
+	}
+
+	function cpt_save_auftrag_status_data ($post_id){
+
+		if( ! isset($_POST['cpt_books_statusdata_meta_box_nonce'])){
+			return;
+			echo "POST ERROR";
+			}
+
+			if( ! wp_verify_nonce($_POST['cpt_books_statusdata_meta_box_nonce'], 'cpt_save_books_status_data')){
+				echo "POST1ERROR";
+				return;
+			}
+			
+			if( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+				echo "POST2 ERROR";
+				return;
+			}
+
+			if(! current_user_can ('edit_post', $post_id)){
+				echo "POST3 ERROR";
+				return;
+			}
+
+			$my_data = isset( $_POST['cpt_books_statusdata_field']);
+
+
+			update_post_meta( $post_id, '_cpt_books_statusdata_key', $my_data );
+
+	}
 
 
 	
@@ -560,7 +628,7 @@ class Plugin_Name_Admin {
 	}
 
 
-	//META BOX cpt_auftrag - Transmit Zeitraum
+	//META BOX cpt_auftrag - Transmit Status
 
 
 	function cpt_auftrag_status(){
@@ -601,9 +669,12 @@ class Plugin_Name_Admin {
 
 			$my_data = isset( $_POST['cpt_auftrag_statusdata_field']);
 
+
 			update_post_meta( $post_id, '_cpt_auftrag_statusdata_key', $my_data );
 
 	}
+
+
 
 
 }
