@@ -33,6 +33,7 @@
 
 
 		
+<?php endwhile; endif; ?>
 
 		<div class="col">
 			<form id="post_entry" name="post_entry" method="post" action="">
@@ -118,6 +119,9 @@
 						}
 					
 					?>
+					<p>
+						<input class="form-control" type="submit" name="post_submit" value="Submit" />
+					</p>
 				</div>
 			</form>
 		</div> <!-- column end -->
@@ -138,6 +142,7 @@
 				'_cpt_auftrag_einrichtungdata_key' 	=> $_POST['einrichtungSelect'],
 				'_cpt_auftrag_zeitraumdata_key'		=> $_POST['post_datepicker'],
 				'_cpt_auftrag_statusdata_key'		=> true
+				'_cpt_auftrag_zeitraumdata_key'		=> $_POST['post_datepicker']
 				),
 			'post_type' 		=> 'cpt_auftrag',
 			'post_status' 		=> 'publish',
