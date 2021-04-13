@@ -166,14 +166,14 @@ class Plugin_Name {
 		$this->loader->add_action('init', $plugin_admin, 'cpt_einrichtung');
 
 		//colo bg for meta booked in cpt_auftrag
-		$this->loader->add_filter('post_class', $plugin_admin, 'cpt_auftrag_classes');
+		$this->loader->add_filter('post_class', $plugin_admin, 'cpt_auftrag_color_classes');
 
 		//create custom columns for cpt's
 		$this->loader->add_filter('manage_cpt_auftrag_posts_columns', $plugin_admin, 'cpt_set_auftrag_columns');
 		$this->loader->add_filter('manage_cpt_books_posts_columns', $plugin_admin, 'cpt_set_books_columns');
 
 		// first number position of execution, second number transmit of cases
-		$this->loader->add_action('manage_cpt_auftrag_posts_custom_column', $plugin_admin, 'cpt_custom_auftrag_columns', 10, 6  );
+		$this->loader->add_action('manage_cpt_auftrag_posts_custom_column', $plugin_admin, 'cpt_custom_auftrag_columns', 10, 7  );
 		$this->loader->add_action('manage_cpt_books_posts_custom_column', $plugin_admin, 'cpt_custom_books_columns', 10, 3  );
 		
 		//meta-boxes for cpt_books
@@ -189,6 +189,7 @@ class Plugin_Name {
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_einrichtung');
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_fullname');
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_zeitraum');
+		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_zeitraum_end');
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_status');
 
 		//meta-box save cpt_auftrag
@@ -196,6 +197,7 @@ class Plugin_Name {
 		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_einrichtung_data');
 		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_fullname_data');
 		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_zeitraum_data');
+		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_zeitraum_end_data');
 		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_status_data');
 
 	}

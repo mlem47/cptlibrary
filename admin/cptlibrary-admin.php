@@ -442,6 +442,7 @@ class Plugin_Name_Admin {
 		$newColumns['einrichtung'] = 'Einrichtung';
 		$newColumns['message'] = 'Nachricht';
 		$newColumns['zeitraum'] = 'Zeitraum';
+		$newColumns['zeitraum_end'] = 'Fällig';
 		$newColumns['status'] = 'Ausgeliehen';
 		$newColumns['date'] = 'Aufgegeben';
 		return $newColumns;
@@ -471,6 +472,11 @@ class Plugin_Name_Admin {
 			case 'zeitraum' ;
 				$zeitraum = get_post_meta($post_id,'_cpt_auftrag_zeitraumdata_key', true);
 				echo $zeitraum;
+			break;
+
+			case 'zeitraum_end' ;
+				$zeitraum = get_post_meta($post_id,'_cpt_auftrag_zeitraum_enddata_key', true);
+				echo $zeitraum_end;
 			break;
 
 			case 'status' ;
@@ -648,9 +654,16 @@ class Plugin_Name_Admin {
 		$value = get_post_meta($post->ID, '_cpt_auftrag_zeitraumdata_key', true);	
 
 		echo '<label for="cpt_auftrag_zeitraumdata_field"> Zeitraum: </label>';
+
+		
 		echo	'<script>';
 		echo		'$( function() {';
-		echo			'$( "#cpt_auftrag_zeitraumdatepicker_field" ).datepicker();';
+		echo			'$( "#cpt_auftrag_zeitraumdatepicker_field" ).datepicker({
+							dateFormat: "dd/mm/yy",
+							changeMonth: true,
+							changeYear: true,
+							minDate: "dateToday"
+						});';
 		echo		'} );';
 		echo	'</script>';
 		echo '<input type="text" id="cpt_auftrag_zeitraumdatepicker_field" name="cpt_auftrag_zeitraumdatepicker_field" value="' . esc_attr($value) . '" size= "25" />';
@@ -689,8 +702,80 @@ class Plugin_Name_Admin {
 
 	}
 
+	//META BOX cpt_auftrag - Transmit Zeitraum Ende
 
-	//META BOX cpt_auftrag - Transmit Zeitraum
+
+	function cpt_auftrag_zeitraum_end(){
+		add_meta_box( 'auftrag_zeitraum_end', 'Fällig', array($this, 'auftrag_zeitraum_end_callback'), 'cpt_auftrag', 'side');
+	}
+
+	function auftrag_zeitraum_end_callback($post){
+		wp_nonce_field( 'cpt_save_auftrag_zeitraum_end_data', 'cpt_auftrag_zeitraum_enddata_meta_box_nonce');
+	
+		$value = get_post_meta($post->ID, '_cpt_auftrag_zeitraum_enddata_key', true);	
+		$startdatevalue = get_post_meta($post->ID, '_cpt_auftrag_zeitraumdata_key', true);
+		
+
+		?>  
+			<script>
+				$(document).ready(function(){
+					var phpDate = new Date("<?php echo $startdatevalue?>");
+				$( "#cpt_auftrag_zeitraum_startdatepicker_field" ).datepicker({
+					dateFormat: "dd/mm/yy",
+					changeMonth: true,
+					changeYear: true,
+					onClose: function() {
+						var date2 = $('#cpt_auftrag_zeitraum_startdatepicker_field').datepicker('setDate', phpDate);
+						date2.setDate(date2.getDate()+28)
+						$( "#cpt_auftrag_zeitraum_enddatepicker_field" ).datepicker("setDate", date2);
+					}
+				});
+				$( "#cpt_auftrag_zeitraum_enddatepicker_field" ).datepicker();
+				});
+			</script>
+		<?
+		
+		echo	'<input type="text" id="cpt_auftrag_zeitraum_startdatepicker_field" name="cpt_auftrag_zeitraum_startdatepicker_field" value="' . esc_attr($value) . '" size= "25" /></br></br>';
+		echo 	'<label for="cpt_auftrag_zeitraum_enddata_field"> Fällig: </label>';
+		echo	'<input type="text" id="cpt_auftrag_zeitraum_enddatepicker_field" name="cpt_auftrag_zeitraum_enddatepicker_field" value="' . esc_attr($value) . '" size= "25" />';
+
+	}
+
+	function cpt_save_auftrag_zeitraum_end_data ($post_id){
+
+		if( ! isset($_POST['cpt_auftrag_zeitraum_enddata_meta_box_nonce'])){
+			
+			return;
+		
+			}
+
+			if( ! wp_verify_nonce($_POST['cpt_auftrag_zeitraum_enddata_meta_box_nonce'], 'cpt_save_auftrag_zeitraum_end_data')){
+				
+				return;
+			}
+			
+			if( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+				return;
+			}
+
+			if(! current_user_can ('edit_post', $post_id)){
+				
+				return;
+			}
+
+			if(! isset( $_POST['cpt_auftrag_zeitraum_enddatepicker_field'])){
+				
+				return;
+			}
+			
+			$my_data = sanitize_text_field( $_POST['cpt_auftrag_zeitraum_enddatepicker_field'] );
+
+			update_post_meta( $post_id, '_cpt_auftrag_zeitraum_enddata_key', $my_data );
+
+	}
+
+
+	//META BOX cpt_auftrag - Ausgeliehen status
 
 
 	function cpt_auftrag_status(){
@@ -738,9 +823,9 @@ class Plugin_Name_Admin {
 
 	//colorize admin panel
 	
-	function cpt_auftrag_classes($classes) {
+	function cpt_auftrag_color_classes($classes) {
 		global $post;
-			$customMetaVariable = get_post_meta( $post->ID, '_cpt_auftrag_statusdata_key', true );
+			$customMetaVariable = get_post_meta( $post->ID, '_cpt_books_statusdata_key', true );
 		if($customMetaVariable == '1'){
 			$classes[] = 'cssClassName';
 			return $classes;
