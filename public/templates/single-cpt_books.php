@@ -44,16 +44,16 @@
 
 					<p>
 						<label>Vorname</label><br />
-						<input class="form-control" type="text" id="post_vorname" name="post_vorname" />
+						<input class="form-control" type="text" id="post_vorname" name="post_vorname" required="required" />
 					</p>
 					<p>
 						<label>Nachname</label><br />
-						<input class="form-control" type="text" id="post_nachname" name="post_nachname" />
+						<input class="form-control" type="text" id="post_nachname" name="post_nachname" required="required" />
 					</p>
 
 					<p>
 						<label>E-Mail</label><br />
-						<input class="form-control" type="email" id="post_email" name="post_email" />
+						<input class="form-control" type="email" id="post_email" name="post_email" required="required" />
 					</p>
 				
 					
@@ -87,14 +87,21 @@
 					<label for="post_datepicker"> Zeitraum: </label><br>
 							<script>
 								$( function() {
-									$( "#post_datepicker" ).datepicker();
+									$( "#post_datepicker" ).datepicker({
+										dateFormat: "dd/mm/yy",
+										changeMonth: true,
+										changeYear: true,
+										minDate: "dateToday"
+									});
 								} );
 							</script>
-						<input class="form-control" type="text" id="post_datepicker" name="post_datepicker" size= "25" />
+						<input class="form-control" type="text" id="post_datepicker" name="post_datepicker" required="required" size= "25" />
 					</p>
 
 					<p>
-						<input class="form-control" id="submit_post" type="submit" name="post_submit" value="Submit"/>
+
+					<input class="form-control" id="submit_post" type="submit" name="post_submit" value="Submit"/>
+						
 					</p>
 					
 
@@ -123,8 +130,11 @@
 					'_cpt_auftrag_emaildata_key'		=> $_POST['post_email'],
 					'_cpt_auftrag_einrichtungdata_key' 	=> $_POST['einrichtungSelect'],
 					'_cpt_auftrag_zeitraumdata_key'		=> $_POST['post_datepicker'],
+					'_cpt_auftrag_booksiddata_key'		=> $id,
 					'_cpt_auftrag_statusdata_key'		=> true
+					
 					),
+
 				'post_type' 		=> 'cpt_auftrag',
 				'post_status' 		=> 'publish',
 				'comment_status' 	=> 'closed',

@@ -39,3 +39,7 @@
     padding-top: 20px;
     
  }
+
+ input[required] {
+   border-color: rgba(255, 0, 0, 0.598);
+ }

@@ -441,10 +441,11 @@ class Plugin_Name_Admin {
 		$newColumns['email'] = 'E-Mail';
 		$newColumns['einrichtung'] = 'Einrichtung';
 		$newColumns['message'] = 'Nachricht';
-		$newColumns['zeitraum'] = 'Zeitraum';
+		$newColumns['zeitraum'] = 'Angefordert';
+		$newColumns['status'] = 'Reserviert';
+		$newColumgs['status_send'] = 'Versendet';
 		$newColumns['zeitraum_end'] = 'Fällig';
-		$newColumns['status'] = 'Ausgeliehen';
-		$newColumns['date'] = 'Aufgegeben';
+		$newColumns['date'] = 'Erstellt am';
 		return $newColumns;
 
 	}
@@ -721,7 +722,7 @@ class Plugin_Name_Admin {
 				$(document).ready(function(){
 					var phpDate = new Date("<?php echo $startdatevalue?>");
 				$( "#cpt_auftrag_zeitraum_startdatepicker_field" ).datepicker({
-					dateFormat: "dd/mm/yy",
+					dateFormat: "dd/mm/YY",
 					changeMonth: true,
 					changeYear: true,
 					onClose: function() {
@@ -821,6 +822,52 @@ class Plugin_Name_Admin {
 	}
 
 
+	//META BOX cpt_auftrag - Storing BOOKs ID into cpt_auftrag as reference for updating booked_status
+
+
+	function cpt_auftrag_booksid(){
+		add_meta_box( 'auftrag_booksid', 'booksid', array($this, 'auftrag_booksid_callback'), 'cpt_auftrag', 'side');
+	}
+
+	function auftrag_booksid_callback($post){
+		wp_nonce_field( 'cpt_save_auftrag_booksid_data', 'cpt_auftrag_booksiddata_meta_box_nonce');
+	
+		$value = get_post_meta($post->ID, '_cpt_auftrag_booksiddata_key', true);	
+		
+		echo '<label for="cpt_auftrag_booksiddata_field">BuchID</label>';
+		echo '<input type="text" id="cpt_auftrag_booksiddata_field" name="cpt_auftrag_booksiddata_field" value="' . esc_attr($value) . '" disabled="disabled" />';
+		
+	}
+
+	function cpt_save_auftrag_booksid_data ($post_id){
+
+		if( ! isset($_POST['cpt_auftrag_booksiddata_meta_box_nonce'])){
+			return;
+			echo "POST ERROR";
+			}
+
+			if( ! wp_verify_nonce($_POST['cpt_auftrag_booksiddata_meta_box_nonce'], 'cpt_save_auftrag_booksid_data')){
+				echo "POST1ERROR";
+				return;
+			}
+			
+			if( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+				echo "POST2 ERROR";
+				return;
+			}
+
+			if(! current_user_can ('edit_post', $post_id)){
+				echo "POST3 ERROR";
+				return;
+			}
+
+			$my_data = isset( $_POST['cpt_auftrag_booksiddata_field']);
+
+			update_post_meta( $post_id, '_cpt_auftrag_booksiddata_key', $my_data );
+
+	}
+
+
 	//colorize admin panel
 	
 	function cpt_auftrag_color_classes($classes) {
@@ -832,8 +879,32 @@ class Plugin_Name_Admin {
 		}
 	}
 
+	//delete booked_status key if auftrag is deleted
+
+	function trash_cpt_books_status($post) {
+		global $post;
+
+		if(!did_action('trash_post')){
+
+			$auftragBookID = get_post_meta($post->ID, '_cpt_auftrag_booksiddata_key', true);
+
+			if ( FALSE === get_post_status( $auftragBookID ) ) {
+
+				 return;	
+
+			}
+			else {
+
+				 update_post_meta( $auftragBookID, '_cpt_books_statusdata_key', false );
+
+				}
+		}
+		
+	 }
 
 }
+
+
 
 		 
 

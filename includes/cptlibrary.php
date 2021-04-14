@@ -176,6 +176,9 @@ class Plugin_Name {
 		$this->loader->add_action('manage_cpt_auftrag_posts_custom_column', $plugin_admin, 'cpt_custom_auftrag_columns', 10, 7  );
 		$this->loader->add_action('manage_cpt_books_posts_custom_column', $plugin_admin, 'cpt_custom_books_columns', 10, 3  );
 		
+		//trash action if auftrag is trashed
+		$this->loader->add_action('wp_trash_post', $plugin_admin, 'trash_cpt_books_status', 1, 1  );
+
 		//meta-boxes for cpt_books
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_books_status');
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_books_kennziffer');
@@ -191,6 +194,7 @@ class Plugin_Name {
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_zeitraum');
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_zeitraum_end');
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_status');
+		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_booksid');
 
 		//meta-box save cpt_auftrag
 		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_email_data');
@@ -198,6 +202,7 @@ class Plugin_Name {
 		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_fullname_data');
 		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_zeitraum_data');
 		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_zeitraum_end_data');
+		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_status_data');
 		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_status_data');
 
 	}
@@ -222,6 +227,7 @@ class Plugin_Name {
 
 		//add single-post template for cpt_books //mlem
 		$this->loader->add_filter('single_template', $plugin_public, 'load_cpt_books', 50, 1);
+		$this->loader->add_filter('single_template', $plugin_public, 'load_cpt_auftrag_checkout', 50, 1);
 
 	}
 
