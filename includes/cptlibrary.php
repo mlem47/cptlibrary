@@ -172,12 +172,16 @@ class Plugin_Name {
 		$this->loader->add_filter('manage_cpt_auftrag_posts_columns', $plugin_admin, 'cpt_set_auftrag_columns');
 		$this->loader->add_filter('manage_cpt_books_posts_columns', $plugin_admin, 'cpt_set_books_columns');
 
+		//cronjob check if overdue
+		$this->loader->add_filter('cpt_cron_hook', $plugin_admin, 'cpt_auftrag_overdue_check');
+
 		// first number position of execution, second number transmit of cases
 		$this->loader->add_action('manage_cpt_auftrag_posts_custom_column', $plugin_admin, 'cpt_custom_auftrag_columns', 10, 7  );
 		$this->loader->add_action('manage_cpt_books_posts_custom_column', $plugin_admin, 'cpt_custom_books_columns', 10, 3  );
 		
 		//trash action if auftrag is trashed
 		$this->loader->add_action('wp_trash_post', $plugin_admin, 'trash_cpt_books_status', 1, 1  );
+
 
 		//meta-boxes for cpt_books
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_books_status');
@@ -186,14 +190,16 @@ class Plugin_Name {
 		//meta-box save for cpt_books
 		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_books_status_data');
 		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_books_kennziffer_data');
-
+		
 		//meta-boxes for cpt_auftrag
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_email');
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_einrichtung');
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_fullname');
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_zeitraum');
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_zeitraum_end');
+		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_overdue');
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_status');
+		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_status_send');
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_booksid');
 
 		//meta-box save cpt_auftrag
@@ -202,8 +208,10 @@ class Plugin_Name {
 		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_fullname_data');
 		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_zeitraum_data');
 		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_zeitraum_end_data');
+		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_overdue_data');
 		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_status_data');
-		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_status_data');
+		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_status_send_data');
+		//$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_booksid_data');
 
 	}
 

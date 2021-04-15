@@ -167,7 +167,7 @@ class Plugin_Name_Public {
 		function load_cpt_auftrag_checkout( $template ) {
 	
 			if ( 'cpt_auftrag' === get_post_type() )
-			return dirname( __FILE__ ) . '/templates/single-cpt_auftrag-checkout.php';
+			return dirname( __FILE__ ) . '/templates/single-cpt_auftrag.php';
 	
 			return $template;
 		}

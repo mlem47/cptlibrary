@@ -31,6 +31,8 @@ class Plugin_Name_Deactivator {
 	 */
 	public static function deactivate() {
 
+		wp_clear_scheduled_hook('cpt_cron_hook');
+
 	}
 
 }

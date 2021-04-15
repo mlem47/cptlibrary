@@ -1,4 +1,10 @@
-<?php get_header();?>
+<?php
+/*
+ * Template Name: New Template
+ * Template Post Type: cpt_books
+ */
+  
+ get_header();  ?>
 
 
 
@@ -23,7 +29,7 @@
                    <div class="card flex-md-row mb-4 box-shadow h-md-250">
                         <div class="card-body d-flex flex-column align-items-start">
                             <strong class="d-inline-block mb-2 text-primary">Beschreibung</strong>
-                            <p class="card-text mb-auto"><?php the_content() ?></p>
+                            <p class="card-text mb-auto"><?php the_excerpt() ?></p>
                         </div>
                    </div>
                </div>
@@ -33,9 +39,12 @@
 
 
 		
+	<? 
+	if($meta_value == (int)1){
+	
 
+	?>
 		<div class="col">
-
 			<form id="post_entry" name="post_entry" method="post" action="">
 				<div class ="form-group">
 					<p>
@@ -110,15 +119,30 @@
 		</div> <!-- column end -->
 </div> <!-- container end -->
 
-<?php 
+<?
+	
+} else{
 
-		
+	echo '<strong>Dieses Buch ist nicht verfügbar</strong>';
+}
+
+?>
+<?php 
 
 	//submit arguments into generating new cpt post cpt_auftrag
 	$id = get_the_ID($post);
 	$meta_value = get_post_meta($id,'_cpt_books_statusdata_key', true);
+	$meta_thumbnail = get_post_meta($id,'_thumbnail_id', true);
+
+	if($_POST['post_submit'] == 'Submit' && $meta_value == (int)1){
 		
-		if ($_POST['post_submit'] == 'Submit' && $meta_value == (int)0) {
+		?>
+		<script>
+		alert('Das Buch is bereits reserviert');
+		</script>
+		<?
+
+	} elseif ($_POST['post_submit'] == 'Submit' && $meta_value == (int)0) {
 
 			$new_auftrag = wp_insert_post( array (
 				'post_title' 		=> $_POST['post_title'],
@@ -131,6 +155,7 @@
 					'_cpt_auftrag_einrichtungdata_key' 	=> $_POST['einrichtungSelect'],
 					'_cpt_auftrag_zeitraumdata_key'		=> $_POST['post_datepicker'],
 					'_cpt_auftrag_booksiddata_key'		=> $id,
+					'_thumbnail_id'						=> $meta_thumbnail,
 					'_cpt_auftrag_statusdata_key'		=> true
 					
 					),
@@ -139,18 +164,30 @@
 				'post_status' 		=> 'publish',
 				'comment_status' 	=> 'closed',
 				'ping_status' 		=> 'closed'
+
+				
 			));
-			
-			$id = get_the_ID($post);
+		
 			$update_books_status = update_post_meta( $id, '_cpt_books_statusdata_key', true );
+			$new_url = get_the_permalink($new_auftrag);
+
+			?>
+			
+			<script>
+			window.open('<? echo $new_url ?>', 301);
+			</script>
+
+			<?
 
 		}
 
 		else {
+
 			return;
 
 		}
 
+		
 	?>
 
-<?php get_footer(); ?>
+<?php get_footer();?>

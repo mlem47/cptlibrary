@@ -3,6 +3,16 @@
  * included in this file.
  */
 
- .cssClassName{
-    background-color: rgba(255, 0, 0, 0.598)
-    }
+
+
+.row-darkgray{
+background-color: rgba(135, 135, 135, 0.598)!important
+}
+
+.row-green{
+   background-color: rgba(113, 189, 113, 0.598)!important
+   }
+
+.row-red{
+   background-color: rgba(255, 0, 0, 0.598)!important
+   }

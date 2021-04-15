@@ -441,10 +441,10 @@ class Plugin_Name_Admin {
 		$newColumns['email'] = 'E-Mail';
 		$newColumns['einrichtung'] = 'Einrichtung';
 		$newColumns['message'] = 'Nachricht';
-		$newColumns['zeitraum'] = 'Angefordert';
+		$newColumns['zeitraum'] = 'Angefordert am';			
 		$newColumns['status'] = 'Reserviert';
-		$newColumgs['status_send'] = 'Versendet';
-		$newColumns['zeitraum_end'] = 'Fällig';
+		$newColumns['status_send'] = 'Versendet';
+		$newColumns['zeitraum_end'] = 'Fällig am';
 		$newColumns['date'] = 'Erstellt am';
 		return $newColumns;
 
@@ -476,7 +476,7 @@ class Plugin_Name_Admin {
 			break;
 
 			case 'zeitraum_end' ;
-				$zeitraum = get_post_meta($post_id,'_cpt_auftrag_zeitraum_enddata_key', true);
+				$zeitraum_end = get_post_meta($post_id,'_cpt_auftrag_zeitraum_enddata_key', true);
 				echo $zeitraum_end;
 			break;
 
@@ -484,6 +484,12 @@ class Plugin_Name_Admin {
 				$status = get_post_meta($post_id,'_cpt_auftrag_statusdata_key', true);
 				?>		<input type="checkbox" <?php checked(esc_attr($status), true, true); ?> >    	<?php
 			break;
+
+			case 'status_send' ;
+				$status_send = get_post_meta($post_id,'_cpt_auftrag_status_senddata_key', true);
+				?>		<input type="checkbox" <?php checked(esc_attr($status_send), true, true); ?> >    	<?php
+			break;
+
 
 			case 'message' : 
 				echo get_the_excerpt();
@@ -714,24 +720,27 @@ class Plugin_Name_Admin {
 		wp_nonce_field( 'cpt_save_auftrag_zeitraum_end_data', 'cpt_auftrag_zeitraum_enddata_meta_box_nonce');
 	
 		$value = get_post_meta($post->ID, '_cpt_auftrag_zeitraum_enddata_key', true);	
-		$startdatevalue = get_post_meta($post->ID, '_cpt_auftrag_zeitraumdata_key', true);
 		
 
 		?>  
 			<script>
 				$(document).ready(function(){
-					var phpDate = new Date("<?php echo $startdatevalue?>");
 				$( "#cpt_auftrag_zeitraum_startdatepicker_field" ).datepicker({
-					dateFormat: "dd/mm/YY",
+					dateFormat: "dd/mm/yy",
 					changeMonth: true,
 					changeYear: true,
 					onClose: function() {
-						var date2 = $('#cpt_auftrag_zeitraum_startdatepicker_field').datepicker('setDate', phpDate);
+						var date2 = $('#cpt_auftrag_zeitraum_startdatepicker_field').datepicker('getDate');
 						date2.setDate(date2.getDate()+28)
 						$( "#cpt_auftrag_zeitraum_enddatepicker_field" ).datepicker("setDate", date2);
 					}
 				});
-				$( "#cpt_auftrag_zeitraum_enddatepicker_field" ).datepicker();
+				$( "#cpt_auftrag_zeitraum_enddatepicker_field" ).datepicker(
+					{
+					dateFormat: "dd/mm/yy",
+					changeMonth: true,
+					changeYear: true,
+					});
 				});
 			</script>
 		<?
@@ -775,7 +784,50 @@ class Plugin_Name_Admin {
 
 	}
 
+	//META BOX cpt_auftrag - Transmit OVERDUE
+	
+	function cpt_auftrag_overdue(){
+		add_meta_box( 'auftrag_overdue', 'Fällig', array($this, 'auftrag_overdue_callback'), 'cpt_auftrag', 'side');
+	}
 
+	function auftrag_overdue_callback($post){
+		wp_nonce_field( 'cpt_save_auftrag_overdue_data', 'cpt_auftrag_overduedata_meta_box_nonce');
+	
+		$value = get_post_meta($post->ID, '_cpt_auftrag_overduedata_key', true);	
+		?>
+		<label for="cpt_auftrag_overduedata_field">Fällig</label>
+		<input type="checkbox" id="cpt_auftrag_overduedata_field" name="cpt_auftrag_overduedata_field" <?php if( $value == true ) { ?>checked="checked"<?php } ?> />
+		<?php
+	}
+
+	function cpt_save_auftrag_overdue_data ($post_id){
+
+		if( ! isset($_POST['cpt_auftrag_overduedata_meta_box_nonce'])){
+			return;
+			echo "POST ERROR";
+			}
+
+			if( ! wp_verify_nonce($_POST['cpt_auftrag_overduedata_meta_box_nonce'], 'cpt_save_auftrag_overdue_data')){
+				echo "POST1ERROR";
+				return;
+			}
+			
+			if( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+				echo "POST2 ERROR";
+				return;
+			}
+
+			if(! current_user_can ('edit_post', $post_id)){
+				echo "POST3 ERROR";
+				return;
+			}
+
+			$my_data = isset( $_POST['cpt_auftrag_overduedata_field']);
+
+			update_post_meta( $post_id, '_cpt_auftrag_overduedata_key', $my_data );
+
+	}
+	
 	//META BOX cpt_auftrag - Ausgeliehen status
 
 
@@ -822,6 +874,54 @@ class Plugin_Name_Admin {
 	}
 
 
+	//META BOX cpt_auftrag - Versendet status
+
+
+	function cpt_auftrag_status_send(){
+		add_meta_box( 'auftrag_status_send', 'Versendet', array($this, 'auftrag_status_send_callback'), 'cpt_auftrag', 'side');
+	}
+
+	function auftrag_status_send_callback($post){
+		wp_nonce_field( 'cpt_save_auftrag_status_send_data', 'cpt_auftrag_status_senddata_meta_box_nonce');
+	
+		$value = get_post_meta($post->ID, '_cpt_auftrag_status_senddata_key', true);	
+
+		?>
+		<label for="cpt_auftrag_status_senddata_field">Verliehen</label>
+		<input type="checkbox" id="cpt_auftrag_status_senddata_field" name="cpt_auftrag_status_senddata_field" <?php if( $value == true ) { ?>checked="checked"<?php } ?> />
+
+		<?php
+	}
+
+	function cpt_save_auftrag_status_send_data ($post_id){
+
+		if( ! isset($_POST['cpt_auftrag_status_senddata_meta_box_nonce'])){
+			return;
+			echo "POST ERROR";
+			}
+
+			if( ! wp_verify_nonce($_POST['cpt_auftrag_status_senddata_meta_box_nonce'], 'cpt_save_auftrag_status_send_data')){
+				echo "POST1ERROR";
+				return;
+			}
+			
+			if( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+				echo "POST2 ERROR";
+				return;
+			}
+
+			if(! current_user_can ('edit_post', $post_id)){
+				echo "POST3 ERROR";
+				return;
+			}
+
+			$my_data = isset( $_POST['cpt_auftrag_status_senddata_field']);
+
+			update_post_meta( $post_id, '_cpt_auftrag_status_senddata_key', $my_data );
+
+	}
+
+
 	//META BOX cpt_auftrag - Storing BOOKs ID into cpt_auftrag as reference for updating booked_status
 
 
@@ -839,44 +939,51 @@ class Plugin_Name_Admin {
 		
 	}
 
-	function cpt_save_auftrag_booksid_data ($post_id){
 
-		if( ! isset($_POST['cpt_auftrag_booksiddata_meta_box_nonce'])){
-			return;
-			echo "POST ERROR";
-			}
+	// function cpt_save_auftrag_booksid_data ($post_id){
 
-			if( ! wp_verify_nonce($_POST['cpt_auftrag_booksiddata_meta_box_nonce'], 'cpt_save_auftrag_booksid_data')){
-				echo "POST1ERROR";
-				return;
-			}
+	// 	if( ! isset($_POST['cpt_auftrag_booksiddata_meta_box_nonce'])){
+	// 		return;
+	// 		echo "POST ERROR";
+	// 		}
+
+	// 		if( ! wp_verify_nonce($_POST['cpt_auftrag_booksiddata_meta_box_nonce'], 'cpt_save_auftrag_booksid_data')){
+	// 			echo "POST1ERROR";
+	// 			return;
+	// 		}
 			
-			if( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
-				echo "POST2 ERROR";
-				return;
-			}
+	// 		if( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+	// 			echo "POST2 ERROR";
+	// 			return;
+	// 		}
 
-			if(! current_user_can ('edit_post', $post_id)){
-				echo "POST3 ERROR";
-				return;
-			}
+	// 		if(! current_user_can ('edit_post', $post_id)){
+	// 			echo "POST3 ERROR";
+	// 			return;
+	// 		}
 
-			$my_data = isset( $_POST['cpt_auftrag_booksiddata_field']);
+	// 		$my_data = isset( $_POST['cpt_auftrag_booksiddata_field']);
 
-			update_post_meta( $post_id, '_cpt_auftrag_booksiddata_key', $my_data );
+	// 		update_post_meta( $post_id, '_cpt_auftrag_booksiddata_key', $my_data );
 
-	}
+	// }
 
 
 	//colorize admin panel
 	
-	function cpt_auftrag_color_classes($classes) {
+	function cpt_auftrag_color_classes($classes)  {
 		global $post;
-			$customMetaVariable = get_post_meta( $post->ID, '_cpt_books_statusdata_key', true );
-		if($customMetaVariable == '1'){
-			$classes[] = 'cssClassName';
-			return $classes;
-		}
+
+		$auftragStatus = get_post_meta( $post->ID, '_cpt_auftrag_statusdata_key', true );
+		$sendStatus = get_post_meta( $post->ID, '_cpt_auftrag_status_senddata_key', true );
+		$overdueStatus = get_post_meta( $post->ID, '_cpt_auftrag_overduedata_key', true );
+		
+		if( $auftragStatus == (int)1 ) $classes[] = "row-darkgray";
+		if( $sendStatus == (int)1 ) $classes[] = "row-green";
+		if( $overdueStatus == (int)1 ) $classes[] = "row-red";
+		
+		return $classes;
+
 	}
 
 	//delete booked_status key if auftrag is deleted
@@ -901,6 +1008,25 @@ class Plugin_Name_Admin {
 		}
 		
 	 }
+
+
+
+	// CRON TASKS
+	
+	 function cpt_auftrag_overdue_check(){
+
+		$myDate = date('dd/mm/yy' , strtotime(get_post_meta($post->ID, '_cpt_auftrag_zeitraum_enddata_key', true)));;
+		$curDateTime = date('dd/mm/yy h:i:s');
+
+		if($myDate < $curDateTime){
+			update_post_meta( $post_id, '_cpt_auftrag_overduedata_key', false );
+		}else{
+			update_post_meta( $post_id, '_cpt_auftrag_overduedata_key', true );
+		}
+
+	 }
+
+	
 
 }
 
