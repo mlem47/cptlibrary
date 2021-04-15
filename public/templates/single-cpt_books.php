@@ -40,7 +40,8 @@
 
 		
 	<? 
-	if($meta_value == (int)1){
+	$check_status = get_post_meta($id,'_cpt_books_statusdata_key', true);
+	if($check_status == (int)0){
 	
 
 	?>

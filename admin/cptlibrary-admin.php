@@ -977,7 +977,7 @@ class Plugin_Name_Admin {
 		$auftragStatus = get_post_meta( $post->ID, '_cpt_auftrag_statusdata_key', true );
 		$sendStatus = get_post_meta( $post->ID, '_cpt_auftrag_status_senddata_key', true );
 		$overdueStatus = get_post_meta( $post->ID, '_cpt_auftrag_overduedata_key', true );
-		
+
 		if( $auftragStatus == (int)1 ) $classes[] = "row-darkgray";
 		if( $sendStatus == (int)1 ) $classes[] = "row-green";
 		if( $overdueStatus == (int)1 ) $classes[] = "row-red";
@@ -1025,6 +1025,7 @@ class Plugin_Name_Admin {
 		}
 
 	 }
+
 
 	
 
