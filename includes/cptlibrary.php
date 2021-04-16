@@ -173,7 +173,8 @@ class Plugin_Name {
 		$this->loader->add_filter('manage_cpt_books_posts_columns', $plugin_admin, 'cpt_set_books_columns');
 
 		//cronjob check if overdue
-		$this->loader->add_filter('cpt_cron_hook', $plugin_admin, 'cpt_auftrag_overdue_check');
+		$this->loader->add_filter('cron_schedules', $plugin_admin, 'cpt_add_cron_interval');
+		$this->loader->add_action('cpt_cron_hook', $plugin_admin, 'cpt_auftrag_overdue_check');
 
 		// first number position of execution, second number transmit of cases
 		$this->loader->add_action('manage_cpt_auftrag_posts_custom_column', $plugin_admin, 'cpt_custom_auftrag_columns', 10, 7  );
@@ -226,8 +227,8 @@ class Plugin_Name {
 
 		$plugin_public = new Plugin_Name_Public( $this->get_plugin_name(), $this->get_version() );
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		
 		
 		//register shortcodes //mlem

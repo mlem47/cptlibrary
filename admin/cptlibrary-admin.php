@@ -74,8 +74,8 @@ class Plugin_Name_Admin {
 		 */
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/cptlibrary-admin.css', array(), $this->version, 'all' );
-		wp_enqueue_style( 'jquery-ui-css', plugin_dir_url( __FILE__ ) . 'css/jquery-ui.min.css', array(), $this->version, 'all' );
-		wp_enqueue_style( 'bootstrap-css', plugin_dir_url( __FILE__ ) . 'css/bootstrap.min.css', array(), $this->version, 'all' );
+		wp_enqueue_style( 'jquery-ui-admin-css', plugin_dir_url( __FILE__ ) . 'css/jquery-ui.min.css', array(), $this->version, 'all' );
+		wp_enqueue_style( 'bootstrap-admin-css', plugin_dir_url( __FILE__ ) . 'css/bootstrap.min.css', array(), $this->version, 'all' );
 
 	}
 
@@ -111,11 +111,10 @@ class Plugin_Name_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
+		wp_enqueue_script( 'jquery-admin-js', plugin_dir_url( __FILE__ ) . 'js/jquery.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( 'jquery-admin-ui-js', plugin_dir_url( __FILE__ ) . 'js/jquery-ui.min.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/cptlibrary-admin.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( 'jquery-js', plugin_dir_url( __FILE__ ) . 'js/jquery.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( 'jquery-ui-js', plugin_dir_url( __FILE__ ) . 'js/jquery-ui.min.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( 'bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap.min.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( 'bootstrap-admin-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap.min.js', array( 'jquery' ), $this->version, false );
 	}
 
 
@@ -1018,16 +1017,25 @@ class Plugin_Name_Admin {
 		$myDate = date('dd/mm/yy' , strtotime(get_post_meta($post->ID, '_cpt_auftrag_zeitraum_enddata_key', true)));;
 		$curDateTime = date('dd/mm/yy h:i:s');
 
+
 		if($myDate < $curDateTime){
 			update_post_meta( $post_id, '_cpt_auftrag_overduedata_key', false );
 		}else{
 			update_post_meta( $post_id, '_cpt_auftrag_overduedata_key', true );
 		}
+		
 
-	 }
+	}
 
+	//add 5second intervall for CRON Tasks
 
-	
+	 function cpt_add_cron_interval( $schedules ) { 
+		$schedules['five_seconds'] = array(
+			'interval' => 60,
+			'display'  => esc_html__( 'Every Minute' ), );
+		return $schedules;
+	}
+
 
 }
 
