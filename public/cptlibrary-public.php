@@ -127,28 +127,54 @@ class Plugin_Name_Public {
 				'posts_per_page' => -1
 				) );
 
-			$print .='<div class="gridcontainer">';
+			$print .='<div class="container-fluid">';
 			
 			if ( $items) {
 				   foreach ( $items as $item ) {
 					$item_name =  $item->post_title;
-					$print .='<figure><a href="'.get_permalink($item->ID).'">';
-					$print .= '<img class="katalog-teaser"'.get_the_post_thumbnail($item->ID,'thumbnail');
-					$print .= '<figcaption class="teaser-caption-text">'.$item_name.'</figcaption></figure>';
+
+					$print .='<div class="grid-container">';
+					$print .='<div class="Thumbnail"><img scr='.get_the_post_thumbnail($item->ID,'thumbnail').'</img></div>';
+					$print .='<div class="Title">'.$item_name.'</div>';
+					$print .='<div class="Excerpt">'.wp_trim_words( get_the_excerpt( $item->ID), 20, '' ).'</div>';
+					$print .='<div class="Read-more"><button class="btn-readmore"><a href="'.get_permalink($item->ID).'">Zum Buch</a></button></div>';
+					$print .= '</div>';
 				}
 			} 
-
+			
+		 	
 			if ( $itemsbooked) {
 				   foreach ( $itemsbooked as $item ) {
 					$item_name =  $item->post_title;
-					$print .='<figure><a href="'.get_permalink($item->ID).'">';
-					$print .= '<img class="katalog-teaser-booked"'.get_the_post_thumbnail($item->ID,'thumbnail');
-					$print .= '<figcaption class="teaser-caption-text">'.$item_name.'</figcaption></figure>';
+
+					$print .='<div class="grid-container">';
+					$print .='<div class="Thumbnail"><img scr='.get_the_post_thumbnail($item->ID,'thumbnail').'</img></div>';
+					$print .='<div class="Title">'.$item_name.'</div>';
+					$print .='<div class="Excerpt">'.wp_trim_words( get_the_excerpt( $item->ID), 20, '' ).'</div>';
+					$print .='<div class="Read-more"><button class="btn-readmore"><a href="'.get_permalink($item->ID).'">Zum Buch</a></button></div>';
+					$print .= '</div>';
 				}
 			} 
 			$print .= '</div>';
 
 
+			return $print;
+			}
+
+
+		// shortcode to list all categories
+		function cpt_short_categories() {
+			$print = '';
+			$categories = get_categories( array(
+				'orderby' => 'name',
+				'parent'  => 0
+			) );
+			 
+			foreach ( $categories as $category ) {
+
+					$print .='<div>'.$category->name.'</div>';
+				
+			}
 			return $print;
 			}
 	

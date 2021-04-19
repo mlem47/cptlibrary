@@ -177,7 +177,7 @@ class Plugin_Name {
 		$this->loader->add_action('cpt_cron_hook', $plugin_admin, 'cpt_auftrag_overdue_check');
 
 		// first number position of execution, second number transmit of cases
-		$this->loader->add_action('manage_cpt_auftrag_posts_custom_column', $plugin_admin, 'cpt_custom_auftrag_columns', 10, 7  );
+		$this->loader->add_action('manage_cpt_auftrag_posts_custom_column', $plugin_admin, 'cpt_custom_auftrag_columns', 10, 8  );
 		$this->loader->add_action('manage_cpt_books_posts_custom_column', $plugin_admin, 'cpt_custom_books_columns', 10, 3  );
 		
 		//trash action if auftrag is trashed
@@ -233,6 +233,7 @@ class Plugin_Name {
 		
 		//register shortcodes //mlem
 		$this->loader->add_shortcode('cpt_short1', $plugin_public, 'cpt_short1');
+		$this->loader->add_shortcode('cpt_short_categories', $plugin_public, 'cpt_short_categories');
 
 		//add single-post template for cpt_books //mlem
 		$this->loader->add_filter('single_template', $plugin_public, 'load_cpt_books', 50, 1);

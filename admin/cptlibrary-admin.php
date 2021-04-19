@@ -440,10 +440,10 @@ class Plugin_Name_Admin {
 		$newColumns['email'] = 'E-Mail';
 		$newColumns['einrichtung'] = 'Einrichtung';
 		$newColumns['message'] = 'Nachricht';
-		$newColumns['zeitraum'] = 'Angefordert am';			
+		$newColumns['zeitraum'] = 'Angefordert ab';
+		$newColumns['zeitraum_end'] = 'Fristende';		
 		$newColumns['status'] = 'Reserviert';
 		$newColumns['status_send'] = 'Versendet';
-		$newColumns['zeitraum_end'] = 'Fällig am';
 		$newColumns['date'] = 'Erstellt am';
 		return $newColumns;
 
@@ -475,18 +475,18 @@ class Plugin_Name_Admin {
 			break;
 
 			case 'zeitraum_end' ;
-				$zeitraum_end = get_post_meta($post_id,'_cpt_auftrag_zeitraum_enddata_key', true);
+				$zeitraum_end = get_post_meta($post_id,'_cpt_auftrag_zeitraumenddata_key', true);
 				echo $zeitraum_end;
 			break;
 
 			case 'status' ;
 				$status = get_post_meta($post_id,'_cpt_auftrag_statusdata_key', true);
-				?>		<input type="checkbox" <?php checked(esc_attr($status), true, true); ?> >    	<?php
+				?>		<input disabled type="radio" <?php checked(esc_attr($status), true, true); ?> >    	<?php
 			break;
 
 			case 'status_send' ;
 				$status_send = get_post_meta($post_id,'_cpt_auftrag_status_senddata_key', true);
-				?>		<input type="checkbox" <?php checked(esc_attr($status_send), true, true); ?> >    	<?php
+				?>		<input disabled type="radio" <?php checked(esc_attr($status_send), true, true); ?> >    	<?php
 			break;
 
 
@@ -718,35 +718,22 @@ class Plugin_Name_Admin {
 	function auftrag_zeitraum_end_callback($post){
 		wp_nonce_field( 'cpt_save_auftrag_zeitraum_end_data', 'cpt_auftrag_zeitraum_enddata_meta_box_nonce');
 	
-		$value = get_post_meta($post->ID, '_cpt_auftrag_zeitraum_enddata_key', true);	
+		$value = get_post_meta($post->ID, '_cpt_auftrag_zeitraumenddata_key', true);	
 		
 
-		?>  
-			<script>
-				$(document).ready(function(){
-				$( "#cpt_auftrag_zeitraum_startdatepicker_field" ).datepicker({
-					dateFormat: "dd/mm/yy",
-					changeMonth: true,
-					changeYear: true,
-					onClose: function() {
-						var date2 = $('#cpt_auftrag_zeitraum_startdatepicker_field').datepicker('getDate');
-						date2.setDate(date2.getDate()+28)
-						$( "#cpt_auftrag_zeitraum_enddatepicker_field" ).datepicker("setDate", date2);
-					}
-				});
-				$( "#cpt_auftrag_zeitraum_enddatepicker_field" ).datepicker(
-					{
-					dateFormat: "dd/mm/yy",
-					changeMonth: true,
-					changeYear: true,
-					});
-				});
-			</script>
-		<?
+		echo	'<script>';
+		echo		'$( function() {';
+		echo			'$( "#cpt_auftrag_zeitraum_enddatepicker_field" ).datepicker({
+							dateFormat: "dd/mm/yy",
+							changeMonth: true,
+							changeYear: true,
+						});';
+		echo		'} );';
+		echo	'</script>';
 		
-		echo	'<input type="text" id="cpt_auftrag_zeitraum_startdatepicker_field" name="cpt_auftrag_zeitraum_startdatepicker_field" value="' . esc_attr($value) . '" size= "25" /></br></br>';
-		echo 	'<label for="cpt_auftrag_zeitraum_enddata_field"> Fällig: </label>';
-		echo	'<input type="text" id="cpt_auftrag_zeitraum_enddatepicker_field" name="cpt_auftrag_zeitraum_enddatepicker_field" value="' . esc_attr($value) . '" size= "25" />';
+		//echo	'<input type="text" id="cpt_auftrag_zeitraum_startdatepicker_field" name="cpt_auftrag_zeitraum_startdatepicker_field" value="' . esc_attr($value) . '" size= "25" /></br></br>';
+		echo 	'<label for="cpt_auftrag_zeitraum_enddatepicker_field"> Fällig: </label>';
+		echo	'<input type="text" id="cpt_auftrag_zeitraum_enddatepicker_field" name="cpt_auftrag_zeitraum_enddatepicker_field"  value="' . esc_attr($value) . '" size= "25" />';
 
 	}
 
@@ -779,7 +766,7 @@ class Plugin_Name_Admin {
 			
 			$my_data = sanitize_text_field( $_POST['cpt_auftrag_zeitraum_enddatepicker_field'] );
 
-			update_post_meta( $post_id, '_cpt_auftrag_zeitraum_enddata_key', $my_data );
+			update_post_meta( $post_id, '_cpt_auftrag_zeitraumenddata_key', $my_data );
 
 	}
 
@@ -877,7 +864,7 @@ class Plugin_Name_Admin {
 
 
 	function cpt_auftrag_status_send(){
-		add_meta_box( 'auftrag_status_send', 'Versendet', array($this, 'auftrag_status_send_callback'), 'cpt_auftrag', 'side');
+		add_meta_box( 'auftrag_status_send', 'Sendungsstatus', array($this, 'auftrag_status_send_callback'), 'cpt_auftrag', 'side', 'high');
 	}
 
 	function auftrag_status_send_callback($post){
@@ -886,7 +873,7 @@ class Plugin_Name_Admin {
 		$value = get_post_meta($post->ID, '_cpt_auftrag_status_senddata_key', true);	
 
 		?>
-		<label for="cpt_auftrag_status_senddata_field">Verliehen</label>
+		<label for="cpt_auftrag_status_senddata_field">Versendet</label>
 		<input type="checkbox" id="cpt_auftrag_status_senddata_field" name="cpt_auftrag_status_senddata_field" <?php if( $value == true ) { ?>checked="checked"<?php } ?> />
 
 		<?php
@@ -1014,14 +1001,18 @@ class Plugin_Name_Admin {
 	
 	 function cpt_auftrag_overdue_check(){
 
-		$myDate = date('dd/mm/yy' , strtotime(get_post_meta($post->ID, '_cpt_auftrag_zeitraum_enddata_key', true)));;
-		$curDateTime = date('dd/mm/yy h:i:s');
+		global $post;
+		$date = get_post_meta($post->ID, '_cpt_auftrag_zeitraumenddata_key');
+		$myDate = DateTime::createFromFormat('!d/m/Y', $date)->getTimestamp();
+		$today = mktime();
 
+		echo $myDate;
+		echo $today;
 
-		if($myDate < $curDateTime){
-			update_post_meta( $post_id, '_cpt_auftrag_overduedata_key', false );
+		if($today > $myDate){
+			update_post_meta( $post->ID, '_cpt_auftrag_overduedata_key', true );
 		}else{
-			update_post_meta( $post_id, '_cpt_auftrag_overduedata_key', true );
+			return;
 		}
 		
 
@@ -1032,7 +1023,7 @@ class Plugin_Name_Admin {
 	 function cpt_add_cron_interval( $schedules ) { 
 		$schedules['five_seconds'] = array(
 			'interval' => 60,
-			'display'  => esc_html__( 'Every Minute' ), );
+			'display'  => esc_html__( 'Every 5 seconds' ), );
 		return $schedules;
 	}
 
