@@ -36,17 +36,12 @@
    
 	<?php endwhile; endif; ?>
 
-	<hr>
-
 			
-		
-
+	<?php 
+		$check_status = get_post_meta($id,'_cpt_books_statusdata_key', true);
+		if($check_status == (int)0){
 	
-	<? 
-	$check_status = get_post_meta($id,'_cpt_books_statusdata_key', true);
-	if($check_status == (int)0){
-	
-		?>
+	?>
 
 			<div class="row mb-2"></div>
 				<div class="col">
@@ -154,21 +149,17 @@
 				</div>
 			</div>
 		
-		<?
-	}
-	else{
-	
-		echo '<strong>Dieses Buch ist nicht verfügbar</strong>';
-	}
+	<?php
+			}
+			else{
+			
+				echo '<strong>Dieses Buch ist nicht verfügbar</strong>';
+			}
 	?>
 
-</div>
 
 
-
-
-
-	<!-- Modal -->
+		<!-- Modal -->
 	<div class="modal fade" id="checkout" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
@@ -187,6 +178,7 @@
 		</div>
 	</div>	
 
+</div>
 <?php 
 
 	//submit arguments into generating new cpt post cpt_auftrag
@@ -245,7 +237,7 @@
 
 		</script>
 
-		<?
+		<?php
 
 	} else {
 			return;
