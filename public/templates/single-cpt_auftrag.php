@@ -41,7 +41,7 @@ get_header();?>
 	$email = get_post_meta( $id,'_cpt_auftrag_emaildata_key', true);
 	$einrichtung = get_post_meta($id,'_cpt_auftrag_einrichtungdata_key', true);
 	$zeitraum = get_post_meta($id,'_cpt_auftrag_zeitraumdata_key', true);
-	$zeitraum_end = get_post_meta($id,'_cpt_auftrag_zeitraum_enddata_key', true);
+	$zeitraum_end = get_post_meta($id,'_cpt_auftrag_zeitraumenddata_key', true);
     ?>
     <form id="post_entry" name="post_entry" method="post" action="">
 				<div class ="form-group">
