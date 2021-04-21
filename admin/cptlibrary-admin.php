@@ -665,7 +665,7 @@ class Plugin_Name_Admin {
 		echo	'<script>';
 		echo		'$( function() {';
 		echo			'$( "#cpt_auftrag_zeitraumdatepicker_field" ).datepicker({
-							dateFormat: "dd/mm/yy",
+							dateFormat: "y-m-d",
 							changeMonth: true,
 							changeYear: true,
 							minDate: "dateToday"
@@ -724,7 +724,7 @@ class Plugin_Name_Admin {
 		echo	'<script>';
 		echo		'$( function() {';
 		echo			'$( "#cpt_auftrag_zeitraum_enddatepicker_field" ).datepicker({
-							dateFormat: "dd/mm/yy",
+							dateFormat: "y-m-d",
 							changeMonth: true,
 							changeYear: true,
 						});';
@@ -999,22 +999,42 @@ class Plugin_Name_Admin {
 
 	// CRON TASKS
 	
-	 function cpt_auftrag_overdue_check(){
+	 public function cpt_auftrag_overdue_check(){
 
-		global $post;
-		$date = get_post_meta($post->ID, '_cpt_auftrag_zeitraumenddata_key');
-		$myDate = DateTime::createFromFormat('!d/m/Y', $date)->getTimestamp();
-		$today = mktime();
 
-		echo $myDate;
-		echo $today;
+			$posts = get_posts( array(
+				'post_type'      => 'cpt_auftrag',
+				'post_status'    => 'publish',
+				'meta_key'   => '_cpt_auftrag_zeitraumenddata_key',
+				'order' 	 => 'ASC',
+				'posts_per_page' => -1
+				) );
+			
 
-		if($today > $myDate){
-			update_post_meta( $post->ID, '_cpt_auftrag_overduedata_key', true );
-		}else{
-			return;
-		}
-		
+				var_dump($posts);
+			// if ( $posts) {
+
+			// 	   foreach ( $posts as $post ) {
+			// 		$date = get_post_meta( $post->ID, '_cpt_auftrag_zeitraumenddata_key', true );
+					
+			// 	}
+			// } 
+			
+			// if($posts){
+			// foreach ($posts as $post) {
+			// 		$format = "y-m-d";
+			// 		$today = date('Y-m-d H:i:s');
+			// 		$date = get_post_meta( $post->ID, '_cpt_auftrag_zeitraumenddata_key', true );
+			// 		$checkdate = date($format, $date);
+			// 		if($today > $checkdate){
+			// 			update_post_meta( $post->ID, '_cpt_auftrag_overduedata_key', true );
+			// 		} else{
+			// 			echo 'notedateinner';
+			// 		}		
+			// 	}
+			// } else {
+			// 	echo 'nodate';
+			// }
 
 	}
 

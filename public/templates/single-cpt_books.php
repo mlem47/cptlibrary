@@ -14,7 +14,9 @@
    
    
            <div class="row mb-2">
-		   <?php the_post_thumbnail("medium")?>
+		   <div class="col">
+		   <?php the_post_thumbnail('medium')?>
+		   </div>
                <div class="col">
 					<div class="card flex-md-row mb-4 box-shadow h-md-250">
 							<div class="card-body d-flex flex-column align-items-start">
@@ -100,7 +102,7 @@
 										<script>
 										$(function() {
 												$( "#post_datepicker" ).datepicker({
-													dateFormat: "dd/mm/yy",
+													dateFormat: "y-m-d",
 													changeMonth: true,
 													changeYear: true,
 													minDate: "dateToday",
@@ -127,17 +129,14 @@
 										$(document).ready(function(){
 										$( "#post_enddatepicker" ).datepicker(
 											{
-											dateFormat: "dd/mm/yy",
+											dateFormat: "y-m-d",
 											changeMonth: true,
 											changeYear: true,
 											});
-											e.preventDefault(); //make it unclickable
 										});
-										function myFunction() {
-    										e.preventDefault();
-										}
 									</script>
-								<input class="form-control" readonly type="text" id="post_enddatepicker"  name="post_enddatepicker" onclick="myFunction()"  size= "25" />
+								<input class="form-control" readonly  type="text" id="post_enddatepicker"  name="post_enddatepicker" size= "25" />
+							
 							</div>
 							<div class ="form-group col-md-6">
 								<label>Nachricht:</label><br />
@@ -226,7 +225,7 @@
 
 
 		$new_url = get_the_permalink($new_auftrag);
-
+		$meta_enddate = get_post_meta($new_auftrag,'post_enddatepicker', true);
 	
 
 		?>
@@ -234,15 +233,15 @@
 	
 		<script>
 			
-		$('#checkout').modal('show');
+		// $('#checkout').modal('show');
 
-		// $(document).ready(function(){
-		// var redirecturl= <?php get_the_permalink($new_auftrag); ;?>;
-		// $("#checkout").modal('show');
-		// $("#checkout").on('hidden.bs.modal', function () {
-		// 	window.location(redirecturl);
-		// });
-		// });
+		$(document).ready(function(){
+		$("#checkout").modal('show');
+		let url = "<?php echo $new_url;?>"
+		$("#checkout").on('hidden.bs.modal', function () {
+			window.location = url
+		});
+		});
 
 		</script>
 
@@ -255,4 +254,4 @@
 ?>
 
 
-<?php get_footer();
+<?php get_footer(); ?>

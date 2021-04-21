@@ -23,20 +23,24 @@
   
  } */
  
+
+
  .grid-container {
    display: grid;
-   grid-template-columns: 1fr 0.2fr 1.8fr 1fr;
-   grid-template-rows: 0.5fr 0.4fr 0.4fr 0.1fr 0.1fr;
+   grid-template-columns: 1fr 1fr 1fr 1fr;
+   grid-template-rows: 1fr 1fr 1fr;
    gap: 0px 0px;
    grid-template-areas:
-     "Thumbnail . Title Title"
-     "Thumbnail . Excerpt Excerpt"
-     "Thumbnail .  . Zum-Buch"
-     ".  . . ."
-     ". . . .";
+     "Thumbnail Thumbnail Title Title"
+     "Thumbnail Thumbnail Excerpt Excerpt"
+     ". . . Zum-Buch";
  }
  
- .Thumbnail { grid-area: Thumbnail; }
+ .Thumbnail { grid-area: Thumbnail; 
+
+   padding: 2em, 2em, 2em, 2em;
+
+}
  
  .Title { grid-area: Title; 
    font-size: 26px;
@@ -46,7 +50,7 @@
  
  .Excerpt { grid-area: Excerpt; }
  
- .Read-more { grid-area: Read-more; 
+ .Zum-Buch { grid-area: Read-more; 
    
 }
 
@@ -75,9 +79,20 @@ a:hover {
    color: blue;
  }
 
+ .bg-booked {
+   background-color: rgba(152, 179, 189, 0.398);
+   border-radius: 2%;
+ }
+
 .btn-readmore{
    background-color: #b61f29;
    color: white;
+   text-align: center;
+}
+
+.btn-readmore-booked{
+   background-color: grey;
+   color: #b61f29;
    text-align: center;
 }
 
@@ -90,9 +105,10 @@ a:hover {
  .katalog-teaser-booked{
     /* border-radius: 15%; */
     border: 1px red;
-    box-shadow: 10px 10px 10px 5px rgba(255, 0, 0, 0.598);
+    box-shadow: 10px 10px 10px 5px rgba(233, 59, 59, 0.632);
  }
  
+
  .teaser-caption-text{
     position: relative;
     color: darkslateblue;
