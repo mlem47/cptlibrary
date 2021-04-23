@@ -229,11 +229,19 @@ class Plugin_Name {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
+
+
+		//ajax
+		$this->loader->add_action( 'wp_ajax_filter', $plugin_public, 'filter_ajax' ); // wp_ajax_{ACTION HERE} 
+		$this->loader->add_action( 'wp_ajax_nopriv_filter', $plugin_public, 'filter_ajax' );
+		//$this->loader->add_action( 'wp_head', $plugin_public, 'javascript_variables' );
 		
 		
 		//register shortcodes //mlem
 		$this->loader->add_shortcode('cpt_short1', $plugin_public, 'cpt_short1');
 		$this->loader->add_shortcode('cpt_short_categories', $plugin_public, 'cpt_short_categories');
+		$this->loader->add_shortcode('cpt_short_cat_ajax', $plugin_public, 'cpt_short_cat_ajax');
+		$this->loader->add_shortcode('cpt_short_cron1', $plugin_public, 'cpt_short_cron1');
 
 		//add single-post template for cpt_books //mlem
 		$this->loader->add_filter('single_template', $plugin_public, 'load_cpt_books', 50, 1);

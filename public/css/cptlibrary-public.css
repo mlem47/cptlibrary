@@ -23,6 +23,75 @@
   
  } */
  
+ .grid-container {
+   display: grid;
+   grid-template-columns: 1fr 1fr 1fr 1fr;
+   grid-template-rows: 1fr 1fr 1fr 1fr;
+   gap: 0px 0px;
+   grid-template-areas:
+     "main main main main"
+     "main main main main"
+     "main main main main"
+     "main main main main";
+ }
+ 
+ .grid-main {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   grid-template-rows: 1fr 1fr;
+   gap: 0px 0px;
+   grid-template-areas:
+     "grid1 grid2"
+     "grid4 grid5";
+   grid-area: main;
+ }
+ 
+ .grid1 {
+   display: grid;
+   grid-template-columns: 1fr 1fr 1fr;
+   grid-template-rows: 1fr 1fr;
+   gap: 0px 0px;
+   grid-template-areas:
+     "thumbnail title title"
+     "content content button";
+   grid-area: grid1;
+ }
+ 
+ .thumbnail { grid-area: thumbnail; }
+ 
+ .title { grid-area: title; }
+ 
+ .content { grid-area: content; }
+ 
+ .button { grid-area: button; }
+ 
+ .grid2 { display: grid;
+   grid-template-columns: 1fr 1fr 1fr;
+   grid-template-rows: 1fr 1fr;
+   gap: 0px 0px;
+   grid-template-areas:
+     "thumbnail title title"
+     "content content button";
+   grid-area: grid2; }
+ 
+ .grid3 {display: grid;
+   grid-template-columns: 1fr 1fr 1fr;
+   grid-template-rows: 1fr 1fr;
+   gap: 0px 0px;
+   grid-template-areas:
+     "thumbnail title title"
+     "content content button";
+   grid-area: grid3; }
+ 
+ .grid4 { display: grid;
+   grid-template-columns: 1fr 1fr 1fr;
+   grid-template-rows: 1fr 1fr;
+   gap: 0px 0px;
+   grid-template-areas:
+     "thumbnail title title"
+     "content content button";
+   grid-area: grid4; }
+ 
 
 
  .grid-container {

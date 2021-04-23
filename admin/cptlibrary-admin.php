@@ -149,26 +149,26 @@ class Plugin_Name_Admin {
 		'label'               => __( 'cpt_books'),
 		'description'         => __( 'Buchimporte'),
 		'labels'              => $labels,
-		'rewrite' 			 => array( 'slug' => 'cpt_books'),
+		'rewrite' 			  => array( 'slug' => 'cpt_books'),
 		// Features this CPT supports in Post Editor
 		'supports'            => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'revisions', 'custom-fields', 'category'),
 		// You can associate this CPT with a taxonomy or custom taxonomy. 
 		'taxonomies'          => array( 'ISBN' , 'Kennziffer', 'ISBN', 'category'),
-		'hierarchical'        => false,
+		'hierarchical'        => true,
 		'public'              => true,
-		'description' 		 => '',
+		'description' 		  => '',
 		'show_ui'             => true,
 		'show_in_menu'        => 'edit.php?post_type=cpt_books',
 		'show_in_nav_menus'   => true,
 		'show_in_admin_bar'   => true,
 		'menu_position'       => 5,
-		'menu_icon' 		 	 => 'dashicons-book',
+		'menu_icon' 		  => 'dashicons-book',
 		'can_export'          => false,
 		'has_archive'         => true,
 		'exclude_from_search' => false,
 		'publicly_queryable'  => true,
 		'capability_type'     => 'post',
-		'show_in_rest' 		 => true,
+		'show_in_rest' 		  => true,
 	);
 	
 		// Registering your Custom Post Type
@@ -210,7 +210,7 @@ class Plugin_Name_Admin {
 		'labels'              => $labels,
 		// Features this CPT supports in Post Editor
 		'supports'            => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'revisions', 'custom-fields'),
-		'hierarchical'        => false,
+		'hierarchical'        => true,
 		'public'              => true,
 		'description' 		  => '',
 		'taxonomies' 		  => array(),
@@ -270,7 +270,7 @@ class Plugin_Name_Admin {
 		* Parent and child items. A non-hierarchical CPT
 		* is like Posts.
 		*/ 
-		'hierarchical'        => false,
+		'hierarchical'        => true,
 		'public'              => true,
 		'taxonomies' 		  => array(),
 		'show_ui'             => true,
@@ -1010,31 +1010,16 @@ class Plugin_Name_Admin {
 				'posts_per_page' => -1
 				) );
 			
-
-				var_dump($posts);
-			// if ( $posts) {
-
-			// 	   foreach ( $posts as $post ) {
-			// 		$date = get_post_meta( $post->ID, '_cpt_auftrag_zeitraumenddata_key', true );
+			foreach ($posts as $post) {
 					
-			// 	}
-			// } 
+					$today = date('y-n-d');
+					$date = get_post_meta( $post->ID, '_cpt_auftrag_zeitraumenddata_key', true );
+					
+					if($today > $date){
+						update_post_meta( $post->ID, '_cpt_auftrag_overduedata_key', true );
+					} 		
+				}
 			
-			// if($posts){
-			// foreach ($posts as $post) {
-			// 		$format = "y-m-d";
-			// 		$today = date('Y-m-d H:i:s');
-			// 		$date = get_post_meta( $post->ID, '_cpt_auftrag_zeitraumenddata_key', true );
-			// 		$checkdate = date($format, $date);
-			// 		if($today > $checkdate){
-			// 			update_post_meta( $post->ID, '_cpt_auftrag_overduedata_key', true );
-			// 		} else{
-			// 			echo 'notedateinner';
-			// 		}		
-			// 	}
-			// } else {
-			// 	echo 'nodate';
-			// }
 
 	}
 

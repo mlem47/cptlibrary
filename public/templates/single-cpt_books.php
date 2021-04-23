@@ -6,9 +6,8 @@
   
  get_header();  ?>
 
-
-
 <div class="container boxpadding">
+
        
        <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
    
@@ -92,8 +91,9 @@
 								<label>Nachname*:</label><br />
 								<input class="form-control" type="text" id="post_nachname" name="post_nachname" required="required" />
 							</div>
+							
 							<div class ="form-group col-md-6">
-								<label for="post_datepicker"> Zeitraum*: </label><br>
+								<label for="post_datepicker"> Zeitraum*: <i> Der Artikel wird für 28 Tage angefordert. </i> </label><br>
 										<script>
 										$(function() {
 												$( "#post_datepicker" ).datepicker({
@@ -112,14 +112,15 @@
 										</script>
 								<input class="form-control" type="text" id="post_datepicker" name="post_datepicker" required="required" size= "25" />	
 							</div>
+							
 						</div>
 						<div class="form-row">
 							<div class ="form-group col-md-6">
 								<label>E-Mail*:</label><br />
 								<input class="form-control" type="email" id="post_email" name="post_email" required="required" />
-							</div>						
+							</div>				
 							<div class ="form-group col-md-6">
-								<label for="post_enddatepicker">Fristende:</label><br />
+								<!-- <label for="post_enddatepicker">Fristende:</label><br /> -->
 									<script>
 										$(document).ready(function(){
 										$( "#post_enddatepicker" ).datepicker(
@@ -130,15 +131,15 @@
 											});
 										});
 									</script>
-								<input class="form-control" readonly  type="text" id="post_enddatepicker"  name="post_enddatepicker" size= "25" />
+								<input class="form-control" readonly  type="hidden" id="post_enddatepicker"  name="post_enddatepicker" size= "25" />
 							
 							</div>
 							<div class ="form-group col-md-6">
-								<label>Nachricht:</label><br />
-								<input class="form-control" type="textarea" id="post_desc" name="post_desc" />
+								<label>Nachricht: <i>optional</i></label><br />
+								<textarea maxlength="50" class="form-control"  id="post_desc" name="post_desc"></textarea>
 							</div>
-							
 						</div>
+						
 						<div class="row mb-2">
 							<div class ="form-group col-md-6">
 									<input class="button" id="submit_post" type="submit" name="post_submit" value="Submit">	
@@ -146,13 +147,14 @@
 						</div>
 					</form>
 					
+					
 				</div>
 			</div>
+
 		
 	<?php
 			}
 			else{
-			
 				echo '<strong>Dieses Buch ist nicht verfügbar</strong>';
 			}
 	?>
@@ -243,7 +245,6 @@
 			return;
 		}
 
-?>
 
 
-<?php get_footer(); ?>
+ get_footer(); 
