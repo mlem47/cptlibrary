@@ -130,12 +130,12 @@
 }
 
 a:link {
-   color: white;
+   color: rgb(14, 9, 9);
  }
  
  /* visited link */
  a:visited {
-   color: white;
+   color: rgb(52, 55, 255);
  }
  
 /* mouse over link */

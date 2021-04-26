@@ -1,25 +1,45 @@
-(function($){
+jQuery(function($){
+	$(document).on('click', '.js-filter-item', function (){
+		var filter = $('.js-filter');
+		$.ajax({
+			url:wp_ajax.ajax_url, //filter.attr('action'),
+			data:filter.serialize(), // form data
+			type:filter.attr('method'), // POST
+			beforeSend:function(xhr){
+				filter.find('button').text('Processing...'); // changing the button label
+			},
+			success:function(data){
+				filter.find('button').text('Apply filter'); // changing the button label back
+				$('.js-response').html(data); // insert data
+			}
+		});
+		return false;
+	});
+});
 
-    $(document).ready(function(){
 
-        $(document).on('click', '.js-filter-item > a', function (e){
+// (function($){
 
-            e.preventDefault();
+//     $(document).ready(function(){
 
-            var category = $(this).data('category');
+//         $(document).on('click', '.js-filter-item', function (e){
 
-            $.ajax({
-                url:wp_ajax.ajax_url,
-                data:{ action: 'filter', category: category }, // form data
-                type:'post',
-                success:function(result){
-                    $('[data-js-filter=target]').html(result); // insert data
-                },
-                error:function(result){
-                    console.warn(result);
-                }
+//             e.preventDefault();
+
+//             var category = $(this).data('category');
+
+//             $.ajax({
+//                 url:wp_ajax.ajax_url,
+//                 data:{ action: 'filter', category: category }, // form data
+//                 type:'post',
+//                 success:function(result){
+//                     $('.js-filter').html(result); // insert data
+//                 },
+//                 error:function(result){
+//                     console.warn(result);
+//                 }
                 
-            });
-        });
-    });
-})(jQuery);
+//             });
+//         });
+//     });
+// })(jQuery);
