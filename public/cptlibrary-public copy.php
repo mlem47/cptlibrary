@@ -106,10 +106,10 @@ class Plugin_Name_Public {
 	}
 
 
-			//hook into single_template to load our custom_post_type template
-	
+		//hook into single_template to load our custom_post_type template
+
 		function load_cpt_books( $template ) {
-	
+
 			if ( 'cpt_books' === get_post_type() )
 			return dirname( __FILE__ ) . '/templates/single-cpt_books.php';
 	
@@ -123,8 +123,8 @@ class Plugin_Name_Public {
 	
 			return $template;
 		}
-
-
+	
+	
 
 		//shortcode zur katalog teaser ansicht mit figcaption im grid
 
@@ -184,7 +184,7 @@ class Plugin_Name_Public {
 		
 		
 			// shortcode filter categories with ajax call
-		function cpt_short_categories() {
+		function cpt_short_categories4() {
 			ob_start();
 			?>
 				<form class="js-filter" action="" method="POST">
@@ -218,77 +218,11 @@ class Plugin_Name_Public {
 			}
 
 
-	
-
-
-		// shortcode  with ajax call to filter posts for each category
-    
-		function cpt_short_cat_ajax(){
-		
-		?>
-		<div class="js-filter">
-			<form action="" method="POST">
-					<?php
-							if( $terms = get_categories( array(
-								'orderby' => 'name',
-								'order'   => 'ASC'
-							) ) ) : 
-							
-								// if categories exist, display the dropdown
-								echo '<select name="categoryfilter"><option value="">Kategorie auswählen</option>';
-								foreach ( $terms as $term ) :
-									echo '<option value="' . $term->term_id . '">' . $term->name . '</option>'; // ID of the category as an option value
-								endforeach;
-								echo '</select>';
-							endif;
-					?>
-					
-					<button class="js-filter-item">Filter anwenden</button>
-					<input type="hidden" name="action" value="myfilter">
-				</form>
-			
-			
-
-			<?
-
-			// the meta_key 'color' with the meta_value 'white'
-			$args = array(
-				'post_type'      => 'cpt_books',
-				'post_status'    => 'publish',
-				'posts_per_page' => -1,
-			);
-			
-			
-			$query = new WP_Query( $args );
-
-				echo '<div class="container-fluid"';
-					if( $query->have_posts() ) :
-						while( $query->have_posts() ): $query->the_post();
-							$post_name =  $query->post->post_title;
-
-							echo '<div class="grid-container">';
-							echo '<div class="Thumbnail"><img scr='.get_the_post_thumbnail($query->post->ID,'thumbnail').'</img></div>';
-							echo '<div class="Title">'.$post_name.'</div>';
-							echo '<div class="Excerpt">'.wp_trim_words( get_the_excerpt( $query->post->ID), 20, '' ).'</div>';
-							echo '<div class="Read-more"><button class="btn-readmore-booked"><a href="'.get_permalink($query->post->ID).'">Entliehen</a></button></div>';
-							echo '</div>';
-						endwhile;
-						wp_reset_postdata();
-					else :
-						echo 'No posts found';
-					endif;
-		?>
-				</div>
-			</div>
-		<div class="js-response"></div>
-
-		<?
-
-		}
-
-		//ajax callback filter function for inserting category content into js-filter class
+		//Kategorie filter
 
 		function cpt_filter_function(){
+
+			
 
 			$args = array(
 				'post_type'      => 'cpt_books',
@@ -326,79 +260,99 @@ class Plugin_Name_Public {
 			endif;
 		 
 			die();
-
-		}	
-
-
-		/* Create a shortcode for the Products CPT
-		* Enable shortcode to be filtered by category 
-		* Print the title/image and link to CPT 
-		*/
-
-		/* shortcode for listing specific pages as linked image tiles (filtered by category) */
-		function cpt_cat_filter($atts) {
-			ob_start();
-
-			// define attributes and their defaults
-			extract( shortcode_atts( array (
-				'cpt_type' => 'cpt_books',
-				'order' => 'date',
-				'orderby' => 'title',
-				'type' => '',
-				'posts' => -1,
-				'category' => '',
-				'tag' => '',
-			), $atts ) );
-
-			// define query parameters based on attributes
-			$options = array(
-				'post_type' => $cpt_type,
-				'order' => $order,
-				'orderby' => $orderby,
-				'posts_per_page' => $posts,
-				'product_type' => $cpt_type,
-				'category_name' => $category,
-			);
-
-			$query = new WP_Query( $options );
-			// run the loop based on the query
-			if ( $query->have_posts() ) { ?>
-				<div class="pages-listing grid-container">
-					<?php while ($query->have_posts()) : $query->the_post(); ?>
-					
-					echo '<div class="grid-container">';
-					echo '<div class="Thumbnail"><img scr='.get_the_post_thumbnail($query->post->ID,'thumbnail').'</img></div>';
-					echo '<div class="Title">'.$post_name.'</div>';
-					echo '<div class="Excerpt">'.wp_trim_words( get_the_excerpt( $query->post->ID), 20, '' ).'</div>';
-					echo '<div class="Read-more"><button class="btn-readmore-booked"><a href="'.get_permalink($query->post->ID).'">Entliehen</a></button></div>';
-					echo '</div>';
-
-					<?php endwhile;
-					wp_reset_postdata();
-
-					?>
-				</div>
-
-			<?php } ?>
-
-				<script>
-				jQuery(document).ready(function($) {
-				var maxHeight = 0;
-				$(".grid-25 .item-cont").each(function() {
-					if ($(this).height() > maxHeight) {
-					maxHeight = $(this).height();
-					}
-				}).height(maxHeight);
-				});
-				</script>
-
-			<?php         
-			$custom_page_display = ob_get_clean();
-			return $custom_page_display;
-	
 		}
 
-		
-		
 
+		// shortcode  with ajax call to filter posts for each category
+    
+		function cpt_short_cat_ajax(){
+
+			echo '<div class="js-filter">';
+
+				$posts = get_posts(array(
+					'post_type'      => 'cpt_books',
+					'post_status'    => 'publish',
+					'posts_per_page' => -1
+				));
+			
+				if( $posts) {
+					foreach($posts as $post){ 
+
+						$post_name =  $post->post_title;
+
+						echo '<div class="container">';
+						echo '<div class="grid-container">';
+						echo '<div class="Thumbnail"><img scr='.get_the_post_thumbnail($post->ID,'thumbnail').'</img></div>';
+						echo '<div class="Title">'.$post_name.'</div>';
+						echo '<div class="Excerpt">'.wp_trim_words( get_the_excerpt( $post->ID), 20, '' ).'</div>';
+						echo '<div class="Read-more"><button class="btn-readmore-booked"><a href="'.get_permalink($post->ID).'">Entliehen</a></button></div>';
+						echo '</div>';
+						echo '</div>';
+					}
+				}
+			?>
+		 
+			<div class="categories">
+				<ul>
+					<li class="js-filter-item"><a href="<? echo home_url(); ?>">All</a></li>
+					
+					<?
+
+					$terms = get_categories( array(
+						'orderby' => 'name',
+						'order'   => 'ASC'
+					) ) ;
+
+					foreach($terms as $term){	
+					
+					?>
+
+						<li class="js-filter-item"><a data-category="<? $term->term_id  ;?>" href="<? echo get_category_link($term->term_id); ?>"><? echo $term->name; ?></a></li>
+
+					<?
+
+					}
+
+					?>
+				</ul>
+			</div>
+
+			<?php
+		}
+
+		//ajax callback filter function for inserting category content into js-filter class
+
+		function filter_ajax(){
+
+			$query = new WP_Query( array(
+				'post_type' => 'cpt_books',          // name of post type.
+				'tax_query' => array(
+					array(
+						'taxonomy' => 'category',   // taxonomy name
+						'field' => 'id',
+						'terms' => $_POST['category'],                  // term id, term slug or term name
+					)
+				)
+			) );
+			
+			while ( $query->have_posts() ) : $query->the_post();
+				$post_name =  $query->post_title;
+				echo '<div class="container">';
+				echo '<div class="grid-container">';
+				echo '<div class="Thumbnail"><img scr='.get_the_post_thumbnail($query->ID,'thumbnail').'</img></div>';
+				echo '<div class="Title">'.$post_name.'</div>';
+				echo '<div class="Excerpt">'.wp_trim_words( get_the_excerpt( $query->ID), 20, '' ).'</div>';
+				echo '<div class="Read-more"><button class="btn-readmore-booked"><a href="'.get_permalink($query->ID).'">Entliehen</a></button></div>';
+				echo '</div>';
+				echo '</div>';
+			endwhile;
+			
+			/**
+			 * reset the orignal query
+			 * we should use this to reset wp_query
+			 */
+			wp_reset_query();
+
+
+		}		
 }

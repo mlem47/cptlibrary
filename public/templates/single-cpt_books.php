@@ -188,7 +188,7 @@
 	$meta_value = get_post_meta($id,'_cpt_books_statusdata_key', true);
 	$meta_thumbnail = get_post_meta($id,'_thumbnail_id', true);
 
-	if ($_POST['post_submit'] == 'Submit' && $meta_value == (int)0) {
+	if (isset($_POST['post_submit']) == 'Submit' && $meta_value == (int)0) {
 
 		$new_auftrag = wp_insert_post( array (
 			'post_title' 		=> $_POST['post_title'],
