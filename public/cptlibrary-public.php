@@ -203,7 +203,6 @@ class Plugin_Name_Public {
 							
 								// if categories exist, display the dropdown
 								echo '<select name="categoryfilter"><option value="">Kategorie auswählen</option>';
-								
 								foreach ( $terms as $term ) :
 									echo '<option value="' . $term->term_id . '">' . $term->name . '</option>'; // ID of the category as an option value
 								endforeach;
@@ -213,6 +212,7 @@ class Plugin_Name_Public {
 					
 					<button class="js-filter-item">Filter anwenden</button>
 					<input type="hidden" name="action" value="myfilter">
+					<a href="<?php home_url();?>"></a><button class="btn">Alle Artikel</button></a>
 				</form>
 			
 			<div class="js-response"></div>
