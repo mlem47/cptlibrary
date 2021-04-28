@@ -10,7 +10,7 @@ jQuery(function($){
 			},
 			success:function(data){
 				filter.find('button').text('Apply filter'); // changing the button label back
-				$('.js-response').html(data); // insert data
+				$('.js-filter2').html(data); // insert data
 			}
 		});
 		return false;

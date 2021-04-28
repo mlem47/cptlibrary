@@ -148,7 +148,8 @@ class Plugin_Name_Public {
 				'posts_per_page' => -1
 				) );
 
-			$print .='<div class=" js-filter container-fluid">';
+			$print .='<div class="js-filter2">';
+			$print .='<div class="container-fluid">';
 			if ( $items) {
 				   foreach ( $items as $item ) {
 					$item_name =  $item->post_title;
@@ -175,8 +176,8 @@ class Plugin_Name_Public {
 				}
 			} 
 			$print .= '</div>';
-
-			$print .='<div class=" js-response">';
+			$print .='<div>';
+			
 
 			return $print;
 			}
@@ -189,6 +190,12 @@ class Plugin_Name_Public {
 			?>
 				<form class="js-filter" action="" method="POST">
 					<?php
+							$allItems = get_posts(array(
+								'post_type'      => 'cpt_books',
+								'post_status'    => 'publish',
+								'posts_per_page' => -1,
+							));
+							
 							if( $terms = get_categories( array(
 								'orderby' => 'name',
 								'order'   => 'ASC'
@@ -196,6 +203,7 @@ class Plugin_Name_Public {
 							
 								// if categories exist, display the dropdown
 								echo '<select name="categoryfilter"><option value="">Kategorie auswählen</option>';
+								
 								foreach ( $terms as $term ) :
 									echo '<option value="' . $term->term_id . '">' . $term->name . '</option>'; // ID of the category as an option value
 								endforeach;
@@ -265,7 +273,6 @@ class Plugin_Name_Public {
 					if( $query->have_posts() ) :
 						while( $query->have_posts() ): $query->the_post();
 							$post_name =  $query->post->post_title;
-
 							echo '<div class="grid-container">';
 							echo '<div class="Thumbnail"><img scr='.get_the_post_thumbnail($query->post->ID,'thumbnail').'</img></div>';
 							echo '<div class="Title">'.$post_name.'</div>';
@@ -330,75 +337,5 @@ class Plugin_Name_Public {
 		}	
 
 
-		/* Create a shortcode for the Products CPT
-		* Enable shortcode to be filtered by category 
-		* Print the title/image and link to CPT 
-		*/
-
-		/* shortcode for listing specific pages as linked image tiles (filtered by category) */
-		function cpt_cat_filter($atts) {
-			ob_start();
-
-			// define attributes and their defaults
-			extract( shortcode_atts( array (
-				'cpt_type' => 'cpt_books',
-				'order' => 'date',
-				'orderby' => 'title',
-				'type' => '',
-				'posts' => -1,
-				'category' => '',
-				'tag' => '',
-			), $atts ) );
-
-			// define query parameters based on attributes
-			$options = array(
-				'post_type' => $cpt_type,
-				'order' => $order,
-				'orderby' => $orderby,
-				'posts_per_page' => $posts,
-				'product_type' => $cpt_type,
-				'category_name' => $category,
-			);
-
-			$query = new WP_Query( $options );
-			// run the loop based on the query
-			if ( $query->have_posts() ) { ?>
-				<div class="pages-listing grid-container">
-					<?php while ($query->have_posts()) : $query->the_post(); ?>
-					
-					echo '<div class="grid-container">';
-					echo '<div class="Thumbnail"><img scr='.get_the_post_thumbnail($query->post->ID,'thumbnail').'</img></div>';
-					echo '<div class="Title">'.$post_name.'</div>';
-					echo '<div class="Excerpt">'.wp_trim_words( get_the_excerpt( $query->post->ID), 20, '' ).'</div>';
-					echo '<div class="Read-more"><button class="btn-readmore-booked"><a href="'.get_permalink($query->post->ID).'">Entliehen</a></button></div>';
-					echo '</div>';
-
-					<?php endwhile;
-					wp_reset_postdata();
-
-					?>
-				</div>
-
-			<?php } ?>
-
-				<script>
-				jQuery(document).ready(function($) {
-				var maxHeight = 0;
-				$(".grid-25 .item-cont").each(function() {
-					if ($(this).height() > maxHeight) {
-					maxHeight = $(this).height();
-					}
-				}).height(maxHeight);
-				});
-				</script>
-
-			<?php         
-			$custom_page_display = ob_get_clean();
-			return $custom_page_display;
-	
-		}
-
-		
-		
 
 }
