@@ -146,7 +146,7 @@ class Plugin_Name_Public {
 					$item_name =  $item->post_title;
 					$print .='<div class="col-sm-4 mx-auto">';
 					$print .='<div class="card">';
-					$print .='<img class="card-img-top">'.get_the_post_thumbnail($item->ID,'thumbnail').' >';
+					$print .='<img class="card-img-top">'.get_the_post_thumbnail($item->ID,'thumbnail').'';
 					$print .='<div class="card-body">';
 					$print .='<h5 class="card-title">'.$item_name.'</h5>';
 					$print .='<p class="card-text">'.wp_trim_words( get_the_excerpt( $item->ID), 5, '' ).'';
@@ -232,25 +232,34 @@ class Plugin_Name_Public {
 		 
 			$query = new WP_Query( $args );
 			echo '<div class="grid-main">';
+			echo '<div class="container-fluid">';
+			echo '<div class="card-deck">';
 			if( $query->have_posts() ) :
 				while( $query->have_posts() ): $query->the_post();
 					$post_name =  $query->post->post_title;
 
-					echo '<div class="grid-items">';
-					echo '<div class="Thumbnail"><img scr='.get_the_post_thumbnail($query->post->ID,'thumbnail').'</img></div>';
-					echo '<div class="Title">'.$post_name.'</div>';
-					echo '<div class="Excerpt">'.wp_trim_words( get_the_excerpt( $query->post->ID), 5, '' ).'</div>';
-					if(get_post_meta($item->ID,'_cpt_books_statusdata_key', true) == false){
-						echo '<div class="Read-more"><button class="btn-readmore"><a href="'.get_permalink($item->ID).'">Zum Buch</a></button></div>';
-						} else{
-							echo '<div class="Read-more"><button class="btn-readmore-booked"><a href="'.get_permalink($item->ID).'">Entliehen</a></button></div>';
-						}
+					echo '<div class="col-sm-4 mx-auto">';
+					echo '<div class="card">';
+					echo '<img class="card-img-top">'.get_the_post_thumbnail($query->post->ID,'thumbnail').' </img>';
+					echo '<div class="card-body">';
+					echo '<h5 class="card-title">'.$post_name.'</h5>';
+					echo '<p class="card-text">'.wp_trim_words( get_the_excerpt(  $query->post->ID), 5, '' ).'';
+					if(get_post_meta( $query->post->ID,'_cpt_books_statusdata_key', true) == false){
+					echo '<a href="'.get_permalink( $query->post->ID).'" class="btn btn-primary">Zum Buch</a>';
+					} else{
+						echo '<a href="'.get_permalink( $query->post->ID).'" class="btn btn-primary btn-booked">Zum Buch</a>';
+					}
+					echo '</p>';
+					echo '</div>';
+					echo '</div>';
 					echo '</div>';
 				endwhile;
 				wp_reset_postdata();
 			else :
 				echo 'No posts found';
 			endif;
+			echo '</div>';
+			echo '</div>';
 			echo '</div>';
 		 
 			die();
