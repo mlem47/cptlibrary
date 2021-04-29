@@ -310,24 +310,7 @@ class Plugin_Name_Admin {
 	}
 
 
-	//set COLUMNS for cpt_books
-
-
-	function cpt_set_einrichtungen_columns($newColumns){   //ADRESSE einfügen!!!!
-		$newColumns = array();
-		$newColumns['cb'] = 'Select';
-		$newColumns['title'] = 'Buch';
-		$newColumns['buchautor'] = 'Autor';
-		$newColumns['kennziffer'] = 'Kennziffer';
-		$newColumns['categories'] = 'Kategorie';
-		$newColumns['status'] = 'Ausgeliehen';
-		$newColumns['date'] = 'Datum';		
-		return $newColumns;
-	
-	}
-
-
-	function cpt_custom_books_columns($column, $post_id){
+		function cpt_custom_books_columns($column, $post_id){
 		
 		switch ($column){
 
@@ -615,7 +598,7 @@ class Plugin_Name_Admin {
 	}
 	
 
-	//META BOX cpt_auftrag - Abspeichern von Email-Adressen während der Auftragserstellung
+	//META BOX cpt_auftrag - Abspeichern von Einrichtungen während der Auftragserstellung
 
 	function cpt_auftrag_einrichtung(){
 		add_meta_box( 'auftrag_einrichtung', 'Einrichtung', array($this, 'auftrag_einrichtung_callback'), 'cpt_auftrag', 'side');
@@ -1048,6 +1031,206 @@ class Plugin_Name_Admin {
 			'display'  => esc_html__( 'Every 5 seconds' ), );
 		return $schedules;
 	}
+
+
+
+
+	//set COLUMNS for cpt_einrichtung
+
+
+	function cpt_set_einrichtung_columns($newColumns){   
+		$newColumns = array();
+		$newColumns['cb'] = 'Select';
+		$newColumns['title'] = 'Einrichtung';
+		$newColumns['adresse'] = 'Adresse';
+		$newColumns['email'] = 'E-Mail';
+		$newColumns['name_sd'] = 'Name SD';
+		$newColumns['date'] = 'Datum';		
+		return $newColumns;
+
+	}
+
+	// transfer data metabox values to column of cpt_einrichtung
+
+
+	function cpt_custom_einrichtung_columns($column, $post_id){
+		
+		switch ($column){
+
+			
+			case 'adresse' ;
+				$adresse= get_post_meta($post_id,'_cpt_einrichtung_adressedata_key', true);
+				echo $adresse;
+			break;
+			
+			case 'email' ;
+				$email = get_post_meta( $post_id,'_cpt_einrichtung_emaildata_key', true);
+				echo $email;
+			break;
+
+			case 'name_sd' ;
+				$name_sd = get_post_meta($post_id,'_cpt_einrichtung_name_sddata_key', true);
+				echo $name_sd;
+			break;
+
+		}
+	}
+
+
+	//META BOX cpt_einrichtung - Abspeichern von Email-Adressen von cpt_einrichtung
+
+	
+	function cpt_einrichtung_email(){
+		add_meta_box( 'einrichtung_email', 'SD E-Mail', array($this, 'einrichtung_email_callback'), 'cpt_einrichtung', 'side');
+	}
+
+	function einrichtung_email_callback($post){
+		wp_nonce_field( 'cpt_save_einrichtung_email_data', 'cpt_einrichtung_emaildata_meta_box_nonce');
+	
+		$value = get_post_meta($post->ID, '_cpt_einrichtung_emaildata_key', true);	
+
+		echo '<label for="cpt_einrichtung_emaildata_field"> User E-Mail Address: </label>';
+		echo '<input type="email" id="cpt_einrichtung_emaildata_field" name="cpt_einrichtung_emaildata_field" value="' . esc_attr($value) . '" size= "25" />';
+	}
+
+	function cpt_save_einrichtung_email_data ($post_id){
+
+		if( ! isset($_POST['cpt_einrichtung_emaildata_meta_box_nonce'])){
+			
+			return;
+		
+			}
+
+			if( ! wp_verify_nonce($_POST['cpt_einrichtung_emaildata_meta_box_nonce'], 'cpt_save_einrichtung_email_data')){
+				
+				return;
+			}
+			
+			if( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+				return;
+			}
+
+			if(! current_user_can ('edit_post', $post_id)){
+				
+				return;
+			}
+
+			if(! isset( $_POST['cpt_einrichtung_emaildata_field'])){
+				
+				return;
+			}
+			
+			$my_data = sanitize_text_field( $_POST['cpt_einrichtung_emaildata_field'] );
+
+			update_post_meta( $post_id, '_cpt_einrichtung_emaildata_key', $my_data );
+
+	}
+
+
+	
+	//META BOX cpt_einrichtung- Abspeichern von Adressen von cpt_einrichtung
+
+	
+	function cpt_einrichtung_adresse(){
+		add_meta_box( 'einrichtung_adresse', 'Adresse', array($this, 'einrichtung_adresse_callback'), 'cpt_einrichtung', 'side');
+	}
+
+	function einrichtung_adresse_callback($post){
+		wp_nonce_field( 'cpt_save_einrichtung_adresse_data', 'cpt_einrichtung_adressedata_meta_box_nonce');
+	
+		$value = get_post_meta($post->ID, '_cpt_einrichtung_adressedata_key', true);	
+
+		echo '<label for="cpt_einrichtung_adressedata_field"> Adresse Einrichtung </label>';
+		echo '<input type="text" id="cpt_einrichtung_adressedata_field" name="cpt_einrichtung_adressedata_field" value="' . esc_attr($value) . '" size= "25" />';
+	}
+
+	function cpt_save_einrichtung_adresse_data ($post_id){
+
+		if( ! isset($_POST['cpt_einrichtung_adressedata_meta_box_nonce'])){
+			
+			return;
+		
+			}
+
+			if( ! wp_verify_nonce($_POST['cpt_einrichtung_adressedata_meta_box_nonce'], 'cpt_save_einrichtung_adresse_data')){
+				
+				return;
+			}
+			
+			if( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+				return;
+			}
+
+			if(! current_user_can ('edit_post', $post_id)){
+				
+				return;
+			}
+
+			if(! isset( $_POST['cpt_einrichtung_adressedata_field'])){
+				
+				return;
+			}
+			
+			$my_data = sanitize_text_field( $_POST['cpt_einrichtung_adressedata_field'] );
+
+			update_post_meta( $post_id, '_cpt_einrichtung_adressedata_key', $my_data );
+
+	}
+	
+
+
+	//META BOX cpt_einrichtung- Abspeichern von Adressen von cpt_einrichtung
+
+	
+	function cpt_einrichtung_name_sd(){
+		add_meta_box( 'einrichtung_name_sd', 'Name SD', array($this, 'einrichtung_name_sd_callback'), 'cpt_einrichtung', 'side');
+	}
+
+	function einrichtung_name_sd_callback($post){
+		wp_nonce_field( 'cpt_save_einrichtung_name_sd_data', 'cpt_einrichtung_name_sddata_meta_box_nonce');
+	
+		$value = get_post_meta($post->ID, '_cpt_einrichtung_name_sddata_key', true);	
+
+		echo '<label for="cpt_einrichtung_name_sddata_field"> Name SD</label>';
+		echo '<input type="text" id="cpt_einrichtung_name_sddata_field" name="cpt_einrichtung_name_sddata_field" value="' . esc_attr($value) . '" size= "25" />';
+	}
+
+	function cpt_save_einrichtung_name_sd_data ($post_id){
+
+		if( ! isset($_POST['cpt_einrichtung_name_sddata_meta_box_nonce'])){
+			
+			return;
+		
+			}
+
+			if( ! wp_verify_nonce($_POST['cpt_einrichtung_name_sddata_meta_box_nonce'], 'cpt_save_einrichtung_name_sd_data')){
+				
+				return;
+			}
+			
+			if( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+				return;
+			}
+
+			if(! current_user_can ('edit_post', $post_id)){
+				
+				return;
+			}
+
+			if(! isset( $_POST['cpt_einrichtung_name_sddata_field'])){
+				
+				return;
+			}
+			
+			$my_data = sanitize_text_field( $_POST['cpt_einrichtung_name_sddata_field'] );
+
+			update_post_meta( $post_id, '_cpt_einrichtung_name_sddata_key', $my_data );
+
+	}
+	
+
+
+
 
 
 }

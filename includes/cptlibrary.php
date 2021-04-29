@@ -165,20 +165,19 @@ class Plugin_Name {
 		//register cpt zur Einrichtungsverwaltung
 		$this->loader->add_action('init', $plugin_admin, 'cpt_einrichtung');
 
-		//colo bg for meta booked in cpt_auftrag
+		//color bg for meta booked in cpt_auftrag
 		$this->loader->add_filter('post_class', $plugin_admin, 'cpt_auftrag_color_classes');
 
 		//create custom columns for cpt's
 		$this->loader->add_filter('manage_cpt_auftrag_posts_columns', $plugin_admin, 'cpt_set_auftrag_columns');
 		$this->loader->add_filter('manage_cpt_books_posts_columns', $plugin_admin, 'cpt_set_books_columns');
+		$this->loader->add_filter('manage_cpt_einrichtung_posts_columns', $plugin_admin, 'cpt_set_einrichtung_columns');
 
-		//cronjob check if overdue
-		$this->loader->add_filter('cron_schedules', $plugin_admin, 'cpt_add_cron_interval');
-		$this->loader->add_action('cpt_cron_hook', $plugin_admin, 'cpt_auftrag_overdue_check');
 
 		// first number position of execution, second number transmit of cases
 		$this->loader->add_action('manage_cpt_auftrag_posts_custom_column', $plugin_admin, 'cpt_custom_auftrag_columns', 10, 8  );
 		$this->loader->add_action('manage_cpt_books_posts_custom_column', $plugin_admin, 'cpt_custom_books_columns', 10, 3  );
+		$this->loader->add_action('manage_cpt_einrichtung_posts_custom_column', $plugin_admin, 'cpt_custom_einrichtung_columns', 10, 3  );
 		
 		//trash action if auftrag is trashed
 		$this->loader->add_action('wp_trash_post', $plugin_admin, 'trash_cpt_books_status', 1, 1  );
@@ -191,6 +190,18 @@ class Plugin_Name {
 		//meta-box save for cpt_books
 		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_books_status_data');
 		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_books_kennziffer_data');
+		
+		//meta-boxes for cpt_books
+		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_einrichtung_email');
+		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_einrichtung_adresse');
+		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_einrichtung_name_sd');
+		
+
+		//meta-box save for cpt_books
+		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_einrichtung_email_data');
+		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_einrichtung_adresse_data');
+		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_einrichtung_name_sd_data');
+		
 		
 		//meta-boxes for cpt_auftrag
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_auftrag_email');
@@ -213,6 +224,11 @@ class Plugin_Name {
 		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_status_data');
 		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_status_send_data');
 		//$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_auftrag_booksid_data');
+
+
+		//cronjob check if overdue
+		$this->loader->add_filter('cron_schedules', $plugin_admin, 'cpt_add_cron_interval');
+		$this->loader->add_action('cpt_cron_hook', $plugin_admin, 'cpt_auftrag_overdue_check');
 
 	}
 
