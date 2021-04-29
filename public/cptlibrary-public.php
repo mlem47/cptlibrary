@@ -150,12 +150,12 @@ class Plugin_Name_Public {
 
 			$print .='<div class="js-filter2">';
 			$print .='<div class="container-fluid">';
-			$print .='<div class="grid-container">';
+			$print .='<div class="grid-main">';
 			if ( $items) {
 				   foreach ( $items as $item ) {
 					$item_name =  $item->post_title;
 					$print .='<div class="grid-items">';
-					$print .='<div class="Thumbnail">'.get_the_post_thumbnail($item->ID, 'thumbnail' ).'</div>';
+					$print .='<div class="Thumbnail">'.get_the_post_thumbnail($item->ID,'thumbnail').'</div>';
 					$print .='<div class="Title">'.$item_name.'</div>';
 					$print .='<div class="Excerpt">'.wp_trim_words( get_the_excerpt( $item->ID), 5, '' ).'</div>';
 					$print .='<div class="Read-more"><button class="btn-readmore"><a href="'.get_permalink($item->ID).'">Zum Buch</a></button></div>';
@@ -169,7 +169,7 @@ class Plugin_Name_Public {
 					$item_name =  $item->post_title;
 
 					$print .='<div class="grid-items">';
-					$print .='<div class="Thumbnail">'.get_the_post_thumbnail($item->ID, 'thumbnail').'</div>';
+					$print .='<div class="Thumbnail">'.get_the_post_thumbnail($item->ID,'thumbnail').'</div>';
 					$print .='<div class="Title">'.$item_name.'</div>';
 					$print .='<div class="Excerpt">'.wp_trim_words( get_the_excerpt( $item->ID), 5, '' ).'</div>';
 					$print .='<div class="Read-more"><button class="btn-readmore-booked"><a href="'.get_permalink($item->ID).'">Entliehen</a></button></div>';
@@ -182,7 +182,7 @@ class Plugin_Name_Public {
 			
 
 			return $print;
-			}
+		}
 
 		
 		
@@ -220,74 +220,6 @@ class Plugin_Name_Public {
 
 			return ob_get_clean();
 
-			}
-
-
-	
-
-
-		// shortcode  with ajax call to filter posts for each category
-    
-		function cpt_short_cat_ajax(){
-		
-		?>
-		<div class="js-filter">
-			<form action="" method="POST">
-					<?php
-							if( $terms = get_categories( array(
-								'orderby' => 'name',
-								'order'   => 'ASC'
-							) ) ) : 
-							
-								// if categories exist, display the dropdown
-								echo '<select name="categoryfilter"><option value="">Kategorie auswählen</option>';
-								foreach ( $terms as $term ) :
-									echo '<option value="' . $term->term_id . '">' . $term->name . '</option>'; // ID of the category as an option value
-								endforeach;
-								echo '</select>';
-							endif;
-					?>
-					
-					<button class="js-filter-item">Filter anwenden</button>
-					<input type="hidden" name="action" value="myfilter">
-				</form>
-			
-			
-
-			<?
-
-			// the meta_key 'color' with the meta_value 'white'
-			$args = array(
-				'post_type'      => 'cpt_books',
-				'post_status'    => 'publish',
-				'posts_per_page' => -1,
-			);
-			
-			
-			$query = new WP_Query( $args );
-
-				echo '<div class="container-fluid"';
-					if( $query->have_posts() ) :
-						while( $query->have_posts() ): $query->the_post();
-							$post_name =  $query->post->post_title;
-							echo '<div class="grid-container">';
-							echo '<div class="Thumbnail"><img scr='.get_the_post_thumbnail($query->post->ID,'thumbnail').'</img></div>';
-							echo '<div class="Title">'.$post_name.'</div>';
-							echo '<div class="Excerpt">'.wp_trim_words( get_the_excerpt( $query->post->ID), 20, '' ).'</div>';
-							echo '<div class="Read-more"><button class="btn-readmore-booked"><a href="'.get_permalink($query->post->ID).'">Entliehen</a></button></div>';
-							echo '</div>';
-						endwhile;
-						wp_reset_postdata();
-					else :
-						echo 'No posts found';
-					endif;
-		?>
-				</div>
-			</div>
-		<div class="js-response"></div>
-
-		<?
-
 		}
 
 		//ajax callback filter function for inserting category content into js-filter class
@@ -312,15 +244,15 @@ class Plugin_Name_Public {
 				);
 		 
 			$query = new WP_Query( $args );
-		 
+			echo '<div class="grid-main">';
 			if( $query->have_posts() ) :
 				while( $query->have_posts() ): $query->the_post();
 					$post_name =  $query->post->post_title;
 
-					echo '<div class="grid-container">';
+					echo '<div class="grid-items">';
 					echo '<div class="Thumbnail"><img scr='.get_the_post_thumbnail($query->post->ID,'thumbnail').'</img></div>';
 					echo '<div class="Title">'.$post_name.'</div>';
-					echo '<div class="Excerpt">'.wp_trim_words( get_the_excerpt( $query->post->ID), 20, '' ).'</div>';
+					echo '<div class="Excerpt">'.wp_trim_words( get_the_excerpt( $query->post->ID), 5, '' ).'</div>';
 					echo '<div class="Read-more"><button class="btn-readmore-booked"><a href="'.get_permalink($query->post->ID).'">Entliehen</a></button></div>';
 					echo '</div>';
 				endwhile;
@@ -328,16 +260,10 @@ class Plugin_Name_Public {
 			else :
 				echo 'No posts found';
 			endif;
+			echo '</div>';
 		 
 			die();
 
 		}	
-
-
-		function ctp_setup_thumbnail() {
-			set_post_thumbnail_size( 150, 'auto', true );
-		   } 
-
-
 
 }

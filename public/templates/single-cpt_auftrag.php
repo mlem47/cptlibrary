@@ -7,7 +7,8 @@
 
  get_header();?>
 
-    <?
+    <?  
+        $post_id = get_the_ID();
         $fullname = get_post_meta($post_id,'_cpt_auftrag_fullnamedata_key', true);
         $email = get_post_meta( $post_id,'_cpt_auftrag_emaildata_key', true);
         $einrichtung = get_post_meta($post_id,'_cpt_auftrag_einrichtungdata_key', true);
