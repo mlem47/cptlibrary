@@ -235,6 +235,8 @@ class Plugin_Name {
 		$this->loader->add_action( 'wp_ajax_myfilter', $plugin_public, 'cpt_filter_function' ); // wp_ajax_{ACTION HERE} 
 		$this->loader->add_action( 'wp_ajax_nopriv_myfilter', $plugin_public, 'cpt_filter_function' );
 		
+		//set the thumbnailsize
+		$this->loader->add_action( 'init', $plugin_public, 'ctp_setup_thumbnail', 100 );
 		
 		
 		//register shortcodes //mlem

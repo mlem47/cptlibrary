@@ -9,7 +9,7 @@
     padding-top: 2em;
  }
 
- /* .button {
+ .button {
    background-color: #b61f29;
    border: none;
    color: white;
@@ -21,93 +21,40 @@
    margin: 20px 20px;
    cursor: pointer;
   
- } */
- 
+ } 
+
  .grid-container {
    display: grid;
-   grid-template-columns: 1fr 1fr 1fr 1fr;
-   grid-template-rows: 1fr 1fr 1fr 1fr;
+   grid-template-columns: 1fr 1fr ;
+   grid-template-rows: 1fr 1fr ;
    gap: 0px 0px;
    grid-template-areas:
-     "main main main main"
-     "main main main main"
-     "main main main main"
-     "main main main main";
- }
+     "grid-items grid-items "
+     "grid-items grid-items ";
+ } 
  
  .grid-main {
    display: grid;
    grid-template-columns: 1fr 1fr;
    grid-template-rows: 1fr 1fr;
-   gap: 0px 0px;
+   gap: 20px 20px;
    grid-template-areas:
-     "grid1 grid2"
-     "grid4 grid5";
-   grid-area: main;
+     "grid-items grid-items"
+     "grid-items grid-items";
  }
  
- .grid1 {
+ .grid-items{
    display: grid;
-   grid-template-columns: 1fr 1fr 1fr;
-   grid-template-rows: 1fr 1fr;
+   grid-template-columns: 1fr 2fr;
+   grid-template-rows: 1fr 2fr;
    gap: 0px 0px;
    grid-template-areas:
-     "thumbnail title title"
-     "content content button";
-   grid-area: grid1;
- }
- 
- .thumbnail { grid-area: thumbnail; }
- 
- .title { grid-area: title; }
- 
- .content { grid-area: content; }
- 
- .button { grid-area: button; }
- 
- .grid2 { display: grid;
-   grid-template-columns: 1fr 1fr 1fr;
-   grid-template-rows: 1fr 1fr;
-   gap: 0px 0px;
-   grid-template-areas:
-     "thumbnail title title"
-     "content content button";
-   grid-area: grid2; }
- 
- .grid3 {display: grid;
-   grid-template-columns: 1fr 1fr 1fr;
-   grid-template-rows: 1fr 1fr;
-   gap: 0px 0px;
-   grid-template-areas:
-     "thumbnail title title"
-     "content content button";
-   grid-area: grid3; }
- 
- .grid4 { display: grid;
-   grid-template-columns: 1fr 1fr 1fr;
-   grid-template-rows: 1fr 1fr;
-   gap: 0px 0px;
-   grid-template-areas:
-     "thumbnail title title"
-     "content content button";
-   grid-area: grid4; }
- 
-
-
- .grid-container {
-   display: grid;
-   grid-template-columns: 1fr 1fr 1fr 1fr;
-   grid-template-rows: 1fr 1fr 1fr;
-   gap: 0px 0px;
-   grid-template-areas:
-     "Thumbnail Thumbnail Title Title"
-     "Thumbnail Thumbnail Excerpt Excerpt"
-     ". . . Zum-Buch";
+     "Thumbnail Title "
+     "Zum-Buch  Excerpt";
  }
  
  .Thumbnail { grid-area: Thumbnail; 
 
-   padding: 2em, 2em, 2em, 2em;
 
 }
  

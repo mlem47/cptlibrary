@@ -150,13 +150,14 @@ class Plugin_Name_Public {
 
 			$print .='<div class="js-filter2">';
 			$print .='<div class="container-fluid">';
+			$print .='<div class="grid-container">';
 			if ( $items) {
 				   foreach ( $items as $item ) {
 					$item_name =  $item->post_title;
-					$print .='<div class="grid-container">';
-					$print .='<div class="Thumbnail"><img scr='.get_the_post_thumbnail($item->ID,'thumbnail').'</img></div>';
+					$print .='<div class="grid-items">';
+					$print .='<div class="Thumbnail">'.get_the_post_thumbnail($item->ID, 'thumbnail' ).'</div>';
 					$print .='<div class="Title">'.$item_name.'</div>';
-					$print .='<div class="Excerpt">'.wp_trim_words( get_the_excerpt( $item->ID), 20, '' ).'</div>';
+					$print .='<div class="Excerpt">'.wp_trim_words( get_the_excerpt( $item->ID), 5, '' ).'</div>';
 					$print .='<div class="Read-more"><button class="btn-readmore"><a href="'.get_permalink($item->ID).'">Zum Buch</a></button></div>';
 					$print .='</div>';
 				}
@@ -167,16 +168,17 @@ class Plugin_Name_Public {
 				   foreach ( $itemsbooked as $item ) {
 					$item_name =  $item->post_title;
 
-					$print .='<div class="grid-container">';
-					$print .='<div class="Thumbnail"><img scr='.get_the_post_thumbnail($item->ID,'thumbnail').'</img></div>';
+					$print .='<div class="grid-items">';
+					$print .='<div class="Thumbnail">'.get_the_post_thumbnail($item->ID, 'thumbnail').'</div>';
 					$print .='<div class="Title">'.$item_name.'</div>';
-					$print .='<div class="Excerpt">'.wp_trim_words( get_the_excerpt( $item->ID), 20, '' ).'</div>';
+					$print .='<div class="Excerpt">'.wp_trim_words( get_the_excerpt( $item->ID), 5, '' ).'</div>';
 					$print .='<div class="Read-more"><button class="btn-readmore-booked"><a href="'.get_permalink($item->ID).'">Entliehen</a></button></div>';
 					$print .= '</div>';
 				}
 			} 
 			$print .= '</div>';
-			$print .='<div>';
+			$print .= '</div>';
+			$print .= '</div>';
 			
 
 			return $print;
@@ -190,19 +192,14 @@ class Plugin_Name_Public {
 			?>
 				<form class="js-filter" action="" method="POST">
 					<?php
-							$allItems = get_posts(array(
-								'post_type'      => 'cpt_books',
-								'post_status'    => 'publish',
-								'posts_per_page' => -1,
-							));
-							
+										
 							if( $terms = get_categories( array(
 								'orderby' => 'name',
 								'order'   => 'ASC'
 							) ) ) : 
 							
 								// if categories exist, display the dropdown
-								echo '<select name="categoryfilter"><option value="">Kategorie auswählen</option>';
+								echo '<select name="categoryfilter"><option value="">Auswählen</option>';
 								foreach ( $terms as $term ) :
 									echo '<option value="' . $term->term_id . '">' . $term->name . '</option>'; // ID of the category as an option value
 								endforeach;
@@ -335,6 +332,11 @@ class Plugin_Name_Public {
 			die();
 
 		}	
+
+
+		function ctp_setup_thumbnail() {
+			set_post_thumbnail_size( 150, 'auto', true );
+		   } 
 
 
 

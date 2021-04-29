@@ -310,6 +310,23 @@ class Plugin_Name_Admin {
 	}
 
 
+	//set COLUMNS for cpt_books
+
+
+	function cpt_set_einrichtungen_columns($newColumns){   //ADRESSE einfügen!!!!
+		$newColumns = array();
+		$newColumns['cb'] = 'Select';
+		$newColumns['title'] = 'Buch';
+		$newColumns['buchautor'] = 'Autor';
+		$newColumns['kennziffer'] = 'Kennziffer';
+		$newColumns['categories'] = 'Kategorie';
+		$newColumns['status'] = 'Ausgeliehen';
+		$newColumns['date'] = 'Datum';		
+		return $newColumns;
+	
+	}
+
+
 	function cpt_custom_books_columns($column, $post_id){
 		
 		switch ($column){
