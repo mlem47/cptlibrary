@@ -219,7 +219,6 @@
 
 
 		$new_url = get_the_permalink($new_auftrag);
-		$meta_enddate = get_post_meta($new_auftrag,'post_enddatepicker', true);
 	
 
 		?>
@@ -237,9 +236,14 @@
 		});
 		});
 
-		</script>
+		</script>	
 
 		<?php
+		$meta_email = get_post_meta($new_auftrag,'_cpt_auftrag_emaildata_key', true);
+		$meta_email_fullname = get_post_meta($new_auftrag, '_cpt_auftrag_fullnamedata_key', true);
+		$meta_email_booktitle = $_POST['post_title'];
+		// $meta_email_sd =get_post_meta()
+		wp_mail( $meta_email, 'Ihre Bestellung', 'Vielen Dank, '. $meta_email_fullname .' für Ihre Bestellung, der Artikel "'. $meta_email_booktitle .'" wurde für Sie reserviert.');
 
 	} else {
 			return;

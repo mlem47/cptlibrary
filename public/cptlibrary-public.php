@@ -140,27 +140,33 @@ class Plugin_Name_Public {
 
 			$print .='<div class="js-filter2">';
 			$print .='<div class="container-fluid">';
-			$print .='<div class="grid-main">';
+			$print .='<div class="card-deck">';
 			if ( $items) {
 				   foreach ( $items as $item ) {
 					$item_name =  $item->post_title;
-					$print .='<div class="grid-items">';
-					$print .='<div class="Thumbnail">'.get_the_post_thumbnail($item->ID,'thumbnail').'</div>';
-					$print .='<div class="Title">'.$item_name.'</div>';
-					$print .='<div class="Excerpt">'.wp_trim_words( get_the_excerpt( $item->ID), 5, '' ).'</div>';
+					$print .='<div class="col-sm-4 mx-auto">';
+					$print .='<div class="card">';
+					$print .='<img class="card-img-top">'.get_the_post_thumbnail($item->ID,'thumbnail').' >';
+					$print .='<div class="card-body">';
+					$print .='<h5 class="card-title">'.$item_name.'</h5>';
+					$print .='<p class="card-text">'.wp_trim_words( get_the_excerpt( $item->ID), 5, '' ).'';
 					if(get_post_meta($item->ID,'_cpt_books_statusdata_key', true) == false){
-					$print .='<div class="Read-more"><button class="btn-readmore"><a href="'.get_permalink($item->ID).'">Zum Buch</a></button></div>';
+					$print .='<a href="'.get_permalink($item->ID).'" class="btn btn-primary">Zum Buch</a>';
 					} else{
-						$print .='<div class="Read-more"><button class="btn-readmore-booked"><a href="'.get_permalink($item->ID).'">Entliehen</a></button></div>';
+						$print .='<a href="'.get_permalink($item->ID).'" class="btn btn-primary btn-booked">Zum Buch</a>';
 					}
+					$print .='</p>';
+					$print .='</div>';
+					$print .='</div>';
 					$print .='</div>';
 				}
 			} 
 			
-			$print .= '</div>';
-			$print .= '</div>';
-			$print .= '</div>';
 			
+			$print .= '</div>';
+			$print .= '</div>';
+			$print .= '</div>';
+		
 
 			return $print;
 		}
@@ -250,5 +256,10 @@ class Plugin_Name_Public {
 			die();
 
 		}	
+
+
+
+		
+
 
 }

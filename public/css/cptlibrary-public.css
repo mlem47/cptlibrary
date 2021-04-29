@@ -23,7 +23,7 @@
   
  } 
 
- .grid-container {
+ /* .grid-container {
    display: grid;
    grid-template-columns: 1fr 1fr ;
    grid-template-rows: 1fr 1fr ;
@@ -68,6 +68,12 @@
  
  .Zum-Buch { grid-area: Read-more; 
    
+} */
+
+.card-img-top {
+  width: 100%;
+  height: auto;
+  align-self: stretch;
 }
 
 .btn-readmore{
@@ -107,6 +113,11 @@ a:hover {
 }
 
 .btn-readmore-booked{
+   background-color: grey;
+   color: #b61f29;
+   text-align: center;
+}
+.btn-booked{
    background-color: grey;
    color: #b61f29;
    text-align: center;
