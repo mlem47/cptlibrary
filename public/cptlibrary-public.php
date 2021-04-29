@@ -134,16 +134,6 @@ class Plugin_Name_Public {
 				'post_type'      => 'cpt_books',
 				'post_status'    => 'publish',
 				'meta_key'   => '_cpt_books_statusdata_key',
-    			'meta_value' => false,
-				'order' 	 => 'ASC',
-				'posts_per_page' => -1
-				) );
-
-			$itemsbooked = get_posts( array(
-				'post_type'      => 'cpt_books',
-				'post_status'    => 'publish',
-				'meta_key'   => '_cpt_books_statusdata_key',
-    			'meta_value' => true,
 				'order' 	 => 'ASC',
 				'posts_per_page' => -1
 				) );
@@ -158,24 +148,15 @@ class Plugin_Name_Public {
 					$print .='<div class="Thumbnail">'.get_the_post_thumbnail($item->ID,'thumbnail').'</div>';
 					$print .='<div class="Title">'.$item_name.'</div>';
 					$print .='<div class="Excerpt">'.wp_trim_words( get_the_excerpt( $item->ID), 5, '' ).'</div>';
+					if(get_post_meta($item->ID,'_cpt_books_statusdata_key', true) == false){
 					$print .='<div class="Read-more"><button class="btn-readmore"><a href="'.get_permalink($item->ID).'">Zum Buch</a></button></div>';
+					} else{
+						$print .='<div class="Read-more"><button class="btn-readmore-booked"><a href="'.get_permalink($item->ID).'">Entliehen</a></button></div>';
+					}
 					$print .='</div>';
 				}
 			} 
 			
-		 	
-			if ( $itemsbooked) {
-				   foreach ( $itemsbooked as $item ) {
-					$item_name =  $item->post_title;
-
-					$print .='<div class="grid-items">';
-					$print .='<div class="Thumbnail">'.get_the_post_thumbnail($item->ID,'thumbnail').'</div>';
-					$print .='<div class="Title">'.$item_name.'</div>';
-					$print .='<div class="Excerpt">'.wp_trim_words( get_the_excerpt( $item->ID), 5, '' ).'</div>';
-					$print .='<div class="Read-more"><button class="btn-readmore-booked"><a href="'.get_permalink($item->ID).'">Entliehen</a></button></div>';
-					$print .= '</div>';
-				}
-			} 
 			$print .= '</div>';
 			$print .= '</div>';
 			$print .= '</div>';
@@ -253,7 +234,11 @@ class Plugin_Name_Public {
 					echo '<div class="Thumbnail"><img scr='.get_the_post_thumbnail($query->post->ID,'thumbnail').'</img></div>';
 					echo '<div class="Title">'.$post_name.'</div>';
 					echo '<div class="Excerpt">'.wp_trim_words( get_the_excerpt( $query->post->ID), 5, '' ).'</div>';
-					echo '<div class="Read-more"><button class="btn-readmore-booked"><a href="'.get_permalink($query->post->ID).'">Entliehen</a></button></div>';
+					if(get_post_meta($item->ID,'_cpt_books_statusdata_key', true) == false){
+						echo '<div class="Read-more"><button class="btn-readmore"><a href="'.get_permalink($item->ID).'">Zum Buch</a></button></div>';
+						} else{
+							echo '<div class="Read-more"><button class="btn-readmore-booked"><a href="'.get_permalink($item->ID).'">Entliehen</a></button></div>';
+						}
 					echo '</div>';
 				endwhile;
 				wp_reset_postdata();
