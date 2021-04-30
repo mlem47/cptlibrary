@@ -80,7 +80,7 @@ class Plugin_Name_Admin {
 	}
 
 	public function cpt_admin_menu(){
-		add_menu_page( 'Admin','Ausleihe', 'manage_options', 'cpt_admin', array($this, 'myplugin_admin_page'),'dashicons-cpt_books' );
+		add_menu_page( 'Admin','Online-Buchverleih', 'manage_options', 'cpt_admin', array($this, 'myplugin_admin_page'),'dashicons-book-alt' );
 		add_submenu_page( 'cpt_admin', 'Buchimport', 'Buecher', 'manage_options', 'edit.php?post_type=cpt_books' );
 		add_submenu_page( 'cpt_admin', 'Auftrag', 'Auftrag', 'manage_options', 'edit.php?post_type=cpt_auftrag' );
 		add_submenu_page( 'cpt_admin', 'Einrichtung', 'Einrichtungen', 'manage_options', 'edit.php?post_type=cpt_einrichtung' );
