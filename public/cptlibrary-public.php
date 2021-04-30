@@ -181,26 +181,42 @@ class Plugin_Name_Public {
 		function cpt_short_categories() {
 			ob_start();
 			?>
-				<form class="js-filter" action="" method="POST">
-					<?php
+
+				<form class="js-filter " action="" method="POST">
+					<div class="form-row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<button class="js-filter-item btn btn-primary">Filter anwenden</button>
+								<input type="hidden" name="action" value="myfilter">
+							</div>
+							<div class="form-group">
+								<?php
+													
+										if( $terms = get_categories( array(
+											'orderby' => 'name',
+											'order'   => 'ASC'
+										) ) ) : 
 										
-							if( $terms = get_categories( array(
-								'orderby' => 'name',
-								'order'   => 'ASC'
-							) ) ) : 
+											// if categories exist, display the dropdown
+											echo '<select name="categoryfilter"><option value="">Auswählen</option>';
+											foreach ( $terms as $term ) :
+												echo '<option value="' . $term->term_id . '">' . $term->name . '</option>'; // ID of the category as an option value
+											endforeach;
+											echo '</select>';
+										endif;
+								?>
+							</div>
+						</div>
+						<div class="col-md-2">
+							<div class="form group">
+								<a href="<?php home_url();?>"></a><button class="btn btn-danger">Alle Artikel</button></a>
+							</div>
+						</div>
+
+						<div class="col-md-7">
 							
-								// if categories exist, display the dropdown
-								echo '<select name="categoryfilter"><option value="">Auswählen</option>';
-								foreach ( $terms as $term ) :
-									echo '<option value="' . $term->term_id . '">' . $term->name . '</option>'; // ID of the category as an option value
-								endforeach;
-								echo '</select>';
-							endif;
-					?>
-					
-					<button class="js-filter-item">Filter anwenden</button>
-					<input type="hidden" name="action" value="myfilter">
-					<a href="<?php home_url();?>"></a><button class="btn">Alle Artikel</button></a>
+						</div>
+					</div>
 				</form>
 			
 			<div class="js-response"></div>

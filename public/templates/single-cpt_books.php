@@ -12,12 +12,12 @@
        <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
    
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<div class="card" style="width: 20rem;">
 					<img class="card-img-top"> <?php the_post_thumbnail('large'); ?>
 				</div>	
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-8">
 					<h3 class="card-title"><?php the_title() ?></h3>
 					<p><?php the_excerpt() ?></p>
 			</div>

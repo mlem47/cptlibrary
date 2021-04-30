@@ -9,7 +9,7 @@ jQuery(function($){
 				filter.find('button.js-filter-item').text('Processing...'); // changing the button label
 			},
 			success:function(data){
-				filter.find('button.js-filter-item').text('Apply filter'); // changing the button label back
+				filter.find('button.js-filter-item').text('Gefiltert'); // changing the button label back
 				$('.js-filter2').html(data); // insert data
 			}
 		});
