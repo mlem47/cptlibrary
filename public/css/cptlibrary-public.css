@@ -9,7 +9,7 @@
     padding-top: 2em;
  }
 
- .button {
+ .btn-booked {
    background-color: #b61f29;
    border: none;
    color: white;
@@ -23,130 +23,9 @@
   
  } 
 
- /* .grid-container {
-   display: grid;
-   grid-template-columns: 1fr 1fr ;
-   grid-template-rows: 1fr 1fr ;
-   gap: 0px 0px;
-   grid-template-areas:
-     "grid-items grid-items "
-     "grid-items grid-items ";
- } 
- 
- .grid-main {
-   display: grid;
-   grid-template-columns: 1fr 1fr;
-   grid-template-rows: 1fr 1fr;
-   gap: 20px 20px;
-   grid-template-areas:
-     "grid-items grid-items"
-     "grid-items grid-items";
- }
- 
- .grid-items{
-   display: grid;
-   grid-template-columns: 1fr 2fr;
-   grid-template-rows: 1fr 2fr;
-   gap: 0px 0px;
-   grid-template-areas:
-     "Thumbnail Title "
-     "Zum-Buch  Excerpt";
- }
- 
- .Thumbnail { grid-area: Thumbnail; 
-
-
-}
- 
- .Title { grid-area: Title; 
-   font-size: 26px;
-   color: #b61f29;
-
-}
- 
- .Excerpt { grid-area: Excerpt; }
- 
- .Zum-Buch { grid-area: Read-more; 
-   
-} */
-
-.card-img-top {
-  width: 100%;
-  height: auto;
-  align-self: stretch;
-}
-
-.btn-readmore{
-   background-color: #b61f29;
-   color: white;
-   text-align: center;
-}
-
-a:link {
-   color: rgb(14, 9, 9);
- }
- 
- /* visited link */
- a:visited {
-   color: rgb(52, 55, 255);
- }
- 
-/* mouse over link */
-a:hover {
-   color: hotpink;
- }
- 
- /* selected link */
- a:active {
-   color: blue;
- }
-
- .bg-booked {
-   background-color: rgba(152, 179, 189, 0.398);
-   border-radius: 2%;
- }
-
-.btn-readmore{
-   background-color: #b61f29;
-   color: white;
-   text-align: center;
-}
-
-.btn-readmore-booked{
-   background-color: grey;
-   color: #b61f29;
-   text-align: center;
-}
-.btn-booked{
-   background-color: grey;
-   color: #b61f29;
-   text-align: center;
-}
-
- .katalog-teaser{
-    /* border-radius: 15%; */
-    border: 1px rgba(152, 179, 189, 0.598);
-    box-shadow: 10px 10px 10px 5px rgba(152, 179, 189, 0.598);
- }
-
- .katalog-teaser-booked{
-    /* border-radius: 15%; */
-    border: 1px red;
-    box-shadow: 10px 10px 10px 5px rgba(233, 59, 59, 0.632);
- }
- 
-
- .teaser-caption-text{
-    position: relative;
-    color: darkslateblue;
-    font-weight: 700;
-    padding-top: 20px;
-    
- }
 
  input[required] {
    border-color: rgba(255, 0, 0, 0.598);
  }
 
- 
  

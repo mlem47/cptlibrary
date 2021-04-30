@@ -320,8 +320,8 @@ class Plugin_Name_Admin {
 			break;
 
 			case 'buchautor' ;
-				//$buchautor =;
-				//echo $buchautor;
+				$buchautor = get_post_meta($post_id, '_cpt_books_autordata_key', true);
+				echo $buchautor;
 			break;
 
 			case 'status' ;
@@ -378,6 +378,55 @@ class Plugin_Name_Admin {
 			$my_data = sanitize_text_field( $_POST['cpt_books_kennzifferdata_field'] );
 
 			update_post_meta( $post_id, '_cpt_books_kennzifferdata_key', $my_data );
+
+	}
+
+
+	// META BOX for cpt_books Autor
+
+	function cpt_books_autor(){
+		add_meta_box( 'books_autor', 'Autor', array($this, 'books_autor_callback'), 'cpt_books', 'side');
+	}
+
+	function books_autor_callback($post){
+		wp_nonce_field( 'cpt_save_books_autor_data', 'cpt_books_autordata_meta_box_nonce');
+	
+		$value = get_post_meta($post->ID, '_cpt_books_autordata_key', true);	
+
+		echo '<label for="cpt_books_autordata_field"> Autor: </label>';
+		echo '<input type="text" id="cpt_books_autordata_field" name="cpt_books_autordata_field" value="' . esc_attr($value) . '" size= "25" />';
+	}
+
+	function cpt_save_books_autor_data ($post_id){
+
+		if( ! isset($_POST['cpt_books_autordata_meta_box_nonce'])){
+			
+			return;
+		
+			}
+
+			if( ! wp_verify_nonce($_POST['cpt_books_autordata_meta_box_nonce'], 'cpt_save_books_autor_data')){
+				
+				return;
+			}
+			
+			if( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+				return;
+			}
+
+			if(! current_user_can ('edit_post', $post_id)){
+				
+				return;
+			}
+
+			if(! isset( $_POST['cpt_books_autordata_field'])){
+				
+				return;
+			}
+			
+			$my_data = sanitize_text_field( $_POST['cpt_books_autordata_field'] );
+
+			update_post_meta( $post_id, '_cpt_books_autordata_key', $my_data );
 
 	}
 

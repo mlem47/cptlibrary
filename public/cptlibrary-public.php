@@ -140,22 +140,25 @@ class Plugin_Name_Public {
 
 			$print .='<div class="js-filter2">';
 			$print .='<div class="container-fluid">';
+
 			$print .='<div class="card-deck">';
+			$print .='<div class="row">';
 			if ( $items) {
 				   foreach ( $items as $item ) {
-					$item_name =  $item->post_title;
-					$print .='<div class="col-sm-4 mx-auto">';
-					$print .='<div class="card">';
-					$print .='<img class="card-img-top">'.get_the_post_thumbnail($item->ID,'thumbnail').'';
+					$item_name =  wp_trim_words( get_the_title($item->ID), 3, '...' );
+					$print .='<div class="col-xl-4 col-md-4 col-sm-4">';
+					$print .='<div class="card mx-auto mb-5">';
+					$print .='<img class="card-img-top">'.get_the_post_thumbnail($item->ID,'large').'';
 					$print .='<div class="card-body">';
 					$print .='<h5 class="card-title">'.$item_name.'</h5>';
-					$print .='<p class="card-text">'.wp_trim_words( get_the_excerpt( $item->ID), 5, '' ).'';
+					$print .='<p class="card-text">'.wp_trim_words( get_the_excerpt( $item->ID), 3, '...' ).'</p>';
+					$print .='</div>';
+					$print .='<div class="card-body">';
 					if(get_post_meta($item->ID,'_cpt_books_statusdata_key', true) == false){
-					$print .='<a href="'.get_permalink($item->ID).'" class="btn btn-primary">Zum Buch</a>';
+					$print .='<a href="'.get_permalink($item->ID).'" class="btn btn-danger btn-sm">Zum Buch</a>';
 					} else{
-						$print .='<a href="'.get_permalink($item->ID).'" class="btn btn-primary btn-booked">Zum Buch</a>';
+						$print .='<a href="'.get_permalink($item->ID).'" class="btn btn-secondary btn-sm">Entliehen</a>';
 					}
-					$print .='</p>';
 					$print .='</div>';
 					$print .='</div>';
 					$print .='</div>';
@@ -163,6 +166,7 @@ class Plugin_Name_Public {
 			} 
 			
 			
+			$print .= '</div>';
 			$print .= '</div>';
 			$print .= '</div>';
 			$print .= '</div>';
@@ -234,22 +238,24 @@ class Plugin_Name_Public {
 			echo '<div class="grid-main">';
 			echo '<div class="container-fluid">';
 			echo '<div class="card-deck">';
+			echo '<div class="row">';
 			if( $query->have_posts() ) :
 				while( $query->have_posts() ): $query->the_post();
-					$post_name =  $query->post->post_title;
-
-					echo '<div class="col-sm-4 mx-auto">';
-					echo '<div class="card">';
-					echo '<img class="card-img-top">'.get_the_post_thumbnail($query->post->ID,'thumbnail').' </img>';
+					$post_name =  wp_trim_words( get_the_title($query->post->post_title), 3, '...' );
+					echo '<div class="col-xl-4 col-md-4 col-sm-4">';
+					echo '<div class="card mx-auto mb-5">';
+					echo '<img class="card-img-top">'.get_the_post_thumbnail($query->post->ID, 'large').' </img>';
 					echo '<div class="card-body">';
 					echo '<h5 class="card-title">'.$post_name.'</h5>';
-					echo '<p class="card-text">'.wp_trim_words( get_the_excerpt(  $query->post->ID), 5, '' ).'';
+					echo '<p class="card-text">'.wp_trim_words( get_the_excerpt(  $query->post->ID), 5, '...' ).'</p>';
+					echo '</div>';
+					echo '<div class="card-body">';
 					if(get_post_meta( $query->post->ID,'_cpt_books_statusdata_key', true) == false){
-					echo '<a href="'.get_permalink( $query->post->ID).'" class="btn btn-primary">Zum Buch</a>';
+					echo '<a href="'.get_permalink( $query->post->ID).'" class="btn btn-danger btn-sm">Zum Buch</a>';
 					} else{
-						echo '<a href="'.get_permalink( $query->post->ID).'" class="btn btn-primary btn-booked">Zum Buch</a>';
+						echo '<a href="'.get_permalink( $query->post->ID).'" class="btn btn-secondarybtn-sm">Entliehen</a>';
 					}
-					echo '</p>';
+					echo '';
 					echo '</div>';
 					echo '</div>';
 					echo '</div>';
@@ -258,6 +264,7 @@ class Plugin_Name_Public {
 			else :
 				echo 'No posts found';
 			endif;
+			echo '</div>';
 			echo '</div>';
 			echo '</div>';
 			echo '</div>';

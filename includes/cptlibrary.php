@@ -186,10 +186,12 @@ class Plugin_Name {
 		//meta-boxes for cpt_books
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_books_status');
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_books_kennziffer');
+		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_books_autor');
 
 		//meta-box save for cpt_books
 		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_books_status_data');
 		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_books_kennziffer_data');
+		$this->loader->add_action('save_post', $plugin_admin, 'cpt_save_books_autor_data');
 		
 		//meta-boxes for cpt_books
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cpt_einrichtung_email');
