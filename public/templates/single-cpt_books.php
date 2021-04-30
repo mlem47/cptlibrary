@@ -68,6 +68,7 @@
 									if ( $items) {
 											foreach ( $items as $item ) {
 												$item_name =  $item->post_title;
+												$item_id = $item->ID;
 												echo '<option >'.$item_name.'</option>';
 											}
 									}
@@ -229,11 +230,21 @@
 		</script>	
 
 		<?php
-		$meta_email = get_post_meta($new_auftrag,'_cpt_auftrag_emaildata_key', true);
+		$meta_email_anfrage = get_post_meta($new_auftrag,'_cpt_auftrag_emaildata_key', true);
 		$meta_email_fullname = get_post_meta($new_auftrag, '_cpt_auftrag_fullnamedata_key', true);
 		$meta_email_booktitle = $_POST['post_title'];
+		$meta_email_einrichtung = get_post_meta($item_id,'_cpt_einrichtung_emaildata_key', true);
+		$multiple_recipients = array(
+			$meta_email_anfrage,
+			$meta_email_einrichtung
+		);
+		echo $meta_email_einrichtung;
+		$subj = 'Ihre Bestellung';
+		$body = $meta_email_fullname .' für Ihre Bestellung, der Artikel "'. $meta_email_booktitle .'" wurde für Sie reserviert.';
+		wp_mail( $multiple_recipients, $subj, $body );
+
 		// $meta_email_sd =get_post_meta()
-		wp_mail( $meta_email, 'Ihre Bestellung', 'Vielen Dank, '. $meta_email_fullname .' für Ihre Bestellung, der Artikel "'. $meta_email_booktitle .'" wurde für Sie reserviert.');
+		//wp_mail( $meta_email, 'Ihre Bestellung', 'Vielen Dank, '. $meta_email_fullname .' für Ihre Bestellung, der Artikel "'. $meta_email_booktitle .'" wurde für Sie reserviert.');
 
 	} else {
 			return;
