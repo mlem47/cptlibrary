@@ -24,30 +24,19 @@
         
         <br>
        
-        <div class="row mb-2">
-            <div class="col">
-            <?php the_post_thumbnail('medium')?>
-        </div>
+        <div class="row">
+			<div class="col-md-6">
+				<div class="card" style="width: 20rem;">
+					<img class="card-img-top"> <?php the_post_thumbnail('large'); ?>
+				</div>	
+			</div>
+			<div class="col-md-6">
+					<h3 class="card-title"><?php the_title() ?></h3>
+					<p><?php the_excerpt() ?></p>
+			</div>
+		</div>	
 
-        <div class="col">
-
-            <div class="card flex-md-row mb-4 box-shadow h-md-250">
-                <div class="card-body d-flex flex-column align-items-start">
-                    <h2 class="mb-0">
-                    Sie haben erfolgreich<br><br>"<?php the_title() ?>" reserviert!
-                    </h2>
-                </div>
-            </div>   
-
-            <div class="card flex-md-row mb-4 box-shadow h-md-250">
-                <div class="card-body d-flex flex-column align-items-start">
-                    <strong class="d-inline-block mb-2 text-primary">Beschreibung</strong>
-                    <p class="card-text mb-auto"><?php the_excerpt() ?></p>
-                </div>        
-            </div>
-        </div>
-
-    </div><!-- column -->		
+	
 
     <?php endwhile; endif; ?>
 
@@ -62,40 +51,40 @@
 
 
 
-    <form id="post_entry" name="post_entry" method="post" action="">
-        <div class ="form-group">
-            <p>
-            Ihre Daten:
-            </p>
+        <form id="post_entry" name="post_entry" method="post" action="">
+            <div class ="form-group">
+                <p>
+                Ihre Daten:
+                </p>
 
-            <p>
-            Ihr Name: <strong><? echo $fullname; ?> </strong><br/>
-            </p>
+                <p>
+                Ihr Name: <strong><? echo $fullname; ?> </strong><br/>
+                </p>
 
-            <p>
-            Ihre E-Mail: <strong><? echo $email; ?></strong><br />
-            </p>
+                <p>
+                Ihre E-Mail: <strong><? echo $email; ?></strong><br />
+                </p>
 
-            <p>
-            Ihre Nachricht: <strong><? echo $nachricht; ?></strong>
-            </p>
+                <p>
+                Ihre Nachricht: <strong><? echo $nachricht; ?></strong>
+                </p>
 
-            <p>Ihre Einrichtung: <strong><? echo $einrichtung; ?></strong>
-            </p>
+                <p>Ihre Einrichtung: <strong><? echo $einrichtung; ?></strong>
+                </p>
 
-            <p>
-            Zeitraum: <strong><? echo $zeitraum; ?> </strong>
-            </p>
+                <p>
+                Zeitraum: <strong><? echo $zeitraum; ?> </strong>
+                </p>
 
-            <p>
-            Fällig am: <strong><? echo $zeitraum_end; ?></strong>
-            </p>
-            
-        </div>
-	</form>
-</div>
+                <p>
+                Fällig am: <strong><? echo $zeitraum_end; ?></strong>
+                </p>
+                
+            </div>
+        </form>
+    </div>
 
-
+</div><!-- column -->	
 
 
 

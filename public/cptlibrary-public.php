@@ -253,7 +253,7 @@ class Plugin_Name_Public {
 					if(get_post_meta( $query->post->ID,'_cpt_books_statusdata_key', true) == false){
 					echo '<a href="'.get_permalink( $query->post->ID).'" class="btn btn-danger btn-sm">Zum Buch</a>';
 					} else{
-						echo '<a href="'.get_permalink( $query->post->ID).'" class="btn btn-secondarybtn-sm">Entliehen</a>';
+						echo '<a href="'.get_permalink( $query->post->ID).'" class="btn btn-secondary btn-sm">Entliehen</a>';
 					}
 					echo '';
 					echo '</div>';
