@@ -11,27 +11,17 @@
        
        <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
    
-   
-           <div class="row mb-2">
-		   <div class="col">
-		   <?php the_post_thumbnail('medium')?>
-		   </div>
-               <div class="col">
-					<div class="card flex-md-row mb-4 box-shadow h-md-250">
-							<div class="card-body d-flex flex-column align-items-start">
-								<h2 class="mb-0">
-								<a class="text-dark" href="<?php the_permalink() ?>"><?php the_title() ?></a>
-								</h2>
-							</div>
-						</div>    
-					<div class="card flex-md-row mb-4 box-shadow h-md-250">
-						<div class="card-body d-flex flex-column align-items-start">
-							<strong class="d-inline-block mb-2 text-primary">Beschreibung</strong>
-							<p class="card-text mb-auto"><?php the_excerpt() ?></p>
-						</div>        
-					</div>
-               </div>
-            </div><!-- column -->		
+		<div class="row">
+			<div class="col-md-6">
+				<div class="card" style="width: 20rem;">
+					<img class="card-img-top"> <?php the_post_thumbnail('large'); ?>
+				</div>	
+			</div>
+			<div class="col-md-6">
+					<h3 class="card-title"><?php the_title() ?></h3>
+					<p><?php the_excerpt() ?></p>
+			</div>
+		</div>	
    
 	<?php endwhile; endif; ?>
 
@@ -42,7 +32,7 @@
 	
 	?>
 
-			<div class="row mb-2"></div>
+			<div class="row pt-5 pb-5 mb-2"></div>
 				<div class="col">
 				<div>
 					<h3>Sie möchten dieses Buch ausleihen?</h3>
