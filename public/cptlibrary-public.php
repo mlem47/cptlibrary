@@ -186,7 +186,7 @@ class Plugin_Name_Public {
 					<div class="form-row">
 						<div class="col-md-3">
 							<div class="form-group">
-								<button class="js-filter-item btn btn-primary">Filter anwenden</button>
+								<button class="js-filter-item btn btn-primary">Filtern</button>
 								<input type="hidden" name="action" value="myfilter">
 							</div>
 							<div class="form-group">
