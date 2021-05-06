@@ -146,12 +146,12 @@ class Plugin_Name_Public {
 			if ( $items) {
 				   foreach ( $items as $item ) {
 					$item_name =  wp_trim_words( get_the_title($item->ID), 3, '...' );
-					$print .='<div class="col-xl-4 col-md-4 col-sm-4">';
+					$print .='<div class="col-xl-4 col-md-6 col-sm-4">';
 					$print .='<div class="card mx-auto mb-5">';
-					$print .='<img class="card-img-top">'.get_the_post_thumbnail($item->ID,'large').'';
+					 $print .='<img class="card-img-top">'.get_the_post_thumbnail($item->ID,'large').''; 
 					$print .='<div class="card-body">';
-					$print .='<h5 class="card-title">'.$item_name.'</h5>';
-					$print .='<p class="card-text">'.wp_trim_words( get_the_excerpt( $item->ID), 3, '...' ).'</p>';
+					
+					$print .='<p class="card-text">'.wp_trim_words( get_the_excerpt( $item->ID), 13, '...' ).'</p>';
 					$print .='</div>';
 					$print .='<div class="card-body">';
 					if(get_post_meta($item->ID,'_cpt_books_statusdata_key', true) == false){
@@ -184,37 +184,38 @@ class Plugin_Name_Public {
 
 				<form class="js-filter " action="" method="POST">
 					<div class="form-row">
-						<div class="col-md-3">
+						<div class="col-md-3 ">
 							<div class="form-group">
-								<button class="js-filter-item btn btn-primary">Filter anwenden</button>
-								<input type="hidden" name="action" value="myfilter">
-							</div>
-							<div class="form-group">
-								<?php
-													
-										if( $terms = get_categories( array(
-											'orderby' => 'name',
-											'order'   => 'ASC'
-										) ) ) : 
+							<?php
+								if( $terms = get_categories( array(
+								'orderby' => 'name',
+								'order'   => 'ASC'
+								) ) ) : 
 										
-											// if categories exist, display the dropdown
-											echo '<select name="categoryfilter"><option value="">Auswählen</option>';
-											foreach ( $terms as $term ) :
-												echo '<option value="' . $term->term_id . '">' . $term->name . '</option>'; // ID of the category as an option value
-											endforeach;
-											echo '</select>';
-										endif;
-								?>
+								// if categories exist, display the dropdown
+								echo '<select name="categoryfilter" class="filter-select"><option value="">Auswählen</option>';
+								foreach ( $terms as $term ) :
+								echo '<option value="' . $term->term_id . '">' . $term->name . '</option>'; // ID of the category as an option value
+								endforeach;
+								echo '</select>';
+								endif;
+							?>
 							</div>
+							
 						</div>
-						<div class="col-md-2">
-							<div class="form group">
-								<a href="<?php home_url();?>"></a><button class="btn btn-danger">Alle Artikel</button></a>
+						<div class="col-md-4"><div class="form-group">
+								
+								
+							<button class="js-filter-item btn btn-primary">Filter anwenden</button>				
 							</div>
 						</div>
 
-						<div class="col-md-7">
+						<div class="col-md-5 btn-filter">
+						<div class="form group">
 							
+						<a href="<?php home_url();?>"></a><button class="btn btn-danger">Alle Artikel</button></a>
+								<input type="hidden" name="action" value="myfilter">
+							</div>
 						</div>
 					</div>
 				</form>
@@ -258,12 +259,12 @@ class Plugin_Name_Public {
 			if( $query->have_posts() ) :
 				while( $query->have_posts() ): $query->the_post();
 					$post_name =  wp_trim_words( get_the_title($query->post->post_title), 3, '...' );
-					echo '<div class="col-xl-4 col-md-4 col-sm-4">';
+					echo '<div class="col-xl-4 col-md-6 col-sm-4">';
 					echo '<div class="card mx-auto mb-5">';
 					echo '<img class="card-img-top">'.get_the_post_thumbnail($query->post->ID, 'large').' </img>';
 					echo '<div class="card-body">';
 					echo '<h5 class="card-title">'.$post_name.'</h5>';
-					echo '<p class="card-text">'.wp_trim_words( get_the_excerpt(  $query->post->ID), 5, '...' ).'</p>';
+					echo '<p class="card-text">'.wp_trim_words( get_the_excerpt(  $query->post->ID), 13, '...' ).'</p>';
 					echo '</div>';
 					echo '<div class="card-body">';
 					if(get_post_meta( $query->post->ID,'_cpt_books_statusdata_key', true) == false){

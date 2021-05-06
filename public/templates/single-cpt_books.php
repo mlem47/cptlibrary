@@ -69,7 +69,7 @@
 											foreach ( $items as $item ) {
 												$item_name =  $item->post_title;
 												$item_id = $item->ID;
-												echo '<option >'.$item_name.'</option>';
+												echo '<option value="'.$item_id.'" >'.$item_name.'</option>';
 											}
 									}
 
@@ -179,6 +179,10 @@
 	$meta_value = get_post_meta($id,'_cpt_books_statusdata_key', true);
 	$meta_thumbnail = get_post_meta($id,'_thumbnail_id', true);
 
+	$meta_einrichtung_id = $_POST['einrichtungSelect'];
+	$einrichtung_name  	 = get_the_title($meta_einrichtung_id);
+	$einrichtung_mail  	 = get_post_meta($meta_einrichtung_id,'_cpt_einrichtung_emaildata_key', true);
+	
 	if (isset($_POST['post_submit']) == 'Submit' && $meta_value == (int)0) {
 
 		$new_auftrag = wp_insert_post( array (
@@ -189,7 +193,7 @@
 
 				'_cpt_auftrag_fullnamedata_key'		=> $_POST['post_vorname'] . ' ' . $_POST['post_nachname'],
 				'_cpt_auftrag_emaildata_key'		=> $_POST['post_email'],
-				'_cpt_auftrag_einrichtungdata_key' 	=> $_POST['einrichtungSelect'],
+				'_cpt_auftrag_einrichtungdata_key' 	=> $einrichtung_name,
 				'_cpt_auftrag_zeitraumdata_key'		=> $_POST['post_datepicker'],
 				'_cpt_auftrag_zeitraumenddata_key'	=> $_POST['post_enddatepicker'],
 				'_cpt_auftrag_booksiddata_key'		=> $id,
@@ -230,15 +234,15 @@
 		</script>	
 
 		<?php
+
+
 		$meta_email_anfrage = get_post_meta($new_auftrag,'_cpt_auftrag_emaildata_key', true);
 		$meta_email_fullname = get_post_meta($new_auftrag, '_cpt_auftrag_fullnamedata_key', true);
 		$meta_email_booktitle = $_POST['post_title'];
-		$meta_email_einrichtung = get_post_meta($item_id,'_cpt_einrichtung_emaildata_key', true);
 		$multiple_recipients = array(
 			$meta_email_anfrage,
-			$meta_email_einrichtung
+			$einrichtung_mail
 		);
-		echo $meta_email_einrichtung;
 		$subj = 'Ihre Bestellung';
 		$body = $meta_email_fullname .' für Ihre Bestellung, der Artikel "'. $meta_email_booktitle .'" wurde für Sie reserviert.';
 		wp_mail( $multiple_recipients, $subj, $body );

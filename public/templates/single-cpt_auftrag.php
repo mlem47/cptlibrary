@@ -14,8 +14,9 @@
         $einrichtung = get_post_meta($post_id,'_cpt_auftrag_einrichtungdata_key', true);
         $nachricht = get_the_content( $post_id);
         $zeitraum = get_post_meta($post_id,'_cpt_auftrag_zeitraumdata_key', true);
-        $zeitraum_end = get_post_meta($post_id,'_cpt_auftrag_zeitraum_enddata_key', true);
-    ?>
+        $zeitraum_end = get_post_meta($post_id,'_cpt_auftrag_zeitraumenddata_key', true);
+
+    ?>  
 
     <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
@@ -66,15 +67,5 @@
 
     <?php endwhile; endif; ?>
 
-    <?
-    $id = get_the_ID($post);
-	$fullname = get_post_meta($id,'_cpt_auftrag_fullnamedata_key', true);
-	$email = get_post_meta( $id,'_cpt_auftrag_emaildata_key', true);
-	$einrichtung = get_post_meta($id,'_cpt_auftrag_einrichtungdata_key', true);
-	$zeitraum = get_post_meta($id,'_cpt_auftrag_zeitraumdata_key', true);
-	$zeitraum_end = get_post_meta($id,'_cpt_auftrag_zeitraumenddata_key', true);
-    ?>
-
-
-
+   
 <?php get_footer(); ?>

@@ -1,8 +1,48 @@
 /**
  * All of the CSS for your public-facing functionality should be
- * included in this file.
+ * included in this file. 
  */
 
+ /*Avance*/
+ @font-face {
+  font-family: 'AvanceOTItalic';
+  src: url("fonts/avance/AvanceOTItalic.eot");
+  src: url("fonts/avance/AvanceOTItalic.eot?#iefix") format("embedded-opentype"), url("fonts/avance/AvanceOTItalic.woff2") format("woff2"), url("fonts/avance/AvanceOTItalic.woff") format("woff"), url("fonts/avance/AvanceOTItalic.ttf") format("truetype"), url("fonts/avance/AvanceOTItalic.svg#avanceotitalic") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/*Frutiger*/
+@font-face {
+  font-family: 'Frutiger';
+  src: url("fonts/frutiger/FrutigerLTStd-Roman.eot");
+  src: url("fonts/frutiger/FrutigerLTStd-Roman.eot?#iefix") format("embedded-opentype"), local("Frutiger"), url("fonts/frutiger/FrutigerLTStd-Roman.woff2") format("woff2"), url("fonts/frutiger/FrutigerLTStd-Roman.woff") format("woff"), url("fonts/frutiger/FrutigerLTStd-Roman.svg#frutiger") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+000-5FF;
+}
+
+@font-face {
+  font-family: 'Frutiger';
+  src: url("fonts/frutiger/FrutigerLTStd-Light.eot");
+  src: url("fonts/frutiger/FrutigerLTStd-Light.eot?#iefix") format("embedded-opentype"), local("Frutiger"), url("fonts/frutiger/FrutigerLTStd-Light.woff2") format("woff2"), url("fonts/frutiger/FrutigerLTStd-Light.woff") format("woff"), url("fonts/frutiger/FrutigerLTStd-Light.svg#frutigerlight") format("svg");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+000-5FF;
+}
+
+@font-face {
+  font-family: 'Frutiger';
+  src: url("fonts/frutiger/FrutigerLTStd-Bold.eot");
+  src: url("fonts/frutiger/FrutigerLTStd-Bold.eot?#iefix") format("embedded-opentype"), local("Frutiger"), url("fonts/frutiger/FrutigerLTStd-Bold.woff2") format("woff2"), url("fonts/frutiger/FrutigerLTStd-Bold.woff") format("woff"), url("fonts/frutiger/FrutigerLTStd-Bold.svg#frutigerbold") format("svg");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+000-5FF;
+}
 
  .boxpadding{
     justify-content: center;
@@ -32,5 +72,143 @@
  input[required] {
    border-color: rgba(255, 0, 0, 0.598);
  }
-
  
+ /* Buchtitel*/
+
+ h5.card-title {
+   font-size: 30px;
+   color: #b61f29;
+   font-family: 'AvanceOTItalic';
+ }
+
+ /*Buttons*/
+
+ input.text, input.title, input[type=email], input[type=password], input[type=tel], input[type=text], select, textarea {
+   width: 100%;
+ }
+
+.btn {
+  background-color: #b61f29;
+  color: #fff;
+  border-color: none;
+  font-family: 'Frutiger';
+  font-size: 20px;
+  font-weight: 500;
+  border-radius: 5px;
+  width: auto;  
+  -webkit-transition-duration: .2s;
+  transition-duration: .2s;
+  -webkit-transition-property: all!important;
+ }
+
+ .btn::after {
+  font-size: 32px;
+  line-height: 1em;
+  content: "\35";
+  opacity: 0;
+  position: absolute;
+  margin-top: -0.2em; /*Magical Number*/
+  text-transform: none;
+  font-variant: none;
+  font-style: normal;
+  font-weight: 400;
+  text-shadow: none;
+  font-family: ETmodules!important;
+  direction: ltr;
+  transition: all 300ms ease 0ms;
+  transition-duration: 300ms;
+  transition-timing-function: ease;
+  transition-delay: 0ms;
+}
+
+.btn:hover {
+  border: 2px solid transparent;
+  padding: .3em 2em .3em .7em;
+}
+
+.btn:hover::after {
+  opacity: 1;  
+}
+
+.btn-danger {
+  background-color: #b61f29!important;
+ }
+
+.btn-primary {
+  color: #fff;
+  background-color: #b61f29!important;
+  border-color: transparent!important;
+  margin-left: 5%;
+}
+
+.btn-filter {
+  margin-left: -8%;
+}
+
+.filter-select {
+  height: 38px;
+}
+
+/*Media Querys der Buttons*/
+
+@media only screen and (max-width: 1234px) {
+  .btn-filter {
+    margin-left: -20px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .btn-filter {
+    margin-left: 0;
+  }
+  .btn-primary {
+    margin-left: 0;
+  }
+}
+
+@media screen and (min-width: 767px) and (max-width: 998px) {
+  .btn-primary {
+    width: 100%;
+  }
+  .btn-filter {
+    left: 40px;
+  }
+}
+
+/*Bücher*/
+
+.btn-sm {
+  width: 100%;
+}
+
+.btn-group-sm>.btn, .btn-sm {
+  padding: .6em 2em .6em .7em!important;
+  font-size: 20px!important;
+  line-height: 1!important;
+  border-radius: 5px!important;
+}
+
+.btn-group-sm>.btn, .btn-sm:hover {
+  padding: .6em 2em .5em .7em!important;
+  font-size: 20px!important;
+  line-height: 1!important;
+  border-radius: 5px!important;
+}
+
+.btn-group-sm>.btn, .btn-sm::after {
+margin-top: -0.3em; /*Magical Number*/
+}
+
+.btn-secondary {
+  color: #fff;
+  background-color: #7199ad!important;
+  border-color: transparent!important;
+}
+
+.card-text {
+  font-family: 'Frutiger'!important;
+  font-size: 16px!important;
+  color: #4f4f4f;
+  line-height: 1.8em;
+  font-weight: 500;
+}
