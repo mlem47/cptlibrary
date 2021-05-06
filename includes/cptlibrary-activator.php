@@ -32,7 +32,7 @@ class Plugin_Name_Activator {
 	public static function activate() {
 
 		if ( ! wp_next_scheduled( 'cpt_cron_hook' ) ) {
-			wp_schedule_event( time(), 'five_seconds', 'cpt_cron_hook' );
+			wp_schedule_event( time(), 'twicedaily', 'cpt_cron_hook' );
 		}
 
 	}
