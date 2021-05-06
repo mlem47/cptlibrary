@@ -55,8 +55,8 @@
 							</div>
 							<div class ="form-group col-md-6">
 								<label for="einrichtungSelect">Einrichtung*:</label><br>
-								<select class="form-control" id="einrichtungSelect" name="einrichtungSelect">
-								<option selected="selected">Einrichtung wählen</option>
+								<select class="form-control" id="einrichtungSelect" name="einrichtungSelect" required="required">
+								<option value="">Einrichtung wählen</option>
 
 									<?php 
 									$items = get_posts( array(
@@ -179,9 +179,12 @@
 	$meta_value = get_post_meta($id,'_cpt_books_statusdata_key', true);
 	$meta_thumbnail = get_post_meta($id,'_thumbnail_id', true);
 
-	$meta_einrichtung_id = $_POST['einrichtungSelect'];
-	$einrichtung_name  	 = get_the_title($meta_einrichtung_id);
-	$einrichtung_mail  	 = get_post_meta($meta_einrichtung_id,'_cpt_einrichtung_emaildata_key', true);
+	if(isset($_POST['einrichtungSelect'])){
+
+		$meta_einrichtung_id = $_POST['einrichtungSelect'];
+		$einrichtung_name  	 = get_the_title($meta_einrichtung_id);
+		$einrichtung_mail  	 = get_post_meta($meta_einrichtung_id,'_cpt_einrichtung_emaildata_key', true);
+	}
 	
 	if (isset($_POST['post_submit']) == 'Submit' && $meta_value == (int)0) {
 
