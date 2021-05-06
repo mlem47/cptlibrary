@@ -6,7 +6,7 @@
   
  get_header();  ?>
 
-<div class="container boxpadding">
+	<div class="container boxpadding">
 
        
        <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
@@ -23,14 +23,14 @@
 			</div>
 		</div>	
    
-	<?php endwhile; endif; ?>
+		<?php endwhile; endif; ?>
 
 			
-	<?php 
-		$check_status = get_post_meta($id,'_cpt_books_statusdata_key', true);
-		if($check_status == (int)0){
-	
-	?>
+		<?php 
+			$check_status = get_post_meta($id,'_cpt_books_statusdata_key', true);
+			if($check_status == (int)0){
+		
+		?>
 
 			<div class="row pt-5 pb-5 mb-2"></div>
 				<div class="col">
@@ -143,12 +143,12 @@
 			</div>
 
 		
-	<?php
-			}
-			else{
-				echo '<strong>Dieses Buch ist nicht verfügbar</strong>';
-			}
-	?>
+		<?php
+				}
+				else{
+					echo '<strong>Dieses Buch ist nicht verfügbar</strong>';
+				}
+		?>
 
 
 
@@ -170,93 +170,80 @@
 				</div>
 			</div>
 		</div>	
+	</div>
+	<?php 
+				//submit arguments into generating new cpt post cpt_auftrag
+				$id = get_the_ID($post);
+				$meta_value = get_post_meta($id,'_cpt_books_statusdata_key', true);
+				$meta_thumbnail = get_post_meta($id,'_thumbnail_id', true);
 
-</div>
-<?php 
+				if(isset($_POST['einrichtungSelect'])){
 
-	//submit arguments into generating new cpt post cpt_auftrag
-	$id = get_the_ID($post);
-	$meta_value = get_post_meta($id,'_cpt_books_statusdata_key', true);
-	$meta_thumbnail = get_post_meta($id,'_thumbnail_id', true);
-
-	if(isset($_POST['einrichtungSelect'])){
-
-		$meta_einrichtung_id = $_POST['einrichtungSelect'];
-		$einrichtung_name  	 = get_the_title($meta_einrichtung_id);
-		$einrichtung_mail  	 = get_post_meta($meta_einrichtung_id,'_cpt_einrichtung_emaildata_key', true);
-	}
-	
-	if (isset($_POST['post_submit']) == 'Submit' && $meta_value == (int)0) {
-
-		$new_auftrag = wp_insert_post( array (
-			'post_title' 		=> $_POST['post_title'],
-			'post_content' 		=> $_POST['post_desc'],
-			// some simple key / value array
-			'meta_input' => array(
-
-				'_cpt_auftrag_fullnamedata_key'		=> $_POST['post_vorname'] . ' ' . $_POST['post_nachname'],
-				'_cpt_auftrag_emaildata_key'		=> $_POST['post_email'],
-				'_cpt_auftrag_einrichtungdata_key' 	=> $einrichtung_name,
-				'_cpt_auftrag_zeitraumdata_key'		=> $_POST['post_datepicker'],
-				'_cpt_auftrag_zeitraumenddata_key'	=> $_POST['post_enddatepicker'],
-				'_cpt_auftrag_booksiddata_key'		=> $id,
-				'_thumbnail_id'						=> $meta_thumbnail,
-				'_cpt_auftrag_statusdata_key'		=> true
+					$meta_einrichtung_id = $_POST['einrichtungSelect'];
+					$einrichtung_name  	 = get_the_title($meta_einrichtung_id);
+					$einrichtung_mail  	 = get_post_meta($meta_einrichtung_id,'_cpt_einrichtung_emaildata_key', true);
+				}
 				
-				),
+				if (isset($_POST['post_submit']) == 'Submit' && $meta_value == (int)0) {
 
-			'post_type' 		=> 'cpt_auftrag',
-			'post_status' 		=> 'publish',
-			'comment_status' 	=> 'closed',
-			'ping_status' 		=> 'closed'
+					$new_auftrag = wp_insert_post( array (
+						'post_title' 		=> $_POST['post_title'],
+						'post_content' 		=> $_POST['post_desc'],
+						// some simple key / value array
+						'meta_input' => array(
 
+							'_cpt_auftrag_fullnamedata_key'		=> $_POST['post_vorname'] . ' ' . $_POST['post_nachname'],
+							'_cpt_auftrag_emaildata_key'		=> $_POST['post_email'],
+							'_cpt_auftrag_einrichtungdata_key' 	=> $einrichtung_name,
+							'_cpt_auftrag_zeitraumdata_key'		=> $_POST['post_datepicker'],
+							'_cpt_auftrag_zeitraumenddata_key'	=> $_POST['post_enddatepicker'],
+							'_cpt_auftrag_booksiddata_key'		=> $id,
+							'_thumbnail_id'						=> $meta_thumbnail,
+							'_cpt_auftrag_statusdata_key'		=> true
+							
+							),
+
+						'post_type' 		=> 'cpt_auftrag',
+						'post_status' 		=> 'publish',
+						'comment_status' 	=> 'closed',
+						'ping_status' 		=> 'closed'
+
+						
+					));
 			
-		));
-	
-		$update_books_status = update_post_meta( $id, '_cpt_books_statusdata_key', true );
+				$update_books_status = update_post_meta( $id, '_cpt_books_statusdata_key', true );
+				$new_url = get_the_permalink($new_auftrag);
+				
+				?>
+					<script>
+					$(document).ready(function(){
+					$("#checkout").modal('show');
+					let url = "<?php echo $new_url;?>"
+					$("#checkout").on('hidden.bs.modal', function () {
+						window.location = url
+					});
+					});
+					</script>	
+
+				<?php
 
 
-		$new_url = get_the_permalink($new_auftrag);
-	
+				$meta_email_anfrage = get_post_meta($new_auftrag,'_cpt_auftrag_emaildata_key', true);
+				$meta_email_fullname = get_post_meta($new_auftrag, '_cpt_auftrag_fullnamedata_key', true);
+				$meta_email_booktitle = $_POST['post_title'];
+				$multiple_recipients = array(
+					$meta_email_anfrage,
+					$einrichtung_mail
+				);
+				$subj = 'Ihre Bestellung';
+				$body = $meta_email_fullname .' für Ihre Bestellung, der Artikel "'. $meta_email_booktitle .'" wurde für Sie reserviert.';
+				wp_mail( $multiple_recipients, $subj, $body );
+
+			} 
 
 		?>
 
-	
-		<script>
+<?php get_footer(); 
+
+
 			
-		// $('#checkout').modal('show');
-
-		$(document).ready(function(){
-		$("#checkout").modal('show');
-		let url = "<?php echo $new_url;?>"
-		$("#checkout").on('hidden.bs.modal', function () {
-			window.location = url
-		});
-		});
-
-		</script>	
-
-		<?php
-
-
-		$meta_email_anfrage = get_post_meta($new_auftrag,'_cpt_auftrag_emaildata_key', true);
-		$meta_email_fullname = get_post_meta($new_auftrag, '_cpt_auftrag_fullnamedata_key', true);
-		$meta_email_booktitle = $_POST['post_title'];
-		$multiple_recipients = array(
-			$meta_email_anfrage,
-			$einrichtung_mail
-		);
-		$subj = 'Ihre Bestellung';
-		$body = $meta_email_fullname .' für Ihre Bestellung, der Artikel "'. $meta_email_booktitle .'" wurde für Sie reserviert.';
-		wp_mail( $multiple_recipients, $subj, $body );
-
-		// $meta_email_sd =get_post_meta()
-		//wp_mail( $meta_email, 'Ihre Bestellung', 'Vielen Dank, '. $meta_email_fullname .' für Ihre Bestellung, der Artikel "'. $meta_email_booktitle .'" wurde für Sie reserviert.');
-
-	} else {
-			return;
-		}
-
-
-
- get_footer(); 
