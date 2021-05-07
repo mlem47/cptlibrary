@@ -133,7 +133,7 @@
 						
 						<div class="row mb-2">
 							<div class ="form-group col-md-6">
-									<input class="button" id="submit_post" type="submit" name="post_submit" value="Submit">	
+								<button class="btn-booked" id="submit_post" type="submit" name="post_submit" value="Submit">Bestellen</button>
 							</div>
 						</div>
 					</form>
