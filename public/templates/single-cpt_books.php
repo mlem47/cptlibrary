@@ -240,6 +240,7 @@
 				wp_mail( $multiple_recipients, $subj, $body );
 
 			} 
+			// due to else - no footer
 
 		?>
 
