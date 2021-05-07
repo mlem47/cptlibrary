@@ -81,6 +81,16 @@
    font-family: 'AvanceOTItalic';
  }
 
+ h3.card-title {
+  font-size: 30px;
+  color: #b61f29;
+  font-family: 'AvanceOTItalic';
+}
+
+h3 {
+  color: #b61f29!important;
+}
+
  /*Buttons*/
 
  input.text, input.title, input[type=email], input[type=password], input[type=tel], input[type=text], select, textarea {
@@ -222,7 +232,7 @@ margin-top: -0.3em; /*Magical Number*/
     rgba(181,21,43,0.92), 
     rgba(181,21,43,0.72)
   ),
-  url(https://dev06.arbeiten-mit-psychischer-erkrankung.de/wp-content/uploads/2021/04/Header-scaled.jpg);
+  url(images/Header-scaled.jpeg);
    width: 100%; 
 min-height: 285px; 
 width: 100%; 
