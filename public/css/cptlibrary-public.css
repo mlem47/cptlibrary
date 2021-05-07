@@ -212,3 +212,68 @@ margin-top: -0.3em; /*Magical Number*/
   line-height: 1.8em;
   font-weight: 500;
 }
+
+/* BUCH EINZELANSICHT */
+
+
+.tinted-image {
+  background:
+  linear-gradient(
+    rgba(181,21,43,0.92), 
+    rgba(181,21,43,0.72)
+  ),
+  url(https://dev06.arbeiten-mit-psychischer-erkrankung.de/wp-content/uploads/2021/04/Header-scaled.jpg);
+   width: 100%; 
+min-height: 285px; 
+width: 100%; 
+background-position: center;
+background-size: cover;
+box-sizing: border-box;
+padding: 15px 0;
+}
+
+.books-container {
+box-sizing: border-box;
+width: 80%;
+margin: 0 auto;
+max-width: 1281px;
+min-height: 211px;
+padding-top: 95px; 
+padding-bottom: 16px; 
+line-height: 1.7em; 
+}
+
+.books-title {
+font-family: 'AvanceOTItalic';
+font-size: 42px;
+color: #fff;
+font-weight: 500;
+line-height: 1.7em;
+padding-bottom: 10px;
+}
+
+.books-text {
+font-family: 'Frutiger';
+font-size: 16px;
+color: #fff;
+width: 50%;
+}
+
+@media only screen and (max-width: 980px) {
+.books-text {
+  display: none;
+}
+}
+
+@media only screen and (max-width: 767px) {
+  .tinted-image {
+    min-height: auto;
+    padding: 10px 0 0 0;
+  }
+  .books-container  {
+    padding: 50px 5px;
+  }
+  .books-title {
+    line-height: 1.2em;
+  }
+  }

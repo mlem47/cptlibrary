@@ -7,6 +7,17 @@
 
  get_header();?>
 
+<div class="tinted-image">
+	<div class="books-container">
+		<div class="books-title">Unsere Online Bücherei</div>
+			<div class="books-text"><b style="font-weight: 700;">So funktioniert es:</b><br>
+
+Wählen Sie ihr Buch aus, tragen Sie ihren Namen ein und wählen Sie ihre Betriebsstätte aus. Danach klicken Sie auf Ausleihen und das Buch wird ihnen durch die Hauspost an ihren Arbeitsplatz geliefert.
+			</div>
+		</div>
+	</div>
+</div>
+
     <?  
         $post_id = get_the_ID();
         $fullname = get_post_meta($post_id,'_cpt_auftrag_fullnamedata_key', true);

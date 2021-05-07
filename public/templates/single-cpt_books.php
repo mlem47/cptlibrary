@@ -6,6 +6,18 @@
   
  get_header();  ?>
 
+
+<div class="tinted-image">
+	<div class="books-container">
+		<div class="books-title">Unsere Online Bücherei</div>
+			<div class="books-text"><b style="font-weight: 700;">So funktioniert es:</b><br>
+
+Wählen Sie ihr Buch aus, tragen Sie ihren Namen ein und wählen Sie ihre Betriebsstätte aus. Danach klicken Sie auf Ausleihen und das Buch wird ihnen durch die Hauspost an ihren Arbeitsplatz geliefert.
+			</div>
+		</div>
+	</div>
+</div>
+
 	<div class="container boxpadding">
 
        
@@ -13,7 +25,7 @@
    
 		<div class="row">
 			<div class="col-md-4">
-				<div class="card" style="width: 20rem;">
+				<div class="card">
 					<img class="card-img-top"> <?php the_post_thumbnail('large'); ?>
 				</div>	
 			</div>
