@@ -97,40 +97,16 @@ class Plugin_Name_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/cptlibrary-public.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( 'jquery-js', plugin_dir_url( __FILE__ ) . 'js/jquery.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( 'jquery-ui-js', plugin_dir_url( __FILE__ ) . 'js/jquery-ui.min.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/cptlibrary-public.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( 'bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap.min.js', array( 'jquery' ), $this->version, false );
-
+		wp_enqueue_script( 'cptlibrary-ajax', plugin_dir_url( __FILE__ ) . 'js/cptlibrary-ajax.js', array( 'jquery' ), $this->version, false );
+		wp_localize_script( 'cptlibrary-ajax', 'wp_ajax' , array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 	}
 
 
-		//shortcode zur katalog teaser ansicht mit figcaption im grid
-
-		function cpt_short1( $atts ) {
-			$print = '';
-			$items = get_posts( array(
-				'post_type'      => 'cpt_books',
-				'post_status'    => 'publish',
-				'order' 	 => 'ASC',
-				'posts_per_page' => -1
-				) );
-			if ( $items) {
-				$print .='<div class="gridcontainer">';
-				   foreach ( $items as $item ) {
-					$item_name =  $item->post_title;
-					$print .='<figure><a href="'.get_permalink($item->ID).'">';
-					$print .= '<img class="katalog-teaser"'.get_the_post_thumbnail($item->ID,'thumbnail');
-					$print .= '<figcaption class="teaser-caption-text">'.$item_name.'</figcaption></figure>';
-				}
-				$print .= '</div>';
-			}
-			return $print;
-			}
-	
-	
-		//hook into single_template to load our custom_post_type template
+			//hook into single_template to load our custom_post_type template
 	
 		function load_cpt_books( $template ) {
 	
@@ -139,5 +115,184 @@ class Plugin_Name_Public {
 	
 			return $template;
 		}
+
+		function load_cpt_auftrag_checkout( $template ) {
+	
+			if ( 'cpt_auftrag' === get_post_type() )
+			return dirname( __FILE__ ) . '/templates/single-cpt_auftrag.php';
+	
+			return $template;
+		}
+
+
+
+		//shortcode zur katalog teaser ansicht mit figcaption im grid
+
+		function cpt_short1() {
+			$print = '';
+			$items = get_posts( array(
+				'post_type'      => 'cpt_books',
+				'post_status'    => 'publish',
+				'meta_key'   => '_cpt_books_statusdata_key',
+				'order' 	 => 'ASC',
+				'posts_per_page' => -1
+				) );
+
+			$print .='<div class="js-filter2">';
+			$print .='<div class="container-fluid">';
+
+			$print .='<div class="card-deck">';
+			$print .='<div class="row">';
+			if ( $items) {
+				   foreach ( $items as $item ) {
+					$item_name =  wp_trim_words( get_the_title($item->ID), 3, '...' );
+					$print .='<div class="col-xl-4 col-md-6 col-sm-4">';
+					$print .='<div class="card mx-auto mb-5">';
+					 $print .='<img class="card-img-top">'.get_the_post_thumbnail($item->ID,'large').''; 
+					$print .='<div class="card-body">';
+					
+					$print .='<p class="card-text">'.wp_trim_words( get_the_excerpt( $item->ID), 13, '...' ).'</p>';
+					$print .='</div>';
+					$print .='<div class="card-body">';
+					if(get_post_meta($item->ID,'_cpt_books_statusdata_key', true) == false){
+					$print .='<a href="'.get_permalink($item->ID).'" class="btn btn-danger btn-sm">Zum Buch</a>';
+					} else{
+						$print .='<a href="'.get_permalink($item->ID).'" class="btn btn-secondary btn-sm">Entliehen</a>';
+					}
+					$print .='</div>';
+					$print .='</div>';
+					$print .='</div>';
+				}
+			} 
+			
+			
+			$print .= '</div>';
+			$print .= '</div>';
+			$print .= '</div>';
+			$print .= '</div>';
 		
+
+			return $print;
+		}
+
+		
+		
+			// shortcode filter categories with ajax call
+		function cpt_short_categories() {
+			ob_start();
+			?>
+
+				<form class="js-filter " action="" method="POST">
+					<div class="form-row">
+						<div class="col-md-3 ">
+							<div class="form-group">
+							<?php
+								if( $terms = get_categories( array(
+								'orderby' => 'name',
+								'order'   => 'ASC'
+								) ) ) : 
+										
+								// if categories exist, display the dropdown
+								echo '<select name="categoryfilter" class="filter-select"><option value="">Auswählen</option>';
+								foreach ( $terms as $term ) :
+								echo '<option value="' . $term->term_id . '">' . $term->name . '</option>'; // ID of the category as an option value
+								endforeach;
+								echo '</select>';
+								endif;
+							?>
+							</div>
+							
+						</div>
+						<div class="col-md-4"><div class="form-group">
+								
+								
+							<button class="js-filter-item btn btn-primary">Filter anwenden</button>				
+							</div>
+						</div>
+
+						<div class="col-md-5 btn-filter">
+						<div class="form group">
+							
+						<a href="<?php home_url();?>"></a><button class="btn btn-danger">Alle Artikel</button></a>
+								<input type="hidden" name="action" value="myfilter">
+							</div>
+						</div>
+					</div>
+				</form>
+			
+			<div class="js-response"></div>
+
+			
+
+			<?PHP
+
+			return ob_get_clean();
+
+		}
+
+		//ajax callback filter function for inserting category content into js-filter class
+
+		function cpt_filter_function(){
+
+			$args = array(
+				'post_type'      => 'cpt_books',
+				'post_status'    => 'publish',
+				'posts_per_page' => -1
+ 			);
+		 
+		 
+			// for taxonomies / categories
+			if( isset( $_POST['categoryfilter'] ) )
+				$args['tax_query'] = array(
+					array(
+						'taxonomy' => 'category',
+						'field' => 'id',
+						'terms' => $_POST['categoryfilter']
+					)
+				);
+		 
+			$query = new WP_Query( $args );
+			echo '<div class="grid-main">';
+			echo '<div class="container-fluid">';
+			echo '<div class="card-deck">';
+			echo '<div class="row">';
+			if( $query->have_posts() ) :
+				while( $query->have_posts() ): $query->the_post();
+					$post_name =  wp_trim_words( get_the_title($query->post->post_title), 3, '...' );
+					echo '<div class="col-xl-4 col-md-6 col-sm-4">';
+					echo '<div class="card mx-auto mb-5">';
+					echo '<img class="card-img-top">'.get_the_post_thumbnail($query->post->ID, 'large').' </img>';
+					echo '<div class="card-body">';
+					echo '<h5 class="card-title">'.$post_name.'</h5>';
+					echo '<p class="card-text">'.wp_trim_words( get_the_excerpt(  $query->post->ID), 13, '...' ).'</p>';
+					echo '</div>';
+					echo '<div class="card-body">';
+					if(get_post_meta( $query->post->ID,'_cpt_books_statusdata_key', true) == false){
+					echo '<a href="'.get_permalink( $query->post->ID).'" class="btn btn-danger btn-sm">Zum Buch</a>';
+					} else{
+						echo '<a href="'.get_permalink( $query->post->ID).'" class="btn btn-secondary btn-sm">Entliehen</a>';
+					}
+					echo '';
+					echo '</div>';
+					echo '</div>';
+					echo '</div>';
+				endwhile;
+				wp_reset_postdata();
+			else :
+				echo 'No posts found';
+			endif;
+			echo '</div>';
+			echo '</div>';
+			echo '</div>';
+			echo '</div>';
+		 
+			die();
+
+		}	
+
+
+
+		
+
+
 }

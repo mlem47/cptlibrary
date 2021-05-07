@@ -15,5 +15,19 @@
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 
+<body>
+<main role="main">
 
-<h1>TEST</h1>
+<section class="jumbotron text-center">
+  <div class="container">
+    <h1 class="jumbotron-heading">Online-Buchverleih</h1>
+    <p class="lead text-muted">Wählen Sie ihr Buch aus, tragen Sie ihren Namen ein und wählen Sie ihre Betriebsstätte aus. Danach klicken Sie auf Ausleihen und das Buch wird ihnen durch die Hauspost an ihren Arbeitsplatz geliefert.</p>
+    <p>
+      <a href="<?php echo get_admin_url( '', '/edit.php?post_type=cpt_books' ); ?>" class="btn btn-primary my-2">Bücher</a>
+      <a href="<?php echo get_admin_url( '', '/edit.php?post_type=cpt_auftrag' ); ?>" class="btn btn-warning my-2">Aufträge</a>
+      <a href="<?php echo get_admin_url( '', '/edit.php?post_type=cpt_einrichtung' ); ?>" class="btn btn-danger my-2">Einrichtungen</a>
+    </p>
+  </div>
+</section>
+</main>
+</body>
