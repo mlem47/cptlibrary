@@ -265,7 +265,7 @@ class Plugin_Name {
 		//add single-post template for cpt_books //mlem
 		$this->loader->add_filter('single_template', $plugin_public, 'load_cpt_books', 50, 1);
 		$this->loader->add_filter('single_template', $plugin_public, 'load_cpt_auftrag_checkout', 50, 1);
-		$this->loader->add_filter('template_include', $plugin_public, 'search_cpt_books', 50, 1);
+		$this->loader->add_filter('search_template', $plugin_public, 'search_cpt_books', 50, 1);
 
 	}
 
