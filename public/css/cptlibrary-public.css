@@ -87,8 +87,22 @@
   font-family: 'AvanceOTItalic';
 }
 
+<<<<<<< HEAD
+
+=======
+@media screen and (max-width: 767px) {
+  h3.card-title {
+    font-size: 30px;
+    color: #b61f29;
+    font-family: 'AvanceOTItalic';
+    margin-top: 40px;
+  }
+}
+
 h3 {
   color: #b61f29!important;
+  font-size: 30px!important;
+>>>>>>> origin/main
 }
 
  /*Buttons*/
