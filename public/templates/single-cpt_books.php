@@ -99,15 +99,15 @@ Wählen Sie ihr Buch aus, tragen Sie ihren Namen ein und wählen Sie ihre Betrie
 								<label for="post_datepicker"> Zeitraum*: <i> Der Artikel wird für 28 Tage angefordert. </i> </label><br>
 										<script>
 										$(function() {
-												$( "#post_datepicker" ).datepicker({
+												jQuery( "#post_datepicker").datepicker({
 													dateFormat: "y-m-d",
 													changeMonth: true,
 													changeYear: true,
 													minDate: "dateToday",
 													onClose: function() {
-													var date2 = $('#post_datepicker').datepicker('getDate');
+													var date2 = new Date($('#post_datepicker').datepicker('getDate'));
 													date2.setDate(date2.getDate()+28)
-													$( "#post_enddatepicker" ).datepicker("setDate", date2);
+													jQuery( "#post_enddatepicker").datepicker("setDate", date2);
 												}
 												});
 											});
