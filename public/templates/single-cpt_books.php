@@ -45,7 +45,7 @@ Wählen Sie ihr Buch aus, tragen Sie ihren Namen ein und wählen Sie ihre Betrie
 		?>
 
 			<div class="row pt-5 pb-5 mb-2"></div>
-				<div class="col">
+				<div class="col-xs">
 				<div>
 					<h3>Sie möchten dieses Buch ausleihen?</h3>
 					<p>
