@@ -163,7 +163,7 @@ class Plugin_Name_Public {
 					$print .='</div>';
 					$print .='<div class="card-body">';
 					if(get_post_meta($item->ID,'_cpt_books_statusdata_key', true) == false){
-					$print .='<a href="'.get_permalink($item->ID).'" class="btn btn-danger btn-sm">Zum Buch</a>';
+					$print .='<a href="'.get_permalink($item->ID).'" class="btn btn-danger btn-sm">Jetzt ausleihen</a>';
 					} else{
 						$print .='<a href="'.get_permalink($item->ID).'" class="btn btn-secondary btn-sm">Entliehen</a>';
 					}
@@ -271,11 +271,11 @@ class Plugin_Name_Public {
 					echo '<img class="card-img-top">'.get_the_post_thumbnail($query->post->ID, 'large').' </img>';
 					echo '<div class="card-body">';
 					echo '<h5 class="card-title">'.$post_name.'</h5>';
-					echo '<p class="card-text">'.wp_trim_words( get_the_excerpt(  $query->post->ID), 13, '...' ).'</p>';
+					
 					echo '</div>';
 					echo '<div class="card-body">';
 					if(get_post_meta( $query->post->ID,'_cpt_books_statusdata_key', true) == false){
-					echo '<a href="'.get_permalink( $query->post->ID).'" class="btn btn-danger btn-sm">Zum Buch</a>';
+					echo '<a href="'.get_permalink( $query->post->ID).'" class="btn btn-danger btn-sm">Jetzt ausleihen</a>';
 					} else{
 						echo '<a href="'.get_permalink( $query->post->ID).'" class="btn btn-secondary btn-sm">Entliehen</a>';
 					}
