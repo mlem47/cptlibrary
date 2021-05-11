@@ -7,6 +7,17 @@
 
  get_header();?>
 
+<div class="tinted-image">
+	<div class="books-container">
+		<div class="books-title">Unsere Online Bücherei</div>
+			<div class="books-text"><b style="font-weight: 700;">So funktioniert es:</b><br>
+
+Wählen Sie ihr Buch aus, tragen Sie ihren Namen ein und wählen Sie ihre Betriebsstätte aus. Danach klicken Sie auf Ausleihen und das Buch wird ihnen durch die Hauspost an ihren Arbeitsplatz geliefert.
+			</div>
+		</div>
+	</div>
+</div>
+
     <?  
         $post_id = get_the_ID();
         $fullname = get_post_meta($post_id,'_cpt_auftrag_fullnamedata_key', true);
@@ -27,41 +38,52 @@
        
         <div class="row">
 			<div class="col-md-4">
-				<div class="card" style="width: 20rem;">
+				<div class="card">
                     <img class="card-img-top"> <?php the_post_thumbnail('large'); ?>
                     <div class="card-body">
                     <h3 class="card-title"><?php the_title() ?></h3>
                     </div>
 				</div>	
 			</div>
-			<div class="col-md-8">                 
-                <div class="col">
+			<div class="col-md-8"> 
                     <h3>Ihre Daten</h3>
+                    <p>Folgende Daten wurden für die Ausleihe gespeichert:</b>
 
                     <p>
-                    Ihr Name: <strong><? echo $fullname; ?> </strong><br/>
-                    </p>
-
-                    <p>
-                    Ihre E-Mail: <strong><? echo $email; ?></strong><br />
+                    <strong>Ihr Name:</strong> <? echo $fullname; ?> <br/>
                     </p>
 
                     <p>
-                    Ihre Nachricht: <strong><? echo $nachricht; ?></strong>
-                    </p>
-
-                    <p>Ihre Einrichtung: <strong><? echo $einrichtung; ?></strong>
+                    <strong>Ihre E-Mail: </strong><? echo $email; ?><br />
                     </p>
 
                     <p>
-                    Zeitraum: <strong><? echo $zeitraum; ?> </strong>
+                    <strong>Ihre Nachricht: </strong><? echo $nachricht; ?>
                     </p>
 
                     <p>
-                    Fällig am: <strong><? echo $zeitraum_end; ?></strong>
+                    <strong>Ihre Einrichtung: </strong><? echo $einrichtung; ?>
                     </p>
-                </div>
+
+                    <p>
+                    <strong>Zeitraum: </strong><? echo $zeitraum; ?> 
+                    </p>
+
+                    <p>
+                    <strong>Fällig am: </strong><? echo $zeitraum_end; ?>
+                    </p>
+
+                    <p>Das Buch wird Ihnen durch die Hauspost zugestellt. Für die Rückgabe wenden Sie sich an den für Sie zuständigen Sozialen Dienst.</p>
+
+                    <div class="btn-auftrag">
+                        <p><?php $url=home_url();?>
+                            <a href="<?php echo $url;?>">
+                                <button class="btn btn-danger btn-back">Zurück</button>
+                            </a>
+                        </p>
+                    </div>
 			</div>
+            
         </div>	
      </div>	
 

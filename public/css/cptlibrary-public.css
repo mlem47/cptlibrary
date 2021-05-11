@@ -81,6 +81,26 @@
    font-family: 'AvanceOTItalic';
  }
 
+ h3.card-title {
+  font-size: 30px;
+  color: #b61f29;
+  font-family: 'AvanceOTItalic';
+}
+
+@media screen and (max-width: 767px) {
+  h3.card-title {
+    font-size: 30px;
+    color: #b61f29;
+    font-family: 'AvanceOTItalic';
+    margin-top: 40px;
+  }
+}
+
+h3 {
+  color: #b61f29!important;
+  font-size: 30px!important;
+}
+
  /*Buttons*/
 
  input.text, input.title, input[type=email], input[type=password], input[type=tel], input[type=text], select, textarea {
@@ -149,6 +169,52 @@
   height: 38px;
 }
 
+.btn-booked {
+  background-color: #b61f29;
+  color: #fff;
+  border-color: none;
+  font-family: 'Frutiger';
+  font-size: 20px;
+  font-weight: 500;
+  border-radius: 5px;
+  width: auto;  
+  -webkit-transition-duration: .2s;
+  transition-duration: .2s;
+  -webkit-transition-property: all!important;
+  line-height: 1.5em;
+  padding: .4em .8em .4em .8em;
+  margin: .5em 0 0 -.1em;
+}
+
+.btn-booked::after {
+  font-size: 32px;
+  line-height: 1em;
+  content: "\35";
+  opacity: 0;
+  position: absolute;
+  margin-top: -0.1em; /*Magical Number*/
+  text-transform: none;
+  font-variant: none;
+  font-style: normal;
+  font-weight: 400;
+  text-shadow: none;
+  font-family: ETmodules!important;
+  direction: ltr;
+  transition: all 300ms ease 0ms;
+  transition-duration: 300ms;
+  transition-timing-function: ease;
+  transition-delay: 0ms;
+}
+
+.btn-booked:hover {
+  border: 2px solid transparent;
+  padding: .3em 2em .3em .7em;
+}
+
+.btn-booked:hover::after {
+  opacity: 1;  
+}
+
 /*Media Querys der Buttons*/
 
 @media only screen and (max-width: 1234px) {
@@ -212,3 +278,81 @@ margin-top: -0.3em; /*Magical Number*/
   line-height: 1.8em;
   font-weight: 500;
 }
+
+/* BUCH EINZELANSICHT */
+
+.col-ausleihe {
+  box-sizing: border-box;
+}
+
+.tinted-image {
+  background:
+  linear-gradient(
+    rgba(181,21,43,0.92), 
+    rgba(181,21,43,0.72)
+  ),
+  url(https://dev06.arbeiten-mit-psychischer-erkrankung.de/wp-content/uploads/2021/04/Header-scaled.jpg);
+   width: 100%; 
+min-height: 285px; 
+width: 100%; 
+background-position: center;
+background-size: cover;
+box-sizing: border-box;
+padding: 15px 0;
+}
+
+.books-container {
+box-sizing: border-box;
+width: 80%;
+margin: 0 auto;
+max-width: 1281px;
+min-height: 211px;
+padding-top: 95px; 
+padding-bottom: 16px; 
+line-height: 1.7em; 
+}
+
+.books-title {
+font-family: 'AvanceOTItalic';
+font-size: 42px;
+color: #fff;
+font-weight: 500;
+line-height: 1.7em;
+padding-bottom: 10px;
+}
+
+.books-text {
+font-family: 'Frutiger';
+font-size: 16px;
+color: #fff;
+width: 50%;
+}
+
+@media only screen and (max-width: 980px) {
+.books-text {
+  display: none;
+}
+}
+
+@media only screen and (max-width: 767px) {
+  .tinted-image {
+    min-height: auto;
+    padding: 10px 0 0 0;
+  }
+  .books-container  {
+    padding: 50px 5px;
+  }
+  .books-title {
+    line-height: 1.2em;
+  }
+  }
+
+  /*AUFTRAG*/
+
+  .btn-auftrag {
+    margin-top: 10%
+  }
+
+  .btn-back {
+    width: 50%;
+  }
