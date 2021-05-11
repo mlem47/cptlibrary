@@ -281,9 +281,6 @@ margin-top: -0.3em; /*Magical Number*/
 
 /* BUCH EINZELANSICHT */
 
-.col-ausleihe {
-  box-sizing: border-box;
-}
 
 .tinted-image {
   background:
@@ -345,6 +342,7 @@ width: 50%;
   .books-title {
     line-height: 1.2em;
   }
+<<<<<<< HEAD
   }
 
   /*AUFTRAG*/
@@ -355,4 +353,6 @@ width: 50%;
 
   .btn-back {
     width: 50%;
+=======
+>>>>>>> 3065d6730d009b0c52044539aef7531270667172
   }

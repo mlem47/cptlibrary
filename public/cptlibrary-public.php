@@ -98,7 +98,7 @@ class Plugin_Name_Public {
 		 * class.
 		 */
 		wp_enqueue_script( 'jquery-js', plugin_dir_url( __FILE__ ) . 'js/jquery.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( 'jquery-ui-js', plugin_dir_url( __FILE__ ) . 'js/jquery-ui.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( 'jquery-ui-js', plugin_dir_url( __FILE__ ) . 'js/jquery-ui.min.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( 'datepicker-de-js', plugin_dir_url( __FILE__ ) . 'js/datepicker-de.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/cptlibrary-public.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( 'bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap.min.js', array( 'jquery' ), $this->version, false );
@@ -152,7 +152,7 @@ class Plugin_Name_Public {
 					 $print .='<img class="card-img-top">'.get_the_post_thumbnail($item->ID,'large').''; 
 					$print .='<div class="card-body">';
 					
-					
+					$print .='<p class="card-text">'.wp_trim_words( get_the_excerpt( $item->ID), 15, '...' ).'</p>';
 					$print .='</div>';
 					$print .='<div class="card-body">';
 					if(get_post_meta($item->ID,'_cpt_books_statusdata_key', true) == false){
