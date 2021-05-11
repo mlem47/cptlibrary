@@ -151,8 +151,6 @@ class Plugin_Name_Public {
 					$print .='<div class="card mx-auto mb-5">';
 					 $print .='<img class="card-img-top">'.get_the_post_thumbnail($item->ID,'large').''; 
 					$print .='<div class="card-body">';
-					
-					$print .='<p class="card-text">'.wp_trim_words( get_the_excerpt( $item->ID), 15, '...' ).'</p>';
 					$print .='</div>';
 					$print .='<div class="card-body">';
 					if(get_post_meta($item->ID,'_cpt_books_statusdata_key', true) == false){
@@ -264,7 +262,6 @@ class Plugin_Name_Public {
 					echo '<img class="card-img-top">'.get_the_post_thumbnail($query->post->ID, 'large').' </img>';
 					echo '<div class="card-body">';
 					echo '<h5 class="card-title">'.$post_name.'</h5>';
-					
 					echo '</div>';
 					echo '<div class="card-body">';
 					if(get_post_meta( $query->post->ID,'_cpt_books_statusdata_key', true) == false){
