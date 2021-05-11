@@ -260,10 +260,12 @@ class Plugin_Name {
 		$this->loader->add_shortcode('cpt_short_cat_ajax', $plugin_public, 'cpt_short_cat_ajax');
 		$this->loader->add_shortcode('cpt_short_cron1', $plugin_public, 'cpt_short_cron1');
 		$this->loader->add_shortcode('cpt_cat_filter', $plugin_public, 'cpt_cat_filter');
+		$this->loader->add_shortcode('cpt_display_search_form', $plugin_public, 'cpt_display_search_form');
 
 		//add single-post template for cpt_books //mlem
 		$this->loader->add_filter('single_template', $plugin_public, 'load_cpt_books', 50, 1);
 		$this->loader->add_filter('single_template', $plugin_public, 'load_cpt_auftrag_checkout', 50, 1);
+		$this->loader->add_filter('template_include', $plugin_public, 'search_cpt_books', 50, 1);
 
 	}
 
