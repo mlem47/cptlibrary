@@ -98,7 +98,7 @@ class Plugin_Name_Public {
 		 * class.
 		 */
 		wp_enqueue_script( 'jquery-js', plugin_dir_url( __FILE__ ) . 'js/jquery.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( 'jquery-ui-js', plugin_dir_url( __FILE__ ) . 'js/jquery-ui.min.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( 'jquery-ui-js', plugin_dir_url( __FILE__ ) . 'js/jquery-ui.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( 'datepicker-de-js', plugin_dir_url( __FILE__ ) . 'js/datepicker-de.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/cptlibrary-public.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( 'bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap.min.js', array( 'jquery' ), $this->version, false );
@@ -116,6 +116,14 @@ class Plugin_Name_Public {
 	
 			return $template;
 		}
+	
+		function search_cpt_books( $template ) {
+	
+			if ( 'cpt_books' === get_post_type() )
+			return dirname( __FILE__ ) . '/templates/search.php';
+	
+			return $template;
+		}
 
 		function load_cpt_auftrag_checkout( $template ) {
 	
@@ -124,7 +132,6 @@ class Plugin_Name_Public {
 	
 			return $template;
 		}
-
 
 
 		//shortcode zur katalog teaser ansicht mit figcaption im grid
@@ -151,6 +158,8 @@ class Plugin_Name_Public {
 					$print .='<div class="card mx-auto mb-5">';
 					 $print .='<img class="card-img-top">'.get_the_post_thumbnail($item->ID,'large').''; 
 					$print .='<div class="card-body">';
+					
+					$print .='<p class="card-text">'.wp_trim_words( get_the_excerpt( $item->ID), 15, '...' ).'</p>';
 					$print .='</div>';
 					$print .='<div class="card-body">';
 					if(get_post_meta($item->ID,'_cpt_books_statusdata_key', true) == false){
@@ -262,6 +271,7 @@ class Plugin_Name_Public {
 					echo '<img class="card-img-top">'.get_the_post_thumbnail($query->post->ID, 'large').' </img>';
 					echo '<div class="card-body">';
 					echo '<h5 class="card-title">'.$post_name.'</h5>';
+					
 					echo '</div>';
 					echo '<div class="card-body">';
 					if(get_post_meta( $query->post->ID,'_cpt_books_statusdata_key', true) == false){
@@ -285,6 +295,19 @@ class Plugin_Name_Public {
 			die();
 
 		}	
+
+
+		function cpt_display_search_form() {
+			ob_start();
+			?>
+				<form id="searchform" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+					<input type="text" class="search-field" name="s" placeholder="Suche" value="<?php echo get_search_query(); ?>">
+					<input type="hidden" name="post_type[]" value="cpt_books" />
+					<input type="submit" value="Suche">
+				</form>
+			<?php
+			return ob_get_clean();
+		}
 
 
 

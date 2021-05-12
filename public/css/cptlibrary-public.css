@@ -87,6 +87,9 @@
   font-family: 'AvanceOTItalic';
 }
 
+<<<<<<< HEAD
+
+=======
 @media screen and (max-width: 767px) {
   h3.card-title {
     font-size: 30px;
@@ -99,6 +102,7 @@
 h3 {
   color: #b61f29!important;
   font-size: 30px!important;
+>>>>>>> origin/main
 }
 
  /*Buttons*/
@@ -288,7 +292,7 @@ margin-top: -0.3em; /*Magical Number*/
     rgba(181,21,43,0.92), 
     rgba(181,21,43,0.72)
   ),
-  url(https://dev06.arbeiten-mit-psychischer-erkrankung.de/wp-content/uploads/2021/04/Header-scaled.jpg);
+  url(images/Header-scaled.jpeg);
    width: 100%; 
 min-height: 285px; 
 width: 100%; 
@@ -342,17 +346,4 @@ width: 50%;
   .books-title {
     line-height: 1.2em;
   }
-<<<<<<< HEAD
-  }
-
-  /*AUFTRAG*/
-
-  .btn-auftrag {
-    margin-top: 10%
-  }
-
-  .btn-back {
-    width: 50%;
-=======
->>>>>>> 3065d6730d009b0c52044539aef7531270667172
   }
